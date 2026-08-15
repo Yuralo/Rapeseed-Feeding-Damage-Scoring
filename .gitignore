@@ -1,0 +1,9 @@
+__pycache__/
+pretrained/*
+*/__pycache__
+src/utils/__pycache__
+data/*
+data
+output/*
+*.pt
+*.pth
