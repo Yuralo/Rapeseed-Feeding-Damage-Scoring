@@ -8,14 +8,13 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from PIL import Image
 
 from rapeseed_damage.artifacts import write_json
 
 from .config import Config
 from .data import TargetScaler
 from .metrics import Predictions, mean_baseline
-
+from .preprocessing import load_grid_crop
 
 def _save_figure(figure, path: Path) -> None:
     figure.tight_layout()
@@ -80,8 +79,7 @@ def save_examples(result: Predictions, path: Path, count: int, columns: int) -> 
     figure, axes = plt.subplots(rows, columns, figsize=(4 * columns, 4 * rows))
     axes = np.atleast_1d(axes).reshape(-1)
     for index in range(count):
-        with Image.open(result.image_paths[index]) as source:
-            image = source.convert("RGB")
+        image = load_grid_crop(result.image_paths[index])
         error = result.predictions[index] - result.targets[index]
         axes[index].imshow(image)
         axes[index].axis("off")

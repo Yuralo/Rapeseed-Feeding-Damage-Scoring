@@ -7,31 +7,31 @@ MSE objective, optimizer, checkpoint contents, metrics, and plots.
 Install its dependencies after installing the repository package:
 
 ```bash
-python -m pip install -r experiments/dinov3_regression/requirements.txt
+python -m pip install -r experiments/dinvo3_grid_transformation/requirements.txt
 ```
 
 Train:
 
 ```bash
-python -m experiments.dinov3_regression.train \
-  --config experiments/dinov3_regression/config.toml \
+python -m experiments.dinvo3_grid_transformation.train \
+  --config experiments/dinvo3_grid_transformation/config.toml \
   --from-scratch
 ```
 
 Resume after increasing `training.epochs`:
 
 ```bash
-python -m experiments.dinov3_regression.train \
-  --config experiments/dinov3_regression/config.toml \
-  --resume outputs/dinov3_baseline/last.pt
+python -m experiments.dinvo3_grid_transformation.train \
+  --config experiments/dinvo3_grid_transformation/config.toml \
+  --resume outputs/dinvo3_grid_transformation/last.pt
 ```
 
 Evaluate:
 
 ```bash
-python -m experiments.dinov3_regression.evaluate \
-  --config experiments/dinov3_regression/config.toml \
-  --checkpoint outputs/dinov3_baseline/best.pt
+python -m experiments.dinvo3_grid_transformation.evaluate \
+  --config experiments/dinvo3_grid_transformation/config.toml \
+  --checkpoint outputs/dinvo3_grid_transformation/best.pt
 ```
 
 For a substantially different idea, copy this directory, rename it, and change or delete any file
