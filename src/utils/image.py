@@ -662,8 +662,8 @@ def warp_big_square(
 
 
 def image_to_ndarray(image: str) -> np.ndarray:
-    return cv2.imread(image)
+    return cv2.imread(str(image))
 
 
 def to_rgb(array: np.ndarray) -> np.ndarray:
-        return cv2.cvtColor(array, cv2.COLOR_BGR2RGB)
+    return cv2.cvtColor(array, cv2.COLOR_BGR2RGB)

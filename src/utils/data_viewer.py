@@ -10,7 +10,7 @@ import pandas as pd
 from utils.image import detect_grid, image_to_ndarray, to_rgb, warp_big_square
 import streamlit as st
 from PIL import Image
-from data import image_path
+from utils.data import image_path
 
 DEFAULT_DATASET_PATH = (
     "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/"

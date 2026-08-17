@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rapeseed-damage"
+version = "0.1.0"
+description = "Experiment-oriented research code for rapeseed feeding-damage scoring"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+grid = ["numpy>=1.26", "opencv-python>=4.9"]
+segmentation = ["numpy>=1.26", "Pillow>=10.0", "torch>=2.2", "transformers>=5.0"]
+viewer = [
+    "numpy>=1.26",
+    "opencv-python>=4.9",
+    "pandas>=2.1",
+    "Pillow>=10.0",
+    "streamlit>=1.40",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["rapeseed_damage*", "utils*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
