@@ -1,0 +1,48 @@
+[analysis]
+output_dir = "outputs/representation_clustering"
+device = "auto"
+seed = 42
+batch_size = 16
+num_workers = 0
+pca_components = 50
+min_cluster_size = 10
+min_samples = 5
+# Set to a positive integer for a quick smoke test; 0 means every image.
+limit = 0
+
+# Base pretrained representation on uncropped images.
+[[representation]]
+name = "pretrained_raw_backbone"
+experiment_package = "experiments.dinov3_regression"
+experiment_config = "experiments/dinov3_regression/config.toml"
+checkpoint = ""
+preprocessing = "raw"
+feature = "backbone"
+
+# Task-specific representation learned by the baseline regression head.
+[[representation]]
+name = "baseline_trained_raw_head"
+experiment_package = "experiments.dinov3_regression"
+experiment_config = "experiments/dinov3_regression/config.toml"
+checkpoint = "outputs/dinov3_baseline/best.pt"
+preprocessing = "raw"
+feature = "head"
+
+# Isolates the effect of grid cropping without trained regression weights.
+[[representation]]
+name = "pretrained_grid_backbone"
+experiment_package = "experiments.dinvo3_grid_transformation"
+experiment_config = "experiments/dinvo3_grid_transformation/config.toml"
+checkpoint = ""
+preprocessing = "grid"
+feature = "backbone"
+
+# Grid model's task-specific head representation.
+[[representation]]
+name = "grid_trained_head"
+experiment_package = "experiments.dinvo3_grid_transformation"
+experiment_config = "experiments/dinvo3_grid_transformation/config.toml"
+checkpoint = "outputs/dinvo3_grid_transformation/best.pt"
+preprocessing = "grid"
+feature = "head"
+
