@@ -1,0 +1,44 @@
+[experiment]
+name = "dinvo3_grid_transformation"
+
+[data]
+# Change this on the machine that contains the data set.
+dataset_dir = "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set"
+scores_file = "RSFB-Phenotyping_training_set_scores.csv"
+filename_column = "Filename"
+target_column = "mean_score"
+image_extension = ".jpg"
+validation_fraction = 0.33
+split_seed = 42
+verify_images = true
+
+[model]
+backbone = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+# This intentionally matches the processor used in index.ipynb.
+processor = "facebook/dinov3-vits16-pretrain-lvd1689m"
+freeze_backbone = true
+head_hidden_dim = 256
+dropout = 0.1
+
+[training]
+epochs = 30
+eval_every = 6
+batch_size = 16
+num_workers = 4
+learning_rate = 0.001
+weight_decay = 0.0001
+seed = 42
+
+[runtime]
+device = "auto"
+deterministic = true
+pin_memory = true
+
+[output]
+run_dir = "outputs/dinvo3_grid_transformation"
+best_checkpoint_name = "best.pt"
+last_checkpoint_name = "last.pt"
+save_plots = true
+example_images = 12
+example_columns = 4
+
