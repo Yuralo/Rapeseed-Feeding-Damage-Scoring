@@ -60,6 +60,7 @@ class OutputSettings:
     save_plots: bool = True
     example_images: int = 12
     example_columns: int = 4
+    grid_failure_log: str = "grid_failures.jsonl"
 
 
 @dataclass(frozen=True)
@@ -91,6 +92,8 @@ class Config:
             raise ValueError("model head settings are invalid")
         if self.output.example_images < 0 or self.output.example_columns < 1:
             raise ValueError("output example settings are invalid")
+        if not self.output.grid_failure_log.strip():
+            raise ValueError("output.grid_failure_log cannot be empty")
         if self.runtime.device not in {"auto", "cpu", "cuda", "mps"}:
             raise ValueError("runtime.device must be auto, cpu, cuda, or mps")
 

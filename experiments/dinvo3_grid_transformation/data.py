@@ -16,7 +16,7 @@ from torch.utils.data import DataLoader, Dataset, Sampler
 from rapeseed_damage.reproducibility import seed_worker
 
 from .config import Config
-from .preprocessing import load_grid_crop
+from .preprocessing import load_grid_crop, log_grid_failure
 
 
 @dataclass(frozen=True)
@@ -131,7 +131,21 @@ class PlantDataset(Dataset):
     def __getitem__(self, index: int) -> dict[str, object]:
         filename = str(self.table.iloc[index][self.config.data.filename_column])
         path = image_path(self.config, filename)
-        image = load_grid_crop(path, size=1400)
+        failure_log = Path(self.config.output.run_dir) / self.config.output.grid_failure_log
+        try:
+            image = load_grid_crop(path, size=1400)
+        except Exception as error:
+            log_grid_failure(
+                failure_log,
+                error=error,
+                image_path=path,
+                filename=filename,
+                dataset_index=index,
+            )
+            raise RuntimeError(
+                f"Grid crop failed for {filename!r} at {path}. "
+                f"Failure details were appended to {failure_log}."
+            ) from error
         pixel_values = self.processor(images=image, return_tensors="pt")[
             "pixel_values"
         ].squeeze(0)

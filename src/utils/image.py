@@ -49,377 +49,260 @@ def resize_for_detection(
 def detect_possible_steel(
     image: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Finds low-saturation linear objects.
-
-    Returns:
-        steel_color_mask:
-            Initial mask based on color.
-
-        steel_line_mask:
-            Mask containing long horizontal and vertical structures.
-    """
-    height, width = image.shape[:2]
-    minimum_dimension = min(height, width)
+    """Build a permissive steel mask and an edge mask for Hough fallback."""
+    minimum_dimension = min(image.shape[:2])
 
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
     saturation = hsv[:, :, 1]
     value = hsv[:, :, 2]
-
     steel_color_mask = (
         (saturation < SATURATION_MAX)
         & (value > VALUE_MIN)
     ).astype(np.uint8) * 255
 
-    # The kernel length is relative to image size.
-    kernel_length = max(
-        35,
-        int(round(minimum_dimension * 0.067)),
-    )
-
-    line_thickness = max(
-        3,
-        int(round(minimum_dimension * 0.0025)),
-    )
-
-    horizontal_kernel = cv2.getStructuringElement(
-        cv2.MORPH_RECT,
-        (kernel_length, line_thickness),
-    )
-
-    vertical_kernel = cv2.getStructuringElement(
-        cv2.MORPH_RECT,
-        (line_thickness, kernel_length),
-    )
-
-    horizontal_lines = cv2.morphologyEx(
+    close_size = max(3, int(round(minimum_dimension * 0.004)))
+    if close_size % 2 == 0:
+        close_size += 1
+    steel_color_mask = cv2.morphologyEx(
         steel_color_mask,
-        cv2.MORPH_OPEN,
-        horizontal_kernel,
+        cv2.MORPH_CLOSE,
+        cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (close_size, close_size)),
     )
 
-    vertical_lines = cv2.morphologyEx(
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)).apply(gray)
+    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+    median_intensity = float(np.median(gray))
+    lower = int(max(20, 0.55 * median_intensity))
+    upper = int(min(220, max(lower + 30, 1.45 * median_intensity)))
+    edges = cv2.Canny(gray, lower, upper)
+
+    support_size = max(3, int(round(minimum_dimension * 0.007)))
+    if support_size % 2 == 0:
+        support_size += 1
+    color_support = cv2.dilate(
         steel_color_mask,
-        cv2.MORPH_OPEN,
-        vertical_kernel,
+        cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (support_size, support_size)),
     )
-
-    steel_line_mask = cv2.bitwise_or(
-        horizontal_lines,
-        vertical_lines,
-    )
-
+    steel_line_mask = cv2.bitwise_and(edges, color_support)
     return steel_color_mask, steel_line_mask
 
 
-def detect_line_segments(
-    line_mask: np.ndarray,
+def _segments_from_lsd(
+    source_image: np.ndarray,
 ) -> list[tuple[float, float, tuple[int, int, int, int]]]:
-    """
-    Detect straight segments using the probabilistic Hough transform.
-
-    Returns:
-        [
-            (length, angle, (x1, y1, x2, y2)),
-            ...
-        ]
-    """
-    height, width = line_mask.shape[:2]
-    minimum_dimension = min(height, width)
-
-    edges = cv2.Canny(
-        line_mask,
-        threshold1=50,
-        threshold2=150,
-    )
-
-    detected = cv2.HoughLinesP(
-        edges,
-        rho=1,
-        theta=np.pi / 720,
-        threshold=max(
-            30,
-            int(round(minimum_dimension * 0.045)),
-        ),
-        minLineLength=max(
-            60,
-            int(round(minimum_dimension * 0.08)),
-        ),
-        maxLineGap=max(
-            25,
-            int(round(minimum_dimension * 0.05)),
-        ),
-    )
-
+    """Detect long coherent segments without assuming exact axis alignment."""
+    if source_image.ndim == 3:
+        gray = cv2.cvtColor(source_image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = source_image.copy()
+    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+    minimum_dimension = min(gray.shape[:2])
+    detector = cv2.createLineSegmentDetector(cv2.LSD_REFINE_ADV)
+    detected = detector.detect(gray)[0]
     if detected is None:
-        raise RuntimeError(
-            "No steel lines were detected. "
-            "Try increasing SATURATION_MAX or decreasing VALUE_MIN."
-        )
+        return []
 
-    # Handles both OpenCV return formats:
-    # (N, 1, 4) and (N, 4)
-    detected = np.asarray(detected, dtype=np.int32).reshape(-1, 4)
-
-    print(f"Detected {len(detected)} Hough line segments")
-
+    minimum_length = max(35.0, minimum_dimension * 0.04)
     segments = []
-
-    for x1, y1, x2, y2 in detected:
-        dx = float(x2 - x1)
-        dy = float(y2 - y1)
-
+    for x1, y1, x2, y2 in np.asarray(detected).reshape(-1, 4):
+        dx, dy = float(x2 - x1), float(y2 - y1)
         length = math.hypot(dx, dy)
+        if length < minimum_length:
+            continue
         angle = math.degrees(math.atan2(dy, dx)) % 180.0
-
         segments.append(
             (
                 length,
                 angle,
                 (
-                    int(x1),
-                    int(y1),
-                    int(x2),
-                    int(y2),
+                    int(round(x1)),
+                    int(round(y1)),
+                    int(round(x2)),
+                    int(round(y2)),
                 ),
             )
         )
-
     return segments
 
+
+def _segments_from_hough(
+    line_mask: np.ndarray,
+) -> list[tuple[float, float, tuple[int, int, int, int]]]:
+    """Compatibility fallback for images where LSD returns too few segments."""
+    height, width = line_mask.shape[:2]
+    minimum_dimension = min(height, width)
+    detected = cv2.HoughLinesP(
+        line_mask,
+        rho=1,
+        theta=np.pi / 720,
+        threshold=max(25, int(round(minimum_dimension * 0.03))),
+        minLineLength=max(40, int(round(minimum_dimension * 0.05))),
+        maxLineGap=max(20, int(round(minimum_dimension * 0.04))),
+    )
+    if detected is None:
+        return []
+    segments = []
+    for x1, y1, x2, y2 in np.asarray(detected).reshape(-1, 4):
+        dx, dy = float(x2 - x1), float(y2 - y1)
+        length = math.hypot(dx, dy)
+        angle = math.degrees(math.atan2(dy, dx)) % 180.0
+        segments.append(
+            (length, angle, (int(x1), int(y1), int(x2), int(y2)))
+        )
+    return segments
+
+
+def detect_line_segments(
+    line_mask: np.ndarray,
+    source_image: np.ndarray | None = None,
+) -> list[tuple[float, float, tuple[int, int, int, int]]]:
+    """Use the notebook's stronger LSD path, with Hough as fallback."""
+    if source_image is not None:
+        segments = _segments_from_lsd(source_image)
+        if segments:
+            return segments
+    segments = _segments_from_hough(line_mask)
+    if not segments:
+        raise RuntimeError("No sufficiently long steel-line candidates were detected.")
+    return segments
+
+
+def _signed_orientation_error(angle: float, orientation: str) -> float:
+    if orientation == "horizontal":
+        return angle if angle <= 90.0 else angle - 180.0
+    if orientation == "vertical":
+        return angle - 90.0
+    raise ValueError("orientation must be 'vertical' or 'horizontal'")
+
 def cluster_similar_lines(
-    segments: list[
-        tuple[float, float, tuple[int, int, int, int]]
-    ],
+    segments: list[tuple[float, float, tuple[int, int, int, int]]],
     image_shape: tuple[int, int],
     orientation: str,
 ) -> list[dict]:
-    """
-    Groups Hough segments belonging to the same steel bar.
-
-    orientation:
-        "vertical" or "horizontal"
-    """
+    """Group fragments belonging to the same projected steel bar."""
     height, width = image_shape
     minimum_dimension = min(height, width)
-
-    center_x = width / 2
-    center_y = height / 2
-
-    minimum_length = minimum_dimension * 0.08
-
+    center_x, center_y = width / 2.0, height / 2.0
     candidates = []
-
     for length, angle, segment in segments:
-        if length < minimum_length:
+        orientation_error = _signed_orientation_error(angle, orientation)
+        if abs(orientation_error) > ANGLE_TOLERANCE:
             continue
-
         x1, y1, x2, y2 = segment
-
         if orientation == "vertical":
-            if abs(angle - 90) > ANGLE_TOLERANCE:
-                continue
-
             if abs(y2 - y1) < 1:
                 continue
-
-            # X coordinate where the segment crosses the image center.
-            position = x1 + (
-                (center_y - y1)
-                * (x2 - x1)
-                / (y2 - y1)
-            )
-
-        elif orientation == "horizontal":
-            horizontal_error = min(
-                abs(angle),
-                abs(angle - 180),
-            )
-
-            if horizontal_error > ANGLE_TOLERANCE:
-                continue
-
+            position = x1 + (center_y - y1) * (x2 - x1) / (y2 - y1)
+        else:
             if abs(x2 - x1) < 1:
                 continue
+            position = y1 + (center_x - x1) * (y2 - y1) / (x2 - x1)
 
-            # Y coordinate where the segment crosses the image center.
-            position = y1 + (
-                (center_x - x1)
-                * (y2 - y1)
-                / (x2 - x1)
-            )
-
-        else:
-            raise ValueError(
-                "orientation must be 'vertical' or 'horizontal'"
-            )
-
+        relevant_dimension = width if orientation == "vertical" else height
+        if not -0.15 * relevant_dimension <= position <= 1.15 * relevant_dimension:
+            continue
         candidates.append(
-            (
-                float(position),
-                float(length),
-                segment,
-            )
+            (float(position), float(length), segment, float(orientation_error))
         )
-
     candidates.sort(key=lambda item: item[0])
-
-    cluster_tolerance = minimum_dimension * 0.018
+    position_tolerance = minimum_dimension * 0.018
+    angle_tolerance = max(4.0, ANGLE_TOLERANCE * 0.6)
     groups: list[list] = []
-
     for candidate in candidates:
         best_group = None
-        best_distance = float("inf")
-
+        best_cost = float("inf")
         for group_index, group in enumerate(groups):
-            group_positions = [item[0] for item in group]
-            group_weights = [item[1] for item in group]
-
-            group_center = np.average(
-                group_positions,
-                weights=group_weights,
+            weights = [item[1] for item in group]
+            group_position = float(
+                np.average([item[0] for item in group], weights=weights)
             )
-
-            distance = abs(candidate[0] - group_center)
-
+            group_angle = float(
+                np.average([item[3] for item in group], weights=weights)
+            )
+            position_distance = abs(candidate[0] - group_position)
+            angle_distance = abs(candidate[3] - group_angle)
             if (
-                distance <= cluster_tolerance
-                and distance < best_distance
+                position_distance <= position_tolerance
+                and angle_distance <= angle_tolerance
             ):
-                best_group = group_index
-                best_distance = distance
-
+                cost = (
+                    position_distance / position_tolerance
+                    + angle_distance / angle_tolerance
+                )
+                if cost < best_cost:
+                    best_group = group_index
+                    best_cost = cost
         if best_group is None:
             groups.append([candidate])
         else:
             groups[best_group].append(candidate)
-
     clusters = []
-
     for group in groups:
-        positions = [item[0] for item in group]
         weights = [item[1] for item in group]
-
         clusters.append(
             {
-                "position": float(
-                    np.average(
-                        positions,
-                        weights=weights,
-                    )
-                ),
+                "position": float(np.average([item[0] for item in group], weights=weights)),
                 "support": float(sum(weights)),
-                "segments": [
-                    item[2]
-                    for item in group
-                ],
+                "angle": float(np.average([item[3] for item in group], weights=weights)),
+                "segments": [item[2] for item in group],
             }
         )
-
-    return sorted(
-        clusters,
-        key=lambda cluster: cluster["position"],
-    )
+    return sorted(clusters, key=lambda cluster: cluster["position"])
 
 
 def choose_three_grid_lines(
     clusters: list[dict],
     dimension: int,
 ) -> list[dict]:
-    """
-    Selects three approximately equally spaced lines:
-
-        left, center, right
-
-    or:
-
-        top, center, bottom
-    """
-    # Ignore weak clusters when there are many candidates.
+    """Select three strong, approximately equally spaced projected bars."""
     strongest = sorted(
         clusters,
         key=lambda cluster: cluster["support"],
         reverse=True,
-    )[:10]
-
-    strongest = sorted(
-        strongest,
-        key=lambda cluster: cluster["position"],
-    )
-
+    )[:12]
+    strongest.sort(key=lambda cluster: cluster["position"])
     best_result = None
-
-    for candidate_triplet in itertools.combinations(
-        strongest,
-        3,
-    ):
-        positions = [
-            cluster["position"]
-            for cluster in candidate_triplet
-        ]
-
+    for candidate_triplet in itertools.combinations(strongest, 3):
+        positions = [cluster["position"] for cluster in candidate_triplet]
         total_span = positions[2] - positions[0]
-
-        if total_span < dimension * 0.18:
+        if not dimension * 0.18 <= total_span <= dimension * 0.82:
             continue
-
-        if total_span > dimension * 0.82:
-            continue
-
         first_spacing = positions[1] - positions[0]
         second_spacing = positions[2] - positions[1]
-
         if first_spacing <= 0 or second_spacing <= 0:
             continue
-
-        spacing_error = (
-            abs(first_spacing - second_spacing)
-            / total_span
-        )
-
+        spacing_error = abs(first_spacing - second_spacing) / total_span
         if spacing_error > 0.32:
             continue
-
-        edge_penalty = 0.0
-
-        if (
-            positions[0] < dimension * 0.03
-            or positions[2] > dimension * 0.97
-        ):
-            edge_penalty = 0.5
-
-        total_support = sum(
-            cluster["support"]
+        total_support = sum(cluster["support"] for cluster in candidate_triplet)
+        mean_angle = float(
+            np.average(
+                [cluster.get("angle", 0.0) for cluster in candidate_triplet],
+                weights=[cluster["support"] for cluster in candidate_triplet],
+            )
+        )
+        angle_spread = max(
+            abs(cluster.get("angle", 0.0) - mean_angle)
             for cluster in candidate_triplet
         )
-
-        score = total_support * (
-            1.0
-            - 0.75 * spacing_error
-            - edge_penalty
-        )
-
+        score = total_support * math.exp(-4.0 * spacing_error - 0.08 * angle_spread)
         if best_result is None or score > best_result[0]:
-            best_result = (
-                score,
-                candidate_triplet,
-            )
-
+            best_result = (score, candidate_triplet)
     if best_result is None:
         cluster_information = [
             (
                 round(cluster["position"], 1),
                 round(cluster["support"], 1),
+                round(cluster.get("angle", 0.0), 1),
             )
             for cluster in strongest
         ]
-
         raise RuntimeError(
             "Could not find three equally spaced steel bars. "
-            f"Detected clusters: {cluster_information}"
+            "Detected clusters (position, support, angle): "
+            f"{cluster_information}"
         )
-
     return list(best_result[1])
 
 
@@ -491,90 +374,104 @@ def line_intersection(
     )
 
 
+def _select_grid_lines(
+    segments: list[tuple[float, float, tuple[int, int, int, int]]],
+    image_shape: tuple[int, int],
+) -> tuple[list[dict], list[dict]]:
+    vertical_clusters = cluster_similar_lines(
+        segments, image_shape, orientation="vertical"
+    )
+    horizontal_clusters = cluster_similar_lines(
+        segments, image_shape, orientation="horizontal"
+    )
+    return (
+        choose_three_grid_lines(vertical_clusters, image_shape[1]),
+        choose_three_grid_lines(horizontal_clusters, image_shape[0]),
+    )
+
+
+def _render_grid_mask(
+    image_shape: tuple[int, int],
+    grid_points: np.ndarray,
+) -> np.ndarray:
+    mask = np.zeros(image_shape, dtype=np.uint8)
+    thickness = max(2, int(round(min(image_shape) * 0.005)))
+    for row in range(3):
+        start = tuple(np.round(grid_points[row, 0]).astype(int))
+        end = tuple(np.round(grid_points[row, 2]).astype(int))
+        cv2.line(mask, start, end, 255, thickness)
+    for column in range(3):
+        start = tuple(np.round(grid_points[0, column]).astype(int))
+        end = tuple(np.round(grid_points[2, column]).astype(int))
+        cv2.line(mask, start, end, 255, thickness)
+    return mask
+
+
 def detect_grid(
     image: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Returns:
-        grid_points:
-            A 3x3 array of steel-bar intersection coordinates
-            in the original image.
-
-        detection_image:
-            Resized image used for detection.
-
-        steel_line_mask:
-            Detected linear steel structures.
-    """
+    """Detect the 3x3 intersections using the notebook's LSD/Hough strategy."""
+    if image is None or image.ndim != 3:
+        raise ValueError("detect_grid expects a valid BGR color image")
     detection_image, scale = resize_for_detection(
         image,
         MAX_DETECTION_DIMENSION,
     )
-
-    _, steel_line_mask = detect_possible_steel(
-        detection_image
-    )
-
+    _, candidate_mask = detect_possible_steel(detection_image)
     segments = detect_line_segments(
-        steel_line_mask
+        candidate_mask,
+        source_image=detection_image,
     )
 
-    vertical_clusters = cluster_similar_lines(
-        segments,
-        steel_line_mask.shape,
-        orientation="vertical",
-    )
-
-    horizontal_clusters = cluster_similar_lines(
-        segments,
-        steel_line_mask.shape,
-        orientation="horizontal",
-    )
-
-    selected_vertical = choose_three_grid_lines(
-        vertical_clusters,
-        detection_image.shape[1],
-    )
-
-    selected_horizontal = choose_three_grid_lines(
-        horizontal_clusters,
-        detection_image.shape[0],
-    )
+    try:
+        selected_vertical, selected_horizontal = _select_grid_lines(
+            segments, candidate_mask.shape
+        )
+    except RuntimeError as primary_error:
+        hough_segments = _segments_from_hough(candidate_mask)
+        try:
+            selected_vertical, selected_horizontal = _select_grid_lines(
+                segments + hough_segments,
+                candidate_mask.shape,
+            )
+        except RuntimeError as fallback_error:
+            raise RuntimeError(
+                "Grid detection failed with both LSD and Hough candidates. "
+                f"LSD result: {primary_error}; fallback result: {fallback_error}"
+            ) from fallback_error
 
     vertical_lines = [
-        fit_infinite_line(cluster)
-        for cluster in selected_vertical
+        fit_infinite_line(cluster) for cluster in selected_vertical
     ]
-
     horizontal_lines = [
-        fit_infinite_line(cluster)
-        for cluster in selected_horizontal
+        fit_infinite_line(cluster) for cluster in selected_horizontal
     ]
-
-    grid_points = np.zeros(
-        (3, 3, 2),
-        dtype=np.float32,
-    )
-
-    for row, horizontal_line in enumerate(
-        horizontal_lines
-    ):
-        for column, vertical_line in enumerate(
-            vertical_lines
-        ):
-            point = line_intersection(
-                horizontal_line,
-                vertical_line,
+    detection_grid_points = np.zeros((3, 3, 2), dtype=np.float32)
+    for row, horizontal_line in enumerate(horizontal_lines):
+        for column, vertical_line in enumerate(vertical_lines):
+            detection_grid_points[row, column] = line_intersection(
+                horizontal_line, vertical_line
             )
 
-            # Convert coordinates back to original image size.
-            grid_points[row, column] = point / scale
-
-    return (
-        grid_points,
-        detection_image,
-        steel_line_mask,
+    if not np.isfinite(detection_grid_points).all():
+        raise RuntimeError("Grid intersections contain invalid coordinates.")
+    outer_corners = np.float32(
+        [
+            detection_grid_points[0, 0],
+            detection_grid_points[0, 2],
+            detection_grid_points[2, 2],
+            detection_grid_points[2, 0],
+        ]
     )
+    grid_area = abs(cv2.contourArea(outer_corners))
+    if grid_area < 0.025 * candidate_mask.size:
+        raise RuntimeError(
+            "Detected lines form an implausibly small grid; refusing the result."
+        )
+    steel_line_mask = _render_grid_mask(
+        candidate_mask.shape, detection_grid_points
+    )
+    return detection_grid_points / scale, detection_image, steel_line_mask
 
 
 def warp_cell(

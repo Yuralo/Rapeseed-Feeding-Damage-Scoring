@@ -63,6 +63,11 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
     run_environment = environment_info(device, REPOSITORY_ROOT)
     write_json(run_dir / "config.json", config.to_dict())
     write_json(run_dir / "environment.json", run_environment)
+    print(
+        f"Grid preprocessing failures will be logged to "
+        f"{run_dir / config.output.grid_failure_log}",
+        flush=True,
+    )
     if config.output.save_plots:
         save_label_plot(table[config.data.target_column].to_numpy(), run_dir / "targets.png")
 

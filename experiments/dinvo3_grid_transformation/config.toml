@@ -41,4 +41,4 @@ last_checkpoint_name = "last.pt"
 save_plots = true
 example_images = 12
 example_columns = 4
-
+grid_failure_log = "grid_failures.jsonl"

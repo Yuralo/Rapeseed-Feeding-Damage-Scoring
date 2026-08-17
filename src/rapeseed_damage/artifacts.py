@@ -18,6 +18,26 @@ def write_json(path: str | Path, value: Any) -> None:
         handle.write("\n")
 
 
+def append_jsonl(path: str | Path, value: Any) -> None:
+    """Append one process-safe JSON record on POSIX training systems."""
+    destination = Path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    line = json.dumps(value, sort_keys=True) + "\n"
+    with destination.open("a", encoding="utf-8") as handle:
+        try:
+            import fcntl
+
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        except ImportError:  # pragma: no cover - Windows fallback.
+            fcntl = None
+        try:
+            handle.write(line)
+            handle.flush()
+        finally:
+            if fcntl is not None:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 def git_state(repository: str | Path = ".") -> dict[str, Any]:
     """Record the commit and dirty state without making Git a run dependency."""
     try:

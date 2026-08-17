@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from rapeseed_damage.artifacts import git_state, write_json
+from rapeseed_damage.artifacts import append_jsonl, git_state, write_json
 
 
 class ArtifactTests(unittest.TestCase):
@@ -18,7 +18,17 @@ class ArtifactTests(unittest.TestCase):
         self.assertEqual(len(state["commit"]), 40)
         self.assertIsInstance(state["dirty"], bool)
 
+    def test_append_jsonl_writes_independent_records(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination = Path(directory) / "failures.jsonl"
+            append_jsonl(destination, {"filename": "first.jpg"})
+            append_jsonl(destination, {"filename": "second.jpg"})
+            records = [json.loads(line) for line in destination.read_text().splitlines()]
+            self.assertEqual(
+                records,
+                [{"filename": "first.jpg"}, {"filename": "second.jpg"}],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
-
