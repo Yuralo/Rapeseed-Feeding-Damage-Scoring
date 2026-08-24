@@ -19,6 +19,7 @@ experiments/
     setup.py
     train.py
     evaluate.py
+  dinov3_grid_unfreeze2/      # cached grid crops + final-two-block fine-tuning
 
 src/rapeseed_damage/          # deliberately small shared toolbox
   artifacts.py                # JSON, environment, and Git metadata
@@ -80,6 +81,9 @@ python -m experiments.dinov3_regression.evaluate \
   --config experiments/dinov3_regression/config.toml \
   --checkpoint outputs/dinov3_baseline/best.pt
 ```
+
+The partial fine-tuning experiment, including its crop-cache preparation command and RTX 3090
+starting settings, is documented in `experiments/dinov3_grid_unfreeze2/README.md`.
 
 The experiment saves checkpoints, the resolved config, metrics, predictions, plots, package and
 hardware versions, and the current Git commit plus dirty state. Notebook-era checkpoints remain
