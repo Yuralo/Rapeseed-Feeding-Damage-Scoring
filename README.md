@@ -20,6 +20,7 @@ experiments/
     train.py
     evaluate.py
   dinov3_grid_unfreeze2/      # cached grid crops + final-two-block fine-tuning
+  dinov3_grid_patch_attention/ # CLS + mean patches + learned patch attention
 
 src/rapeseed_damage/          # deliberately small shared toolbox
   artifacts.py                # JSON, environment, and Git metadata
