@@ -121,6 +121,17 @@ The RTX 3090 starting micro-batch remains 8 for a controlled comparison. If this
 out of memory, change only `batch_size` to `4` and `gradient_accumulation_steps` to `4`, preserving
 the effective batch size of 16.
 
+The corresponding four-block experiment without target normalization uses
+`config_raw_targets_unfreeze4.toml`:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.train \
+  --config experiments/dinov3_grid_unfreeze2/config_raw_targets_unfreeze4.toml \
+  --from-scratch
+```
+
+Its output directory is `outputs/dinov3_grid_unfreeze4_raw_targets`.
+
 ## Interpreting the experiment
 
 The default config tests a small fine-tuning recipe, not only the effect of unfreezing blocks,

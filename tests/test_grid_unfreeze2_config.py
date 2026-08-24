@@ -60,6 +60,29 @@ class GridUnfreezeTwoConfigTests(unittest.TestCase):
             four_blocks.model.__dict__,
         )
 
+    def test_raw_four_block_config_only_changes_target_mode_from_normalized_four_blocks(self):
+        normalized = load_config(
+            "experiments/dinov3_grid_unfreeze2/config_unfreeze4.toml"
+        )
+        raw = load_config(
+            "experiments/dinov3_grid_unfreeze2/config_raw_targets_unfreeze4.toml"
+        )
+
+        self.assertFalse(raw.data.normalize_targets)
+        self.assertEqual(raw.model.unfreeze_last_n_blocks, 4)
+        self.assertEqual(normalized.model, raw.model)
+        self.assertEqual(normalized.training, raw.training)
+        self.assertEqual(normalized.augmentation, raw.augmentation)
+        self.assertEqual(normalized.runtime, raw.runtime)
+        self.assertEqual(
+            {**normalized.data.__dict__, "normalize_targets": False},
+            raw.data.__dict__,
+        )
+        self.assertEqual(
+            raw.output.run_dir,
+            "outputs/dinov3_grid_unfreeze4_raw_targets",
+        )
+
     def test_invalid_mixed_precision_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "experiment.toml"
