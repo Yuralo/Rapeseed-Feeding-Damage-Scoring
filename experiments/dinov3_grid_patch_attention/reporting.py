@@ -122,6 +122,7 @@ def save_prediction_examples(
         error = result.predictions[index] - result.targets[index]
         axes[index].axis("off")
         axes[index].set_title(
+            f"{Path(result.filenames[index]).name}\n"
             f"Target: {result.targets[index]:.2f}\n"
             f"Prediction: {result.predictions[index]:.2f}\nError: {error:+.2f}"
         )
@@ -167,6 +168,7 @@ def save_attention_examples(
         error = result.predictions[index] - result.targets[index]
         axes[index].axis("off")
         axes[index].set_title(
+            f"{Path(result.filenames[index]).name}\n"
             f"Target {result.targets[index]:.2f} | Pred {result.predictions[index]:.2f}\n"
             f"Error {error:+.2f} | H {entropies[index]:.4f} "
             f"| max {relative_to_uniform.max():.2f}× uniform"
