@@ -1,5 +1,5 @@
 [experiment]
-name = "dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075"
+name = "dinov3_grid_lora_patch_attention_sam_fusion_warmstart_aux_clean_inset075"
 
 [data]
 # Change this path on the machine containing the labeled data set.
@@ -66,6 +66,9 @@ minimum_learning_rate_ratio = 0.05
 gradient_clip_norm = 1.0
 early_stopping_patience = 6
 early_stopping_min_delta = 0.0001
+warm_start_frozen_epochs = 5
+base_auxiliary_loss_weight = 0.25
+delta_penalty_weight = 0.01
 seed = 42
 
 [runtime]
@@ -77,7 +80,7 @@ allow_tf32 = true
 profile_first_n_epochs = 1
 
 [output]
-run_dir = "outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075"
+run_dir = "outputs/dinov3_grid_lora_patch_attention_sam_fusion_warmstart_aux_clean_inset075"
 best_checkpoint_name = "best.pt"
 last_checkpoint_name = "last.pt"
 save_plots = true
@@ -91,4 +94,3 @@ attention_arrays_name = "sam_fusion_attention.npz"
 grid_failure_log = "grid_failures.jsonl"
 sam_failure_log = "sam_failures.jsonl"
 sam_inspection_images = 24
-

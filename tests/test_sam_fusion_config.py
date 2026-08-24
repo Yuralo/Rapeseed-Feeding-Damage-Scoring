@@ -40,6 +40,9 @@ class SamFusionConfigTests(unittest.TestCase):
         control_training = control.training.__dict__.copy()
         sam_batch = sam_training.pop("batch_size")
         sam_accumulation = sam_training.pop("gradient_accumulation_steps")
+        warm_start_frozen_epochs = sam_training.pop("warm_start_frozen_epochs")
+        base_auxiliary_loss_weight = sam_training.pop("base_auxiliary_loss_weight")
+        delta_penalty_weight = sam_training.pop("delta_penalty_weight")
         control_batch = control_training.pop("batch_size")
         control_accumulation = control_training.pop("gradient_accumulation_steps")
         self.assertEqual(sam_training, control_training)
@@ -47,6 +50,9 @@ class SamFusionConfigTests(unittest.TestCase):
             sam_batch * sam_accumulation,
             control_batch * control_accumulation,
         )
+        self.assertEqual(warm_start_frozen_epochs, 5)
+        self.assertEqual(base_auxiliary_loss_weight, 0.25)
+        self.assertEqual(delta_penalty_weight, 0.01)
 
     def test_three_representation_defaults_are_small_and_explicit(self):
         config = load_config(
@@ -60,7 +66,11 @@ class SamFusionConfigTests(unittest.TestCase):
         self.assertEqual(config.model.fusion_hidden_dim, 256)
         self.assertEqual(config.training.batch_size, 4)
         self.assertEqual(config.training.gradient_accumulation_steps, 4)
+        self.assertEqual(config.training.warm_start_frozen_epochs, 5)
+        self.assertEqual(config.training.base_auxiliary_loss_weight, 0.25)
+        self.assertEqual(config.training.delta_penalty_weight, 0.01)
         self.assertTrue(config.data.normalize_targets)
+        self.assertIn("warmstart_aux", config.output.run_dir)
 
     def test_output_is_separate_from_the_control(self):
         sam = load_config(
@@ -98,6 +108,17 @@ class SamFusionConfigTests(unittest.TestCase):
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(ValueError, "foreground fraction"):
+                load_config(path)
+
+    def test_negative_auxiliary_loss_weight_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "experiment.toml"
+            path.write_text(
+                '[data]\ndataset_dir = "/dataset"\n'
+                "[training]\nbase_auxiliary_loss_weight = -0.1\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "base_auxiliary_loss_weight"):
                 load_config(path)
 
 

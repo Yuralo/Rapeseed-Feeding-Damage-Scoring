@@ -10,6 +10,64 @@ from .preprocessing import CACHE_SCHEMA_VERSION
 from .segmentation import SAM_CACHE_SCHEMA_VERSION
 
 EXPERIMENT_ID = "dinov3_grid_lora_patch_attention_sam_fusion"
+CONTROL_EXPERIMENT_ID = "dinov3_grid_lora_patch_attention"
+
+
+def validate_control_for(state: dict[str, Any], config: Config) -> None:
+    """Validate a LoRA + patch-attention checkpoint used for warm initialization."""
+    if state.get("experiment") != CONTROL_EXPERIMENT_ID:
+        raise ValueError(
+            f"Expected a {CONTROL_EXPERIMENT_ID!r} warm-start checkpoint, "
+            f"got {state.get('experiment')!r}"
+        )
+    if state.get("model_state_format") != "trainable_only":
+        raise ValueError("Warm-start checkpoint must contain a trainable-only model state")
+    if "model_state_dict" not in state:
+        raise ValueError("Warm-start checkpoint has no model_state_dict")
+    if not state.get("targets_normalized", True):
+        raise ValueError("Warm-start checkpoint must use normalized targets")
+    saved_schema = state.get("grid_cache_schema_version", CACHE_SCHEMA_VERSION)
+    if saved_schema != CACHE_SCHEMA_VERSION:
+        raise ValueError(
+            "Warm-start grid-cache schema mismatch: "
+            f"checkpoint={saved_schema}, current={CACHE_SCHEMA_VERSION}"
+        )
+    saved_data = state.get("config", {}).get("data", {})
+    for key in ("grid_crop_size", "grid_inner_margin_fraction"):
+        if key in saved_data and saved_data[key] != getattr(config.data, key):
+            raise ValueError(
+                f"Warm-start preprocessing mismatch for {key}: "
+                f"checkpoint={saved_data[key]!r}, "
+                f"config={getattr(config.data, key)!r}"
+            )
+    saved_model = state.get("config", {}).get("model", {})
+    keys = (
+        "backbone",
+        "processor",
+        "lora_rank",
+        "lora_alpha",
+        "lora_dropout",
+        "lora_target_modules",
+        "train_final_norm",
+        "attention_hidden_dim",
+        "attention_dropout",
+        "attention_temperature",
+        "head_hidden_dim",
+        "dropout",
+    )
+    for key in keys:
+        if key not in saved_model:
+            continue
+        saved_value = saved_model[key]
+        configured_value = getattr(config.model, key)
+        if key == "lora_target_modules":
+            saved_value = tuple(saved_value)
+            configured_value = tuple(configured_value)
+        if saved_value != configured_value:
+            raise ValueError(
+                f"Warm-start model mismatch for {key}: "
+                f"checkpoint={saved_value!r}, config={configured_value!r}"
+            )
 
 
 def payload(

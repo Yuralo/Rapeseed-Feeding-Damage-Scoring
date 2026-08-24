@@ -28,10 +28,27 @@ def _save_figure(figure, path: Path) -> None:
 def save_history_plot(history, path: Path) -> None:
     figure, axes = plt.subplots(2, 3, figsize=(19, 10))
     axes = axes.reshape(-1)
-    axes[0].plot(range(1, len(history["train_loss"]) + 1), history["train_loss"])
-    axes[0].plot(history["val_epochs"], history["val_loss"], marker="o")
+    train_epochs = range(1, len(history["train_loss"]) + 1)
+    axes[0].plot(train_epochs, history["train_loss"], label="combined objective")
+    for key, label in (("train_final_mse", "final MSE"), ("train_base_mse", "base MSE")):
+        values = history[key]
+        epochs = range(
+            len(history["train_loss"]) - len(values) + 1,
+            len(history["train_loss"]) + 1,
+        )
+        axes[0].plot(epochs, values, label=label)
+    axes[0].plot(history["val_epochs"], history["val_loss"], marker="o", label="val MSE")
     axes[0].set(xlabel="Epoch", ylabel="Normalized MSE", title="Loss")
+    axes[0].legend(fontsize=8)
     axes[1].plot(history["val_epochs"], history["val_mae"], marker="o", label="MAE")
+    if history["val_base_mae"]:
+        axes[1].plot(
+            history["val_epochs"][-len(history["val_base_mae"]) :],
+            history["val_base_mae"],
+            marker="o",
+            linestyle="--",
+            label="base MAE",
+        )
     axes[1].plot(history["val_epochs"], history["val_r2"], marker="o", label="R²")
     axes[1].set(xlabel="Epoch", title="Validation metrics")
     axes[1].legend()
@@ -255,6 +272,9 @@ def save_evaluation(
     masked_entropy = attention_entropy(result.masked_attention_weights)
     report = {
         "model": result.metrics(),
+        "base_model": result.base_metrics(),
+        "sam_comparison": result.comparison(),
+        "target_ranges": result.target_range_metrics(),
         "diagnostics": result.diagnostics(),
         "mean_baseline": mean_baseline(result.targets, scaler.baseline_mean),
         "samples": len(result.targets),

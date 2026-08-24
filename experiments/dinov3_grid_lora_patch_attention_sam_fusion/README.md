@@ -16,9 +16,16 @@ all-block query/value LoRA adapters, trainable final normalization, and gated pa
 pooler. The binary mask encoder and fusion module are intentionally small.
 
 The ordinary original-image regression head remains present. The SAM fusion produces a residual
-prediction whose final layer is initialized to zero. Therefore the SAM contribution is exactly zero
-at initialization; the model must learn that the masked image or binary mask adds useful
-information.
+prediction whose final layer is initialized to zero. The recommended run warm-starts that original
+branch from the completed LoRA + patch-attention checkpoint. It freezes the warm-started branch for
+five epochs while fusion learns, then fine-tunes everything together.
+
+The joint phase explicitly supervises the base prediction and discourages unnecessarily large SAM
+corrections:
+
+```text
+loss = final MSE + 0.25 × base MSE + 0.01 × mean(SAM delta²)
+```
 
 SAM itself is always frozen and is never loaded by the training or evaluation process. Masks are
 generated once and cached as PNG files with JSON sidecars.
@@ -91,13 +98,17 @@ and soil.
 
 ## 5. Train, resume, and evaluate
 
-Train from scratch for the controlled comparison:
+Warm-start from the earlier LoRA + patch-attention result:
 
 ```bash
 python -m experiments.dinov3_grid_lora_patch_attention_sam_fusion.train \
   --config experiments/dinov3_grid_lora_patch_attention_sam_fusion/config.toml \
-  --from-scratch
+  --initialize-from \
+  outputs/dinov3_grid_lora_patch_attention_clean_inset075/best.pt
 ```
+
+This restores the exact control-model train/validation filenames and normalization statistics. A
+plain `--from-scratch` mode remains available, but it does not use the staged warm-start strategy.
 
 Resume:
 
@@ -105,7 +116,7 @@ Resume:
 python -m experiments.dinov3_grid_lora_patch_attention_sam_fusion.train \
   --config experiments/dinov3_grid_lora_patch_attention_sam_fusion/config.toml \
   --resume \
-  outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/last.pt
+  outputs/dinov3_grid_lora_patch_attention_sam_fusion_warmstart_aux_clean_inset075/last.pt
 ```
 
 Evaluate:
@@ -114,7 +125,7 @@ Evaluate:
 python -m experiments.dinov3_grid_lora_patch_attention_sam_fusion.evaluate \
   --config experiments/dinov3_grid_lora_patch_attention_sam_fusion/config.toml \
   --checkpoint \
-  outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/best.pt
+  outputs/dinov3_grid_lora_patch_attention_sam_fusion_warmstart_aux_clean_inset075/best.pt
 ```
 
 Checkpoints contain only trainable LoRA, normalization, patch-attention, mask-encoder, fusion, and
@@ -125,6 +136,7 @@ rejects incompatible preprocessing, SAM, or architecture settings.
 
 In addition to regression metrics and filename-aware predictions, evaluation saves:
 
+- automatic base-only versus final-model metrics and improved/worsened sample counts;
 - base prediction and SAM residual for every image;
 - original, masked, and binary-mask fusion weights;
 - original-branch and masked-branch patch attention;

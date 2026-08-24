@@ -279,6 +279,15 @@ class DinoV3LoRAPatchAttentionSamFusionRegressor(nn.Module):
             config.model.fusion_dropout,
         )
         self._validate_trainable_backbone_parameters()
+        self._adaptation_parameter_names = frozenset(
+            name for name, parameter in self.named_parameters() if parameter.requires_grad
+        )
+        self._base_adaptation_parameter_names = frozenset(
+            name
+            for name in self._adaptation_parameter_names
+            if not name.startswith(("mask_encoder.", "fusion."))
+        )
+        self.base_trainable = True
 
     def _validate_trainable_backbone_parameters(self) -> None:
         unexpected = [
@@ -361,38 +370,47 @@ class DinoV3LoRAPatchAttentionSamFusionRegressor(nn.Module):
             rows = columns = side
         return rows, columns
 
+    def set_base_trainable(self, enabled: bool) -> None:
+        """Freeze or restore only the warm-started control-model parameters."""
+        self.base_trainable = bool(enabled)
+        for name, parameter in self.named_parameters():
+            if name in self._base_adaptation_parameter_names:
+                parameter.requires_grad_(self.base_trainable)
+            elif name in self._adaptation_parameter_names:
+                parameter.requires_grad_(True)
+
     def train(self, mode: bool = True):
         """Keep frozen backbone stochastic layers off while LoRA dropout remains active."""
         super().train(mode)
         if mode:
             self.backbone.eval()
-            for name, module in self.backbone.named_modules():
-                if "lora_dropout" in name:
-                    module.train(True)
-            self.patch_attention.train(True)
-            self.regression_head.train(True)
+            if self.base_trainable:
+                for name, module in self.backbone.named_modules():
+                    if "lora_dropout" in name:
+                        module.train(True)
+                self.patch_attention.train(True)
+                self.regression_head.train(True)
+            else:
+                self.patch_attention.eval()
+                self.regression_head.eval()
             self.mask_encoder.train(True)
             self.fusion.train(True)
         return self
 
     def adaptation_state_dict(self) -> dict[str, torch.Tensor]:
         """Return every trainable adaptation/fusion tensor for compact checkpoints."""
-        trainable = {
-            name for name, parameter in self.named_parameters() if parameter.requires_grad
-        }
         complete = self.state_dict()
-        missing = sorted(trainable - set(complete))
+        missing = sorted(self._adaptation_parameter_names - set(complete))
         if missing:
             raise RuntimeError(
                 "Trainable parameters missing from state_dict: " + ", ".join(missing)
             )
-        return {name: complete[name] for name in sorted(trainable)}
+        return {
+            name: complete[name] for name in sorted(self._adaptation_parameter_names)
+        }
 
     def load_adaptation_state_dict(self, state: dict[str, torch.Tensor]) -> None:
-        required = {
-            name for name, parameter in self.named_parameters() if parameter.requires_grad
-        }
-        missing = sorted(required - set(state))
+        missing = sorted(self._adaptation_parameter_names - set(state))
         unexpected = sorted(set(state) - set(self.state_dict()))
         if missing or unexpected:
             raise ValueError(
@@ -403,6 +421,22 @@ class DinoV3LoRAPatchAttentionSamFusionRegressor(nn.Module):
         if result.unexpected_keys:
             raise ValueError(
                 "Unexpected SAM-fusion checkpoint keys: "
+                + ", ".join(result.unexpected_keys)
+            )
+
+    def load_control_state_dict(self, state: dict[str, torch.Tensor]) -> None:
+        """Warm-start the matching LoRA, attention, norm, and base regression head."""
+        missing = sorted(self._base_adaptation_parameter_names - set(state))
+        unexpected = sorted(set(state) - set(self.state_dict()))
+        if missing or unexpected:
+            raise ValueError(
+                "Control checkpoint parameter mismatch: "
+                f"missing={missing}, unexpected={unexpected}"
+            )
+        result = self.load_state_dict(state, strict=False)
+        if result.unexpected_keys:
+            raise ValueError(
+                "Unexpected control checkpoint keys: "
                 + ", ".join(result.unexpected_keys)
             )
 

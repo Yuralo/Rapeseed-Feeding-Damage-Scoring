@@ -61,6 +61,43 @@ class Predictions:
         result["normalized_mse"] = self.objective_mse
         return result
 
+    def base_metrics(self) -> dict[str, float]:
+        return regression_metrics(self.targets, self.base_predictions)
+
+    def comparison(self) -> dict[str, float | int]:
+        base_errors = np.abs(self.base_predictions - self.targets)
+        final_errors = np.abs(self.predictions - self.targets)
+        reductions = base_errors - final_errors
+        return {
+            "mean_absolute_error_reduction": float(reductions.mean()),
+            "median_absolute_error_reduction": float(np.median(reductions)),
+            "improved_samples": int((reductions > 0).sum()),
+            "worsened_samples": int((reductions < 0).sum()),
+            "unchanged_samples": int((reductions == 0).sum()),
+        }
+
+    def target_range_metrics(self) -> dict[str, dict[str, object]]:
+        ranges = (
+            ("0_to_2_5", self.targets <= 2.5),
+            ("over_2_5_to_7_5", (self.targets > 2.5) & (self.targets <= 7.5)),
+            ("over_7_5_to_15", (self.targets > 7.5) & (self.targets <= 15)),
+            ("over_15", self.targets > 15),
+        )
+        result = {}
+        for name, selected in ranges:
+            if not selected.any():
+                continue
+            result[name] = {
+                "samples": int(selected.sum()),
+                "base": regression_metrics(
+                    self.targets[selected], self.base_predictions[selected]
+                ),
+                "final": regression_metrics(
+                    self.targets[selected], self.predictions[selected]
+                ),
+            }
+        return result
+
     def diagnostics(self) -> dict[str, object]:
         return {
             "original_attention": _attention_summary(self.original_attention_weights),

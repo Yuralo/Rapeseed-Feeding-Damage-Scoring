@@ -86,6 +86,9 @@ class TrainingSettings:
     gradient_clip_norm: float = 1.0
     early_stopping_patience: int = 6
     early_stopping_min_delta: float = 1e-4
+    warm_start_frozen_epochs: int = 5
+    base_auxiliary_loss_weight: float = 0.25
+    delta_penalty_weight: float = 0.01
     seed: int = 42
 
 
@@ -101,7 +104,9 @@ class RuntimeSettings:
 
 @dataclass(frozen=True)
 class OutputSettings:
-    run_dir: str = "outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075"
+    run_dir: str = (
+        "outputs/dinov3_grid_lora_patch_attention_sam_fusion_warmstart_aux_clean_inset075"
+    )
     best_checkpoint_name: str = "best.pt"
     last_checkpoint_name: str = "last.pt"
     save_plots: bool = True
@@ -216,6 +221,12 @@ class Config:
             raise ValueError("training.gradient_clip_norm must be positive")
         if training.early_stopping_patience < 1 or training.early_stopping_min_delta < 0:
             raise ValueError("early stopping settings are invalid")
+        if training.warm_start_frozen_epochs < 0:
+            raise ValueError("training.warm_start_frozen_epochs cannot be negative")
+        if training.base_auxiliary_loss_weight < 0:
+            raise ValueError("training.base_auxiliary_loss_weight cannot be negative")
+        if training.delta_penalty_weight < 0:
+            raise ValueError("training.delta_penalty_weight cannot be negative")
         if self.runtime.device not in {"auto", "cpu", "cuda", "mps"}:
             raise ValueError("runtime.device must be auto, cpu, cuda, or mps")
         if self.runtime.mixed_precision not in {"none", "fp16", "bf16"}:
@@ -281,4 +292,3 @@ def load_config(path: str | Path) -> Config:
     )
     config.validate()
     return config
-
