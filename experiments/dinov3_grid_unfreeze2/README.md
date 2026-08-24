@@ -98,6 +98,29 @@ validation deliberately rejects that mismatch. Compare MAE, RMSE, and R² direct
 runs. `objective_mse` is in normalized units for the original config and raw squared-score units for
 this config, so its absolute value is not comparable between the runs.
 
+## Four-block normalized-target comparison
+
+`config_unfreeze4.toml` is identical to the normalized two-block `config.toml` except that it
+unfreezes the final four transformer blocks. It uses its own output directory:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.train \
+  --config experiments/dinov3_grid_unfreeze2/config_unfreeze4.toml \
+  --from-scratch
+```
+
+Evaluate it with:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.evaluate \
+  --config experiments/dinov3_grid_unfreeze2/config_unfreeze4.toml \
+  --checkpoint outputs/dinov3_grid_unfreeze4/best.pt
+```
+
+The RTX 3090 starting micro-batch remains 8 for a controlled comparison. If this configuration runs
+out of memory, change only `batch_size` to `4` and `gradient_accumulation_steps` to `4`, preserving
+the effective batch size of 16.
+
 ## Interpreting the experiment
 
 The default config tests a small fine-tuning recipe, not only the effect of unfreezing blocks,
