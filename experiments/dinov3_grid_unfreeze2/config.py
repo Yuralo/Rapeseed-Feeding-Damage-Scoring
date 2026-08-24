@@ -25,6 +25,7 @@ class DataSettings:
     verify_images: bool = True
     grid_crop_size: int = 1400
     grid_cache_dir: str = "cache/grid_crops_1400"
+    grid_inner_margin_fraction: float = 0.0
     normalize_targets: bool = True
 
 
@@ -108,6 +109,8 @@ class Config:
             raise ValueError("data.validation_fraction must be between 0 and 1")
         if self.data.grid_crop_size < 1 or not self.data.grid_cache_dir.strip():
             raise ValueError("grid crop size and cache directory must be configured")
+        if not 0 <= self.data.grid_inner_margin_fraction < 0.25:
+            raise ValueError("data.grid_inner_margin_fraction must be in [0, 0.25)")
         probabilities = (
             self.augmentation.horizontal_flip_probability,
             self.augmentation.vertical_flip_probability,

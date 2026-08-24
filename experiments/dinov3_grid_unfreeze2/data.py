@@ -169,6 +169,7 @@ class PlantDataset(Dataset):
                 source,
                 self.config.data.grid_cache_dir,
                 size=self.config.data.grid_crop_size,
+                inner_margin_fraction=self.config.data.grid_inner_margin_fraction,
             )
         except Exception as error:
             log_grid_failure(

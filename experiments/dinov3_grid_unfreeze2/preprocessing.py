@@ -14,20 +14,41 @@ from torch.utils.data import get_worker_info
 from rapeseed_damage.artifacts import append_jsonl
 from rapeseed_damage.grid import detect_grid, image_to_ndarray, to_rgb, warp_big_square
 
+CACHE_SCHEMA_VERSION = 3
 
-def load_grid_crop(path: str | Path, size: int = 1400) -> Image.Image:
+
+def load_grid_crop(
+    path: str | Path,
+    size: int = 1400,
+    inner_margin_fraction: float = 0.0,
+) -> Image.Image:
     image_bgr = image_to_ndarray(str(path))
     if image_bgr is None:
         raise FileNotFoundError(f"Could not load image: {path}")
     grid_points, _, _ = detect_grid(image_bgr)
-    cropped_bgr = warp_big_square(image_bgr, grid_points, size=size)
+    cropped_bgr = warp_big_square(
+        image_bgr,
+        grid_points,
+        size=size,
+        inner_margin_fraction=inner_margin_fraction,
+    )
     return Image.fromarray(to_rgb(cropped_bgr))
 
 
-def cache_path_for(source: str | Path, cache_dir: str | Path) -> Path:
+def cache_path_for(
+    source: str | Path,
+    cache_dir: str | Path,
+    *,
+    size: int,
+    inner_margin_fraction: float,
+) -> Path:
     source = Path(source)
-    digest = sha1(str(source.resolve()).encode("utf-8")).hexdigest()[:12]
-    return Path(cache_dir) / f"{source.stem}_{digest}.jpg"
+    identity = (
+        f"schema={CACHE_SCHEMA_VERSION}|{source.resolve()}|size={size}|"
+        f"inner_margin_fraction={inner_margin_fraction:.8f}"
+    )
+    digest = sha1(identity.encode("utf-8")).hexdigest()[:12]
+    return Path(cache_dir) / f"{source.stem}_gridv{CACHE_SCHEMA_VERSION}_{digest}.jpg"
 
 
 def load_or_create_grid_crop(
@@ -35,15 +56,25 @@ def load_or_create_grid_crop(
     cache_dir: str | Path,
     *,
     size: int,
+    inner_margin_fraction: float = 0.0,
     overwrite: bool = False,
 ) -> tuple[Image.Image, Path, bool]:
     """Return an RGB grid crop, its cache path, and whether it was newly written."""
-    destination = cache_path_for(source, cache_dir).resolve()
+    destination = cache_path_for(
+        source,
+        cache_dir,
+        size=size,
+        inner_margin_fraction=inner_margin_fraction,
+    ).resolve()
     if destination.is_file() and not overwrite:
         with Image.open(destination) as cached:
             return cached.convert("RGB").copy(), destination, False
 
-    image = load_grid_crop(source, size=size).convert("RGB")
+    image = load_grid_crop(
+        source,
+        size=size,
+        inner_margin_fraction=inner_margin_fraction,
+    ).convert("RGB")
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(f".{destination.name}.{os.getpid()}.tmp")
     image.save(temporary, format="JPEG", quality=95, subsampling=0)

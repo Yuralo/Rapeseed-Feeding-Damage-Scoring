@@ -20,6 +20,14 @@ VALUE_MIN = 70
 # Maximum allowed deviation from horizontal or vertical.
 ANGLE_TOLERANCE = 14.0
 
+# Boundary recovery is deliberately narrower than normal grid detection. It is
+# used only after exact three-line selection fails and only extrapolates one
+# missing outer bar from two strong adjacent bars.
+BOUNDARY_RECOVERY_MIN_POSITION = -0.15
+BOUNDARY_RECOVERY_MAX_POSITION = 1.15
+BOUNDARY_RECOVERY_EDGE_FRACTION = 0.18
+BOUNDARY_RECOVERY_MAX_ANGLE_DIFFERENCE = 8.0
+
 
 def resize_for_detection(
     image: np.ndarray,
@@ -254,6 +262,9 @@ def cluster_similar_lines(
 def choose_three_grid_lines(
     clusters: list[dict],
     dimension: int,
+    *,
+    orientation: str,
+    allow_boundary_recovery: bool = False,
 ) -> list[dict]:
     """Select three strong, approximately equally spaced projected bars."""
     strongest = sorted(
@@ -290,6 +301,14 @@ def choose_three_grid_lines(
         if best_result is None or score > best_result[0]:
             best_result = (score, candidate_triplet)
     if best_result is None:
+        if allow_boundary_recovery:
+            recovered = _recover_boundary_grid_line(
+                strongest,
+                dimension,
+                orientation=orientation,
+            )
+            if recovered is not None:
+                return recovered
         cluster_information = [
             (
                 round(cluster["position"], 1),
@@ -304,6 +323,103 @@ def choose_three_grid_lines(
             f"{cluster_information}"
         )
     return list(best_result[1])
+
+
+def _translated_cluster(
+    source: dict,
+    offset: float,
+    *,
+    orientation: str,
+) -> dict:
+    if orientation not in {"vertical", "horizontal"}:
+        raise ValueError("orientation must be 'vertical' or 'horizontal'")
+    dx = offset if orientation == "vertical" else 0.0
+    dy = offset if orientation == "horizontal" else 0.0
+    translated_segments = [
+        (
+            int(round(x1 + dx)),
+            int(round(y1 + dy)),
+            int(round(x2 + dx)),
+            int(round(y2 + dy)),
+        )
+        for x1, y1, x2, y2 in source["segments"]
+    ]
+    return {
+        "position": float(source["position"] + offset),
+        "support": float(source["support"] * 0.25),
+        "angle": float(source.get("angle", 0.0)),
+        "segments": translated_segments,
+        "inferred": True,
+        "inferred_from_position": float(source["position"]),
+    }
+
+
+def _recover_boundary_grid_line(
+    clusters: list[dict],
+    dimension: int,
+    *,
+    orientation: str,
+) -> list[dict] | None:
+    """Infer one edge-clipped outer bar from two strong adjacent grid bars."""
+    if orientation not in {"vertical", "horizontal"}:
+        raise ValueError("orientation must be 'vertical' or 'horizontal'")
+
+    minimum_support = dimension * 0.08
+    best_result = None
+    for first, second in itertools.combinations(clusters, 2):
+        spacing = float(second["position"] - first["position"])
+        if not dimension * 0.09 <= spacing <= dimension * 0.41:
+            continue
+        first_support = float(first["support"])
+        second_support = float(second["support"])
+        if min(first_support, second_support) < minimum_support:
+            continue
+        if min(first_support, second_support) / max(first_support, second_support) < 0.15:
+            continue
+        has_supported_line_between = any(
+            first["position"] < cluster["position"] < second["position"]
+            and float(cluster["support"]) >= minimum_support
+            for cluster in clusters
+        )
+        if has_supported_line_between:
+            continue
+        angle_difference = abs(
+            float(first.get("angle", 0.0)) - float(second.get("angle", 0.0))
+        )
+        if angle_difference > BOUNDARY_RECOVERY_MAX_ANGLE_DIFFERENCE:
+            continue
+
+        inferred_candidates = (
+            (float(first["position"] - spacing), first, -spacing, "before"),
+            (float(second["position"] + spacing), second, spacing, "after"),
+        )
+        for inferred_position, source, offset, side in inferred_candidates:
+            normalized_position = inferred_position / dimension
+            if not (
+                BOUNDARY_RECOVERY_MIN_POSITION
+                <= normalized_position
+                <= BOUNDARY_RECOVERY_MAX_POSITION
+            ):
+                continue
+            if side == "before":
+                if normalized_position > BOUNDARY_RECOVERY_EDGE_FRACTION:
+                    continue
+                boundary_distance = abs(normalized_position)
+            else:
+                if normalized_position < 1.0 - BOUNDARY_RECOVERY_EDGE_FRACTION:
+                    continue
+                boundary_distance = abs(1.0 - normalized_position)
+
+            support = first_support + second_support
+            score = support * math.exp(
+                -0.15 * angle_difference - 2.0 * boundary_distance
+            )
+            inferred = _translated_cluster(source, offset, orientation=orientation)
+            lines = [first, second, inferred]
+            lines.sort(key=lambda cluster: cluster["position"])
+            if best_result is None or score > best_result[0]:
+                best_result = (score, lines)
+    return None if best_result is None else best_result[1]
 
 
 def fit_infinite_line(
@@ -377,6 +493,8 @@ def line_intersection(
 def _select_grid_lines(
     segments: list[tuple[float, float, tuple[int, int, int, int]]],
     image_shape: tuple[int, int],
+    *,
+    allow_boundary_recovery: bool = False,
 ) -> tuple[list[dict], list[dict]]:
     vertical_clusters = cluster_similar_lines(
         segments, image_shape, orientation="vertical"
@@ -385,8 +503,18 @@ def _select_grid_lines(
         segments, image_shape, orientation="horizontal"
     )
     return (
-        choose_three_grid_lines(vertical_clusters, image_shape[1]),
-        choose_three_grid_lines(horizontal_clusters, image_shape[0]),
+        choose_three_grid_lines(
+            vertical_clusters,
+            image_shape[1],
+            orientation="vertical",
+            allow_boundary_recovery=allow_boundary_recovery,
+        ),
+        choose_three_grid_lines(
+            horizontal_clusters,
+            image_shape[0],
+            orientation="horizontal",
+            allow_boundary_recovery=allow_boundary_recovery,
+        ),
     )
 
 
@@ -435,10 +563,19 @@ def detect_grid(
                 candidate_mask.shape,
             )
         except RuntimeError as fallback_error:
-            raise RuntimeError(
-                "Grid detection failed with both LSD and Hough candidates. "
-                f"LSD result: {primary_error}; fallback result: {fallback_error}"
-            ) from fallback_error
+            try:
+                selected_vertical, selected_horizontal = _select_grid_lines(
+                    segments + hough_segments,
+                    candidate_mask.shape,
+                    allow_boundary_recovery=True,
+                )
+            except RuntimeError as recovery_error:
+                raise RuntimeError(
+                    "Grid detection failed with LSD, Hough, and conservative "
+                    "boundary recovery. "
+                    f"LSD result: {primary_error}; Hough fallback: {fallback_error}; "
+                    f"boundary recovery: {recovery_error}"
+                ) from recovery_error
 
     vertical_lines = [
         fit_infinite_line(cluster) for cluster in selected_vertical
@@ -463,6 +600,17 @@ def detect_grid(
             detection_grid_points[2, 0],
         ]
     )
+    height, width = candidate_mask.shape
+    coordinate_margin = 0.25
+    if (
+        outer_corners[:, 0].min() < -coordinate_margin * width
+        or outer_corners[:, 0].max() > (1.0 + coordinate_margin) * width
+        or outer_corners[:, 1].min() < -coordinate_margin * height
+        or outer_corners[:, 1].max() > (1.0 + coordinate_margin) * height
+    ):
+        raise RuntimeError(
+            "Detected or inferred grid corners extend implausibly far outside the image."
+        )
     grid_area = abs(cv2.contourArea(outer_corners))
     if grid_area < 0.025 * candidate_mask.size:
         raise RuntimeError(
@@ -522,12 +670,18 @@ def warp_big_square(
     image: np.ndarray,
     grid_points: np.ndarray,
     size: int = 1400,
+    inner_margin_fraction: float = 0.0,
 ) -> np.ndarray:
     """
     Extract and perspective-correct the entire large quadrat.
 
-    Uses only the four outer corners of the detected steel grid.
+    Uses only the four outer corners of the detected steel grid. A positive
+    inner margin maps an inset region directly to the output canvas, removing
+    border artifacts without first resampling an intermediate crop.
     """
+
+    if not 0.0 <= inner_margin_fraction < 0.5:
+        raise ValueError("inner_margin_fraction must be in [0, 0.5)")
 
     corners = np.float32([
         grid_points[0, 0],  # top-left
@@ -536,11 +690,13 @@ def warp_big_square(
         grid_points[2, 0],  # bottom-left
     ])
 
+    output_extent = size - 1
+    offset = output_extent * inner_margin_fraction / (1.0 - 2.0 * inner_margin_fraction)
     destination = np.float32([
-        [0, 0],
-        [size - 1, 0],
-        [size - 1, size - 1],
-        [0, size - 1],
+        [-offset, -offset],
+        [output_extent + offset, -offset],
+        [output_extent + offset, output_extent + offset],
+        [-offset, output_extent + offset],
     ])
 
     matrix = cv2.getPerspectiveTransform(

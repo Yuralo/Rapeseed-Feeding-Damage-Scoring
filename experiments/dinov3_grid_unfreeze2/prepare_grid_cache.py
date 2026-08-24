@@ -11,7 +11,11 @@ from rapeseed_damage.artifacts import write_json
 
 from .config import Config, load_config
 from .data import image_path, load_scores
-from .preprocessing import load_or_create_grid_crop, log_grid_failure
+from .preprocessing import (
+    CACHE_SCHEMA_VERSION,
+    load_or_create_grid_crop,
+    log_grid_failure,
+)
 
 
 def run(config: Config, *, overwrite: bool = False) -> dict:
@@ -30,6 +34,7 @@ def run(config: Config, *, overwrite: bool = False) -> dict:
                 source,
                 config.data.grid_cache_dir,
                 size=config.data.grid_crop_size,
+                inner_margin_fraction=config.data.grid_inner_margin_fraction,
                 overwrite=overwrite,
             )
             created += int(was_created)
@@ -57,6 +62,9 @@ def run(config: Config, *, overwrite: bool = False) -> dict:
         "failures": len(failures),
         "failed_filenames": failures,
         "cache_dir": str(Path(config.data.grid_cache_dir).resolve()),
+        "cache_schema_version": CACHE_SCHEMA_VERSION,
+        "grid_crop_size": config.data.grid_crop_size,
+        "grid_inner_margin_fraction": config.data.grid_inner_margin_fraction,
         "failure_log": str(failure_log.resolve()),
         "seconds": perf_counter() - started,
     }

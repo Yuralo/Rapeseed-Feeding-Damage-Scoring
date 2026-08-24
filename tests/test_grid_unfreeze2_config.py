@@ -19,6 +19,22 @@ class GridUnfreezeTwoConfigTests(unittest.TestCase):
         self.assertEqual(config.training.gradient_accumulation_steps, 2)
         self.assertEqual(config.runtime.mixed_precision, "fp16")
         self.assertTrue(config.data.normalize_targets)
+        self.assertEqual(config.data.grid_inner_margin_fraction, 0.0)
+
+    def test_clean_inset_config_is_a_distinct_normalized_two_block_run(self):
+        clean = load_config(
+            "experiments/dinov3_grid_unfreeze2/config_clean_inset.toml"
+        )
+        original = load_config("experiments/dinov3_grid_unfreeze2/config.toml")
+
+        self.assertTrue(clean.data.normalize_targets)
+        self.assertEqual(clean.data.grid_inner_margin_fraction, 0.075)
+        self.assertEqual(clean.data.grid_cache_dir, "cache/grid_crops_1400_inset075")
+        self.assertEqual(clean.model, original.model)
+        self.assertEqual(clean.training, original.training)
+        self.assertEqual(clean.augmentation, original.augmentation)
+        self.assertEqual(clean.runtime, original.runtime)
+        self.assertNotEqual(clean.output.run_dir, original.output.run_dir)
 
     def test_raw_target_comparison_config_disables_normalization(self):
         raw_config = load_config(
@@ -91,6 +107,17 @@ class GridUnfreezeTwoConfigTests(unittest.TestCase):
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(ValueError, "mixed_precision"):
+                load_config(path)
+
+    def test_excessive_grid_inset_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "experiment.toml"
+            path.write_text(
+                '[data]\ndataset_dir = "/dataset"\n'
+                "grid_inner_margin_fraction = 0.25\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "grid_inner_margin_fraction"):
                 load_config(path)
 
     def test_unknown_section_is_rejected(self):

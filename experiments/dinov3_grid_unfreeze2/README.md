@@ -36,6 +36,45 @@ This command exits nonzero if any crop fails. Details and tracebacks go to
 Training can lazily fill a missing cache, but precomputing makes failures visible before a long run
 and keeps the GPU timing meaningful.
 
+## Clean inset control for the patch-attention comparison
+
+The original crop uses the outer grid corners and can preserve collector labels attached to the
+edge. `config_clean_inset.toml` removes 7.5% from every grid edge during the projective warp. It
+uses the same cleaned cache, split, seed, augmentation, normalized targets, and training settings as
+the clean patch-attention config.
+
+First generate the preprocessing audit and inspect it before training:
+
+```bash
+python -m experiments.dinov3_grid_patch_attention.inspect_preprocessing \
+  --config experiments/dinov3_grid_patch_attention/config_clean_inset.toml \
+  --count 12
+```
+
+Then build the clean cache once and train this control from scratch:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.prepare_grid_cache \
+  --config experiments/dinov3_grid_unfreeze2/config_clean_inset.toml
+
+python -m experiments.dinov3_grid_unfreeze2.train \
+  --config experiments/dinov3_grid_unfreeze2/config_clean_inset.toml \
+  --from-scratch
+```
+
+Evaluate with the same config:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.evaluate \
+  --config experiments/dinov3_grid_unfreeze2/config_clean_inset.toml \
+  --checkpoint outputs/dinov3_grid_unfreeze2_clean_inset075/best.pt
+```
+
+Do not reuse an old outer-grid checkpoint. Changing the input crop invalidates that comparison, and
+checkpoint validation now rejects crop-size and inset mismatches. If the audit shows that 7.5% does
+not fully remove labels, change the inset in both clean configs and give the new cache and run
+directories new names.
+
 ## Train, resume, and evaluate
 
 Train from scratch:

@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm
 from matplotlib.patches import Rectangle
 import numpy as np
 import pandas as pd
@@ -102,7 +103,15 @@ def save_regression_plot(result: Predictions, path: Path) -> None:
     _save_figure(figure, path)
 
 
-def save_attention_examples(result: Predictions, path: Path, count: int, columns: int) -> None:
+def save_attention_examples(
+    result: Predictions,
+    path: Path,
+    count: int,
+    columns: int,
+    *,
+    ratio_min: float,
+    ratio_max: float,
+) -> None:
     count = min(count, len(result.targets))
     if count == 0:
         return
@@ -115,15 +124,16 @@ def save_attention_examples(result: Predictions, path: Path, count: int, columns
             int(result.attention_grid_rows[index]),
             int(result.attention_grid_columns[index]),
         )
-        normalized = (grid - grid.min()) / max(float(grid.max() - grid.min()), 1e-12)
+        relative_to_uniform = grid * grid.size
         with Image.open(result.processed_image_paths[index]) as image:
             rgb = image.convert("RGB")
             width, height = rgb.size
             axes[index].imshow(rgb)
         axes[index].imshow(
-            normalized,
-            cmap="inferno",
-            alpha=0.48,
+            relative_to_uniform,
+            cmap="coolwarm",
+            norm=TwoSlopeNorm(vmin=ratio_min, vcenter=1.0, vmax=ratio_max),
+            alpha=0.52,
             interpolation="bilinear",
             extent=(0, width, height, 0),
         )
@@ -131,7 +141,8 @@ def save_attention_examples(result: Predictions, path: Path, count: int, columns
         axes[index].axis("off")
         axes[index].set_title(
             f"Target {result.targets[index]:.2f} | Pred {result.predictions[index]:.2f}\n"
-            f"Error {error:+.2f} | Attention entropy {entropies[index]:.2f}"
+            f"Error {error:+.2f} | H {entropies[index]:.4f} "
+            f"| max {relative_to_uniform.max():.2f}× uniform"
         )
     for axis in axes[count:]:
         axis.axis("off")
@@ -151,6 +162,8 @@ def save_attention_inspection(
     *,
     count: int,
     top_fraction: float,
+    ratio_min: float,
+    ratio_max: float,
 ) -> None:
     indices = _representative_indices(result.targets, count)
     if not indices:
@@ -163,7 +176,7 @@ def save_attention_inspection(
         grid_columns = int(result.attention_grid_columns[index])
         flat_weights = result.attention_weights[index]
         grid = flat_weights.reshape(grid_rows, grid_columns)
-        normalized = (grid - grid.min()) / max(float(grid.max() - grid.min()), 1e-12)
+        relative_to_uniform = grid * grid.size
         with Image.open(result.processed_image_paths[index]) as image:
             rgb = image.convert("RGB").copy()
         width, height = rgb.size
@@ -178,13 +191,16 @@ def save_attention_inspection(
 
         axes[row, 1].imshow(rgb)
         axes[row, 1].imshow(
-            normalized,
-            cmap="inferno",
+            relative_to_uniform,
+            cmap="coolwarm",
+            norm=TwoSlopeNorm(vmin=ratio_min, vcenter=1.0, vmax=ratio_max),
             alpha=0.5,
             interpolation="bilinear",
             extent=(0, width, height, 0),
         )
-        axes[row, 1].set_title("Learned patch-attention overlay (per-image color scale)")
+        axes[row, 1].set_title(
+            f"Attention relative to uniform | max {relative_to_uniform.max():.2f}×"
+        )
 
         axes[row, 2].imshow(rgb)
         top_count = max(1, int(np.ceil(flat_weights.size * top_fraction)))
@@ -259,11 +275,15 @@ def save_evaluation(
             destination / "attention_examples.png",
             config.output.example_images,
             config.output.example_columns,
+            ratio_min=config.output.attention_ratio_min,
+            ratio_max=config.output.attention_ratio_max,
         )
         save_attention_inspection(
             result,
             destination / "attention_inspection.png",
             count=config.output.attention_inspection_images,
             top_fraction=config.output.attention_top_fraction,
+            ratio_min=config.output.attention_ratio_min,
+            ratio_max=config.output.attention_ratio_max,
         )
     return report

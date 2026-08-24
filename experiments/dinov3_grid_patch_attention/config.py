@@ -25,6 +25,7 @@ class DataSettings:
     verify_images: bool = True
     grid_crop_size: int = 1400
     grid_cache_dir: str = "cache/grid_crops_1400"
+    grid_inner_margin_fraction: float = 0.0
     normalize_targets: bool = True
 
 
@@ -88,6 +89,8 @@ class OutputSettings:
     example_columns: int = 4
     attention_inspection_images: int = 6
     attention_top_fraction: float = 0.1
+    attention_ratio_min: float = 0.5
+    attention_ratio_max: float = 2.0
     attention_arrays_name: str = "patch_attention.npz"
     grid_failure_log: str = "grid_failures.jsonl"
 
@@ -114,6 +117,8 @@ class Config:
             raise ValueError("data.validation_fraction must be between 0 and 1")
         if self.data.grid_crop_size < 1 or not self.data.grid_cache_dir.strip():
             raise ValueError("grid crop size and cache directory must be configured")
+        if not 0 <= self.data.grid_inner_margin_fraction < 0.25:
+            raise ValueError("data.grid_inner_margin_fraction must be in [0, 0.25)")
         if not self.data.normalize_targets:
             raise ValueError("This experiment requires data.normalize_targets=true")
         probabilities = (
@@ -164,6 +169,8 @@ class Config:
             raise ValueError("output.attention_inspection_images must be positive")
         if not 0 < self.output.attention_top_fraction <= 1:
             raise ValueError("output.attention_top_fraction must be in (0, 1]")
+        if not 0 <= self.output.attention_ratio_min < 1 < self.output.attention_ratio_max:
+            raise ValueError("attention ratio range must contain the uniform value 1")
         if not self.output.attention_arrays_name.strip():
             raise ValueError("output.attention_arrays_name cannot be empty")
         if not self.output.grid_failure_log.strip():

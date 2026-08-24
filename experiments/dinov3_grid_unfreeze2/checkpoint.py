@@ -6,6 +6,7 @@ from typing import Any
 
 from .config import Config
 from .data import TargetScaler
+from .preprocessing import CACHE_SCHEMA_VERSION
 
 EXPERIMENT_ID = "dinov3_grid_unfreeze2"
 
@@ -30,6 +31,7 @@ def payload(
     return {
         "experiment": EXPERIMENT_ID,
         "checkpoint_version": 3,
+        "grid_cache_schema_version": CACHE_SCHEMA_VERSION,
         "epoch": epoch,
         "model_state_dict": model.state_dict(),
         "optimizer_state_dict": optimizer.state_dict() if optimizer else None,
@@ -85,6 +87,23 @@ def validate_for(state: dict[str, Any], config: Config) -> None:
             "Checkpoint target-normalization mismatch: "
             f"checkpoint={saved_normalization}, config={config.data.normalize_targets}"
         )
+    saved_cache_schema = state.get("grid_cache_schema_version", CACHE_SCHEMA_VERSION)
+    if saved_cache_schema != CACHE_SCHEMA_VERSION:
+        raise ValueError(
+            "Checkpoint grid-detector/cache schema mismatch: "
+            f"checkpoint={saved_cache_schema}, current={CACHE_SCHEMA_VERSION}"
+        )
+    for key, default in (
+        ("grid_crop_size", 1400),
+        ("grid_inner_margin_fraction", 0.0),
+    ):
+        saved_value = saved_data.get(key, default)
+        configured_value = getattr(config.data, key)
+        if saved_value != configured_value:
+            raise ValueError(
+                f"Checkpoint preprocessing mismatch for {key}: "
+                f"checkpoint={saved_value!r}, config={configured_value!r}"
+            )
     saved = state.get("config", {}).get("model", {})
     keys = (
         "backbone",
