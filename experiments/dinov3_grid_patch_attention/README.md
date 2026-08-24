@@ -94,6 +94,7 @@ python -m experiments.dinov3_grid_patch_attention.evaluate \
 
 In addition to the regression metrics and predictions, evaluation saves:
 
+- `prediction_examples.png`: the same plain target/prediction/error sheet as the baseline runs.
 - `attention_examples.png`: patch-attention heatmaps over the exact cached grid crops.
 - `attention_inspection.png`: severity-spanning original/overlay/top-patch panels.
 - `patch_attention.npz`: every validation attention vector, filename, and patch-grid shape.

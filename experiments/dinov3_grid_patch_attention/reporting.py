@@ -103,6 +103,33 @@ def save_regression_plot(result: Predictions, path: Path) -> None:
     _save_figure(figure, path)
 
 
+def save_prediction_examples(
+    result: Predictions,
+    path: Path,
+    count: int,
+    columns: int,
+) -> None:
+    """Save the same plain prediction contact sheet as the baseline experiments."""
+    count = min(count, len(result.targets))
+    if count == 0:
+        return
+    rows = math.ceil(count / columns)
+    figure, axes = plt.subplots(rows, columns, figsize=(4 * columns, 4 * rows))
+    axes = np.atleast_1d(axes).reshape(-1)
+    for index in range(count):
+        with Image.open(result.processed_image_paths[index]) as image:
+            axes[index].imshow(image.convert("RGB"))
+        error = result.predictions[index] - result.targets[index]
+        axes[index].axis("off")
+        axes[index].set_title(
+            f"Target: {result.targets[index]:.2f}\n"
+            f"Prediction: {result.predictions[index]:.2f}\nError: {error:+.2f}"
+        )
+    for axis in axes[count:]:
+        axis.axis("off")
+    _save_figure(figure, path)
+
+
 def save_attention_examples(
     result: Predictions,
     path: Path,
@@ -270,6 +297,12 @@ def save_evaluation(
     )
     if config.output.save_plots:
         save_regression_plot(result, destination / "regression.png")
+        save_prediction_examples(
+            result,
+            destination / "prediction_examples.png",
+            config.output.example_images,
+            config.output.example_columns,
+        )
         save_attention_examples(
             result,
             destination / "attention_examples.png",
