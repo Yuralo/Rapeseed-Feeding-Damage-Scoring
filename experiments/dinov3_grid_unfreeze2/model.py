@@ -11,8 +11,28 @@ from transformers import AutoModel
 from .config import Config
 
 
-BLOCK_PATHS = ("encoder.layer", "encoder.layers", "layers", "layer", "blocks")
-NORM_PATHS = ("layernorm", "norm", "encoder.layernorm", "encoder.norm")
+BLOCK_PATHS = (
+    "model",
+    "model.layers",
+    "model.layer",
+    "model.blocks",
+    "model.encoder.layers",
+    "model.encoder.layer",
+    "encoder.layers",
+    "encoder.layer",
+    "layers",
+    "layer",
+    "blocks",
+)
+NORM_PATHS = (
+    "norm",
+    "layernorm",
+    "model.norm",
+    "model.layernorm",
+    "encoder.norm",
+    "encoder.layernorm",
+)
+BLOCK_CONTAINER_NAMES = {"blocks", "layer", "layers"}
 
 
 def _nested_module(root: nn.Module, path: str):
@@ -29,10 +49,34 @@ def _find_blocks(backbone: nn.Module) -> tuple[Sequence[nn.Module], str]:
         value = _nested_module(backbone, path)
         if isinstance(value, (nn.ModuleList, nn.Sequential, list, tuple)) and len(value):
             return value, path
+
+    # Transformers occasionally moves the encoder behind another wrapper. Only
+    # accept recursively found containers with conventional transformer-stack
+    # names so that we do not accidentally unfreeze an unrelated ModuleList.
+    candidates = []
+    for path, module in backbone.named_modules():
+        if (
+            path
+            and path.rsplit(".", 1)[-1] in BLOCK_CONTAINER_NAMES
+            and isinstance(module, (nn.ModuleList, nn.Sequential))
+            and len(module)
+        ):
+            candidates.append((module, path))
+    if len(candidates) == 1:
+        return candidates[0]
+    if candidates:
+        longest = max(len(module) for module, _ in candidates)
+        longest_candidates = [item for item in candidates if len(item[0]) == longest]
+        if len(longest_candidates) == 1:
+            return longest_candidates[0]
+
     children = ", ".join(name for name, _ in backbone.named_children()) or "<none>"
+    discovered = ", ".join(f"{path} ({len(module)})" for module, path in candidates)
+    candidate_message = discovered or "<none>"
     raise RuntimeError(
         "Could not locate the DINOv3 transformer blocks. "
-        f"Top-level modules are: {children}. Tried: {', '.join(BLOCK_PATHS)}"
+        f"Top-level modules are: {children}. Tried: {', '.join(BLOCK_PATHS)}. "
+        f"Recursively discovered block-like containers: {candidate_message}"
     )
 
 
