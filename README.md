@@ -22,6 +22,7 @@ experiments/
   dinov3_grid_unfreeze2/      # cached grid crops + final-two-block fine-tuning
   dinov3_grid_patch_attention/ # CLS + mean patches + learned patch attention
   dinov3_grid_lora/           # rank-8 q/v LoRA across all DINOv3 blocks
+  dinov3_grid_lora_patch_attention/ # all-block LoRA + gated patch pooling
 
 src/rapeseed_damage/          # deliberately small shared toolbox
   artifacts.py                # JSON, environment, and Git metadata
