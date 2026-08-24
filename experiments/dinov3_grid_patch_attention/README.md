@@ -45,10 +45,12 @@ python -m experiments.dinov3_grid_patch_attention.train \
   --from-scratch
 ```
 
-The inspection writes `preprocessing_inspection.png` and a JSON report under the clean output
-directory. It shows the source image, the old outer-grid warp, and the clean inset for samples
-across the target range. Confirm that every collector label is absent and that useful plant content
-remains. If labels remain, raise the inset in both clean configs and use a new cache/output name.
+The inspection writes one compact JPEG triptych per sample under the
+`preprocessing_inspection/` directory plus a JSON report. Each file shows the source image, old
+outer-grid warp, and clean inset. It deliberately does not create one enormous contact sheet, so
+the memory and file size stay bounded when inspecting many images. Confirm that every collector
+label is absent and that useful plant content remains. If labels remain, raise the inset in both
+clean configs and use a new cache/output name.
 For a formerly failing boundary image, add `--filename IMAGE_NAME.jpg` to audit that exact sample;
 the option can be repeated for several filenames.
 

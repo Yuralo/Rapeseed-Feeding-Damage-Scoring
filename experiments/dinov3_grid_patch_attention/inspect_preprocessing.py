@@ -30,11 +30,49 @@ def _representative_rows(table, config: Config, count: int):
     return ordered.iloc[positions].reset_index(drop=True)
 
 
+def _safe_stem(filename: str) -> str:
+    stem = Path(filename).stem
+    cleaned = "".join(
+        character if character.isalnum() or character in "-_" else "_"
+        for character in stem
+    )
+    return cleaned or "image"
+
+
+def _save_sample_inspection(
+    path: Path,
+    *,
+    original: Image.Image,
+    outer_crop: Image.Image,
+    clean_crop: Image.Image,
+    filename: str,
+    target: float,
+    margin: float,
+) -> None:
+    figure, axes = plt.subplots(1, 3, figsize=(12, 4), squeeze=False)
+    axes = axes[0]
+    for axis, image in zip(axes, (original, outer_crop, clean_crop), strict=True):
+        axis.imshow(image)
+        axis.axis("off")
+    axes[0].set_title(f"Source | {filename}\nTarget {target:.2f}")
+    axes[1].set_title("Old crop | outer grid corners")
+    axes[2].set_title(f"Clean crop | {100 * margin:.1f}% inset per edge")
+    figure.tight_layout()
+    figure.savefig(
+        path,
+        format="jpeg",
+        dpi=110,
+        bbox_inches="tight",
+        pil_kwargs={"quality": 88, "optimize": True},
+    )
+    plt.close(figure)
+
+
 def run(
     config: Config,
     *,
     count: int = 12,
-    output_path: str | Path | None = None,
+    output_dir: str | Path | None = None,
     filenames: list[str] | None = None,
 ) -> dict:
     if count < 1:
@@ -56,12 +94,13 @@ def run(
         selected = _representative_rows(table, config, count)
     run_dir = Path(config.output.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
-    destination = Path(output_path or run_dir / "preprocessing_inspection.png")
-    destination.parent.mkdir(parents=True, exist_ok=True)
+    inspection_dir = Path(output_dir or run_dir / "preprocessing_inspection")
+    inspection_dir.mkdir(parents=True, exist_ok=True)
     failure_log = run_dir / config.output.grid_failure_log
 
     records: list[dict] = []
-    panels: list[tuple[Image.Image, Image.Image, Image.Image, str, float]] = []
+    successful_samples = 0
+    margin = config.data.grid_inner_margin_fraction
     for selected_index, (_, row) in enumerate(selected.iterrows()):
         filename = str(row[config.data.filename_column])
         target = float(row[config.data.target_column])
@@ -81,7 +120,22 @@ def run(
                 size=config.data.grid_crop_size,
                 inner_margin_fraction=config.data.grid_inner_margin_fraction,
             )
-            panels.append((original, outer_crop, clean_crop, filename, target))
+            inspection_path = (
+                inspection_dir / f"{selected_index + 1:03d}_{_safe_stem(filename)}.jpg"
+            )
+            _save_sample_inspection(
+                inspection_path,
+                original=original,
+                outer_crop=outer_crop,
+                clean_crop=clean_crop,
+                filename=filename,
+                target=target,
+                margin=margin,
+            )
+            original.close()
+            outer_crop.close()
+            clean_crop.close()
+            successful_samples += 1
             records.append(
                 {
                     "filename": filename,
@@ -89,6 +143,7 @@ def run(
                     "source_image_path": str(source.resolve()),
                     "clean_crop_path": str(clean_path),
                     "clean_crop_created": was_created,
+                    "inspection_path": str(inspection_path.resolve()),
                     "status": "ok",
                 }
             )
@@ -111,38 +166,14 @@ def run(
                 }
             )
 
-    if panels:
-        figure, axes = plt.subplots(
-            len(panels),
-            3,
-            figsize=(14, 4.5 * len(panels)),
-            squeeze=False,
-        )
-        margin = config.data.grid_inner_margin_fraction
-        for row_index, (original, outer, clean, filename, target) in enumerate(panels):
-            for column, image in enumerate((original, outer, clean)):
-                axes[row_index, column].imshow(image)
-                axes[row_index, column].axis("off")
-            axes[row_index, 0].set_title(f"Source | {filename}\nTarget {target:.2f}")
-            axes[row_index, 1].set_title("Old crop | outer grid corners")
-            axes[row_index, 2].set_title(f"Clean crop | {100 * margin:.1f}% inset per edge")
-        figure.suptitle(
-            "Preprocessing audit: confirm collector labels are removed and plants remain",
-            fontsize=14,
-        )
-        figure.tight_layout(rect=(0, 0, 1, 0.995))
-        figure.savefig(destination, dpi=150, bbox_inches="tight")
-        plt.close(figure)
-
-    margin = config.data.grid_inner_margin_fraction
     report = {
         "requested_samples": len(selected),
-        "successful_samples": len(panels),
+        "successful_samples": successful_samples,
         "failed_samples": sum(record["status"] == "failed" for record in records),
         "cache_schema_version": CACHE_SCHEMA_VERSION,
         "grid_inner_margin_fraction": margin,
         "approximate_grid_area_retained_fraction": math.pow(1.0 - 2.0 * margin, 2),
-        "inspection_image": str(destination.resolve()) if panels else None,
+        "inspection_directory": str(inspection_dir.resolve()),
         "failure_log": str(failure_log.resolve()),
         "samples": records,
     }
@@ -160,12 +191,12 @@ def main(argv=None) -> None:
         dest="filenames",
         help="Audit a specific dataset filename; may be supplied more than once.",
     )
-    parser.add_argument("--output")
+    parser.add_argument("--output-dir", "--output", dest="output_dir")
     arguments = parser.parse_args(argv)
     report = run(
         load_config(arguments.config),
         count=arguments.count,
-        output_path=arguments.output,
+        output_dir=arguments.output_dir,
         filenames=arguments.filenames,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
