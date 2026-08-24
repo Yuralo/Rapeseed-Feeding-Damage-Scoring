@@ -73,6 +73,31 @@ python -m experiments.dinov3_grid_unfreeze2.evaluate \
 `predictions.csv` records both original and processed paths, and `prediction_examples.png` opens the
 processed cache directly. Training augmentation is never applied during validation or evaluation.
 
+## Raw-target comparison
+
+`config_raw_targets.toml` runs the same split, inputs, augmentation, model, optimizer, and seed but
+passes the original damage scores directly to MSE. It writes to a different output directory and
+shares the existing grid-crop cache:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.train \
+  --config experiments/dinov3_grid_unfreeze2/config_raw_targets.toml \
+  --from-scratch
+```
+
+Evaluate it with its own config and checkpoint:
+
+```bash
+python -m experiments.dinov3_grid_unfreeze2.evaluate \
+  --config experiments/dinov3_grid_unfreeze2/config_raw_targets.toml \
+  --checkpoint outputs/dinov3_grid_unfreeze2_raw_targets/best.pt
+```
+
+Do not resume a normalized checkpoint with this config or evaluate one with it; checkpoint
+validation deliberately rejects that mismatch. Compare MAE, RMSE, and R² directly between the two
+runs. `objective_mse` is in normalized units for the original config and raw squared-score units for
+this config, so its absolute value is not comparable between the runs.
+
 ## Interpreting the experiment
 
 The default config tests a small fine-tuning recipe, not only the effect of unfreezing blocks,

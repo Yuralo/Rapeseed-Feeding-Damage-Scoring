@@ -155,6 +155,12 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
         flush=True,
     )
     print(f"Grid crop cache: {Path(config.data.grid_cache_dir).resolve()}", flush=True)
+    target_mode = (
+        f"z-score (mean={target_scaler.mean:.4f}, std={target_scaler.std:.4f})"
+        if target_scaler.enabled
+        else "raw scores (identity transform)"
+    )
+    print(f"Target processing: {target_mode}", flush=True)
     print(
         f"Grid preprocessing failures: {run_dir / config.output.grid_failure_log}", flush=True
     )
@@ -253,15 +259,15 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
             result = predict(model, validation_loader, device, target_scaler, config)
             metrics = result.metrics()
             history["val_epochs"].append(epoch)
-            history["val_loss"].append(metrics["normalized_mse"])
+            history["val_loss"].append(metrics["objective_mse"])
             history["val_mae"].append(metrics["mae"])
             history["val_r2"].append(metrics["r2"])
             improved = (
-                metrics["normalized_mse"]
+                metrics["objective_mse"]
                 < best_loss - config.training.early_stopping_min_delta
             )
             if improved:
-                best_loss = metrics["normalized_mse"]
+                best_loss = metrics["objective_mse"]
                 evaluations_without_improvement = 0
             else:
                 evaluations_without_improvement += 1
@@ -291,7 +297,7 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
                 save_checkpoint(best_path, checkpoint)
                 best_saved = True
             message += (
-                f" | val {metrics['normalized_mse']:.5f}"
+                f" | val objective MSE {metrics['objective_mse']:.5f}"
                 f" | MAE {metrics['mae']:.3f} | R² {metrics['r2']:.3f}"
                 f" | patience {evaluations_without_improvement}/"
                 f"{config.training.early_stopping_patience}"

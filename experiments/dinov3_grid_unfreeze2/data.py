@@ -24,6 +24,8 @@ from .preprocessing import load_or_create_grid_crop, log_grid_failure
 class TargetScaler:
     mean: float
     std: float
+    enabled: bool = True
+    training_mean: float | None = None
 
     @classmethod
     def fit(cls, values: Sequence[float]) -> "TargetScaler":
@@ -31,13 +33,26 @@ class TargetScaler:
         mean, std = float(array.mean()), float(array.std())
         if not np.isfinite(std) or std <= 0:
             raise ValueError("Training targets must have a non-zero finite standard deviation")
-        return cls(mean, std)
+        return cls(mean, std, enabled=True, training_mean=mean)
+
+    @classmethod
+    def identity(cls, values: Sequence[float]) -> "TargetScaler":
+        array = np.asarray(values, dtype=np.float32)
+        if not len(array) or not np.isfinite(array).all():
+            raise ValueError("Training targets must be non-empty and finite")
+        return cls(0.0, 1.0, enabled=False, training_mean=float(array.mean()))
 
     def transform(self, values: Sequence[float]) -> np.ndarray:
-        return (np.asarray(values, dtype=np.float32) - self.mean) / self.std
+        array = np.asarray(values, dtype=np.float32)
+        return (array - self.mean) / self.std if self.enabled else array
 
     def inverse(self, values: Sequence[float]) -> np.ndarray:
-        return np.asarray(values, dtype=np.float32) * self.std + self.mean
+        array = np.asarray(values, dtype=np.float32)
+        return array * self.std + self.mean if self.enabled else array
+
+    @property
+    def baseline_mean(self) -> float:
+        return self.mean if self.training_mean is None else self.training_mean
 
 
 def image_path(config: Config, filename: str) -> Path:

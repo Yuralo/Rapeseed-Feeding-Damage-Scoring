@@ -17,11 +17,12 @@ def prepare_data(config: Config, checkpoint=None):
         training_filenames=(checkpoint or {}).get("training_filenames"),
         validation_filenames=(checkpoint or {}).get("validation_filenames"),
     )
-    scaler = (
-        scaler_from(checkpoint)
-        if checkpoint is not None
-        else TargetScaler.fit(train[config.data.target_column])
-    )
+    if checkpoint is not None:
+        scaler = scaler_from(checkpoint)
+    elif config.data.normalize_targets:
+        scaler = TargetScaler.fit(train[config.data.target_column])
+    else:
+        scaler = TargetScaler.identity(train[config.data.target_column])
     processor = AutoImageProcessor.from_pretrained(config.model.processor)
     train_loader, validation_loader = make_loaders(train, validation, scaler, processor, config)
     return table, train, validation, scaler, train_loader, validation_loader

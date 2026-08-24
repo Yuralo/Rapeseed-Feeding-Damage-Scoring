@@ -18,6 +18,24 @@ class GridUnfreezeTwoConfigTests(unittest.TestCase):
         self.assertEqual(config.training.batch_size, 8)
         self.assertEqual(config.training.gradient_accumulation_steps, 2)
         self.assertEqual(config.runtime.mixed_precision, "fp16")
+        self.assertTrue(config.data.normalize_targets)
+
+    def test_raw_target_comparison_config_disables_normalization(self):
+        raw_config = load_config(
+            "experiments/dinov3_grid_unfreeze2/config_raw_targets.toml"
+        )
+        normalized_config = load_config(
+            "experiments/dinov3_grid_unfreeze2/config.toml"
+        )
+
+        self.assertFalse(raw_config.data.normalize_targets)
+        self.assertEqual(
+            raw_config.output.run_dir, "outputs/dinov3_grid_unfreeze2_raw_targets"
+        )
+        self.assertEqual(raw_config.model, normalized_config.model)
+        self.assertEqual(raw_config.training, normalized_config.training)
+        self.assertEqual(raw_config.augmentation, normalized_config.augmentation)
+        self.assertEqual(raw_config.data.split_seed, normalized_config.data.split_seed)
 
     def test_invalid_mixed_precision_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:

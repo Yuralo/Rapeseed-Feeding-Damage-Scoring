@@ -29,18 +29,20 @@ def payload(
 ) -> dict[str, Any]:
     return {
         "experiment": EXPERIMENT_ID,
-        "checkpoint_version": 2,
+        "checkpoint_version": 3,
         "epoch": epoch,
         "model_state_dict": model.state_dict(),
         "optimizer_state_dict": optimizer.state_dict() if optimizer else None,
         "scheduler_state_dict": scheduler.state_dict() if scheduler else None,
         "grad_scaler_state_dict": grad_scaler.state_dict() if grad_scaler else None,
         "metrics": metrics,
-        "val_loss": metrics["normalized_mse"],
+        "val_loss": metrics["objective_mse"],
         "val_mae": metrics["mae"],
         "val_r2": metrics["r2"],
         "target_mean": scaler.mean,
         "target_std": scaler.std,
+        "target_training_mean": scaler.baseline_mean,
+        "targets_normalized": scaler.enabled,
         "training_filenames": training_filenames,
         "validation_filenames": validation_filenames,
         "history": history,
@@ -54,7 +56,17 @@ def payload(
 def scaler_from(state: dict[str, Any]) -> TargetScaler:
     if state.get("target_mean") is None or state.get("target_std") is None:
         raise ValueError("Checkpoint has no target normalization statistics")
-    return TargetScaler(float(state["target_mean"]), float(state["target_std"]))
+    saved_data = state.get("config", {}).get("data", {})
+    enabled = bool(
+        state.get("targets_normalized", saved_data.get("normalize_targets", True))
+    )
+    training_mean = float(state.get("target_training_mean", state["target_mean"]))
+    return TargetScaler(
+        float(state["target_mean"]),
+        float(state["target_std"]),
+        enabled=enabled,
+        training_mean=training_mean,
+    )
 
 
 def validate_for(state: dict[str, Any], config: Config) -> None:
@@ -64,6 +76,15 @@ def validate_for(state: dict[str, Any], config: Config) -> None:
         )
     if "model_state_dict" not in state:
         raise ValueError("Checkpoint has no model_state_dict")
+    saved_data = state.get("config", {}).get("data", {})
+    saved_normalization = bool(
+        state.get("targets_normalized", saved_data.get("normalize_targets", True))
+    )
+    if saved_normalization != config.data.normalize_targets:
+        raise ValueError(
+            "Checkpoint target-normalization mismatch: "
+            f"checkpoint={saved_normalization}, config={config.data.normalize_targets}"
+        )
     saved = state.get("config", {}).get("model", {})
     keys = (
         "backbone",

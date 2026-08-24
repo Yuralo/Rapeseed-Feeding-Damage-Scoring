@@ -1,4 +1,4 @@
-"""Inference and metrics for the normalized mean-score regression objective."""
+"""Inference and metrics for the configured mean-score regression objective."""
 
 from __future__ import annotations
 
@@ -20,13 +20,17 @@ class Predictions:
     filenames: list[str]
     source_image_paths: list[str]
     processed_image_paths: list[str]
-    normalized_mse: float
+    objective_mse: float
+    targets_normalized: bool
 
     def metrics(self) -> dict[str, float]:
-        return regression_metrics(self.targets, self.predictions, self.normalized_mse)
+        result = regression_metrics(self.targets, self.predictions, self.objective_mse)
+        if self.targets_normalized:
+            result["normalized_mse"] = self.objective_mse
+        return result
 
 
-def regression_metrics(targets, predictions, normalized_mse=None) -> dict[str, float]:
+def regression_metrics(targets, predictions, objective_mse=None) -> dict[str, float]:
     targets = np.asarray(targets, dtype=float).reshape(-1)
     predictions = np.asarray(predictions, dtype=float).reshape(-1)
     if len(targets) == 0 or targets.shape != predictions.shape:
@@ -36,8 +40,8 @@ def regression_metrics(targets, predictions, normalized_mse=None) -> dict[str, f
         "rmse": float(mean_squared_error(targets, predictions) ** 0.5),
         "r2": float(r2_score(targets, predictions)) if len(targets) > 1 else float("nan"),
     }
-    if normalized_mse is not None:
-        result["normalized_mse"] = float(normalized_mse)
+    if objective_mse is not None:
+        result["objective_mse"] = float(objective_mse)
     return result
 
 
@@ -70,7 +74,8 @@ def predict(model, loader, device, scaler: TargetScaler, config: Config) -> Pred
         filenames=filenames,
         source_image_paths=source_paths,
         processed_image_paths=processed_paths,
-        normalized_mse=squared_error / sample_count,
+        objective_mse=squared_error / sample_count,
+        targets_normalized=config.data.normalize_targets,
     )
 
 

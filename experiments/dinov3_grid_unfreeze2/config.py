@@ -25,6 +25,7 @@ class DataSettings:
     verify_images: bool = True
     grid_crop_size: int = 1400
     grid_cache_dir: str = "cache/grid_crops_1400"
+    normalize_targets: bool = True
 
 
 @dataclass(frozen=True)

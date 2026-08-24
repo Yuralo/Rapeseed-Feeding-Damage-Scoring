@@ -28,7 +28,7 @@ def save_history_plot(history, path: Path) -> None:
     axes = axes.reshape(-1)
     axes[0].plot(range(1, len(history["train_loss"]) + 1), history["train_loss"])
     axes[0].plot(history["val_epochs"], history["val_loss"], marker="o")
-    axes[0].set(xlabel="Epoch", ylabel="Normalized MSE", title="Loss")
+    axes[0].set(xlabel="Epoch", ylabel="Objective MSE", title="Loss")
     axes[1].plot(history["val_epochs"], history["val_mae"], marker="o", label="MAE")
     axes[1].plot(history["val_epochs"], history["val_r2"], marker="o", label="R²")
     axes[1].set(xlabel="Epoch", title="Validation metrics")
@@ -116,8 +116,14 @@ def save_evaluation(
     destination.mkdir(parents=True, exist_ok=True)
     report = {
         "model": result.metrics(),
-        "mean_baseline": mean_baseline(result.targets, scaler.mean),
+        "mean_baseline": mean_baseline(result.targets, scaler.baseline_mean),
         "samples": len(result.targets),
+        "target_processing": {
+            "normalized": scaler.enabled,
+            "training_mean": scaler.baseline_mean,
+            "transform_mean": scaler.mean,
+            "transform_std": scaler.std,
+        },
     }
     write_json(destination / "metrics.json", report)
     pd.DataFrame(
