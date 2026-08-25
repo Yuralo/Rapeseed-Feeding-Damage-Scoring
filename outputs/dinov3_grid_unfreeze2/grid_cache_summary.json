@@ -1,0 +1,10 @@
+{
+  "cache_dir": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400",
+  "created": 470,
+  "failed_filenames": [],
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_unfreeze2/grid_failures.jsonl",
+  "failures": 0,
+  "images": 470,
+  "reused": 0,
+  "seconds": 239.75457198894583
+}

@@ -1,0 +1,8 @@
+{
+  "attention_parameters": 65920,
+  "frozen_backbone_parameters_loaded_during_training": 0,
+  "frozen_feature_dimension": 1536,
+  "pooled_representations": "global+tile_mean+gated_tile_attention",
+  "total_parameters": 661121,
+  "trainable_parameters": 661121
+}

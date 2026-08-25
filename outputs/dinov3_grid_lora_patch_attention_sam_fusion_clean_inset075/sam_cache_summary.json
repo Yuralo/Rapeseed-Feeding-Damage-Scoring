@@ -1,0 +1,25 @@
+{
+  "created": 470,
+  "device": "cuda",
+  "failed_filenames": [],
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_failures.jsonl",
+  "failures": 0,
+  "foreground_fraction": {
+    "maximum": 0.05722448979591837,
+    "mean": 0.01929115284411637,
+    "median": 0.01821938775510204,
+    "minimum": 0.0009336734693877551
+  },
+  "images": 470,
+  "mask_cache_dir": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075",
+  "mask_threshold": 0.5,
+  "prompts": [
+    "green leaf"
+  ],
+  "reused": 0,
+  "sam_cache_schema_version": 1,
+  "sam_model": "facebook/sam3",
+  "score_threshold": 0.25,
+  "seconds": 277.74418753618374,
+  "valid_masks": 470
+}

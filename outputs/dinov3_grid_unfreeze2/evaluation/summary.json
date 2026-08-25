@@ -1,0 +1,17 @@
+{
+  "checkpoint": "outputs/dinov3_grid_unfreeze2/best.pt",
+  "device": "cuda",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 4.570589696749662,
+    "normalized_mse": 0.9312552901414725,
+    "r2": 0.191726490690733,
+    "rmse": 6.288441031226033
+  },
+  "samples": 156,
+  "validation_samples": 156
+}

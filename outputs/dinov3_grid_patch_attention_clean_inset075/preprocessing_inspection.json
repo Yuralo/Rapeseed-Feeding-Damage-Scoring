@@ -1,0 +1,912 @@
+{
+  "approximate_grid_area_retained_fraction": 0.7224999999999999,
+  "cache_schema_version": 3,
+  "failed_samples": 0,
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/grid_failures.jsonl",
+  "grid_inner_margin_fraction": 0.075,
+  "inspection_directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection",
+  "requested_samples": 100,
+  "samples": [
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125236_gridv3_86ef33c94031.jpg",
+      "filename": "20251021_125236",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/001_20251021_125236.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125236.jpg",
+      "status": "ok",
+      "target": 0.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155218_gridv3_5144467675de.jpg",
+      "filename": "20251021_155218",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/002_20251021_155218.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155218.jpg",
+      "status": "ok",
+      "target": 0.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155308_gridv3_04520e383698.jpg",
+      "filename": "20251021_155308",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/003_20251021_155308.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155308.jpg",
+      "status": "ok",
+      "target": 0.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121647_gridv3_1d5ea433992f.jpg",
+      "filename": "20251021_121647",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/004_20251021_121647.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121647.jpg",
+      "status": "ok",
+      "target": 1.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161150_gridv3_958ec8b939c0.jpg",
+      "filename": "20251021_161150",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/005_20251021_161150.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161150.jpg",
+      "status": "ok",
+      "target": 1.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155431_gridv3_ba42270ca7a0.jpg",
+      "filename": "20251021_155431",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/006_20251021_155431.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155431.jpg",
+      "status": "ok",
+      "target": 1.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161021_gridv3_170bf179e22a.jpg",
+      "filename": "20251021_161021",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/007_20251021_161021.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161021.jpg",
+      "status": "ok",
+      "target": 1.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131634_gridv3_f842eeafd881.jpg",
+      "filename": "20251021_131634",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/008_20251021_131634.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131634.jpg",
+      "status": "ok",
+      "target": 1.25
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_151533_gridv3_04afaca7d75c.jpg",
+      "filename": "20251021_151533",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/009_20251021_151533.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_151533.jpg",
+      "status": "ok",
+      "target": 1.5
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124030_gridv3_a2fcedf951c3.jpg",
+      "filename": "20251021_124030",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/010_20251021_124030.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124030.jpg",
+      "status": "ok",
+      "target": 1.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132444_gridv3_7a0011b76b21.jpg",
+      "filename": "20251021_132444",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/011_20251021_132444.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132444.jpg",
+      "status": "ok",
+      "target": 1.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125125_gridv3_405563302f5c.jpg",
+      "filename": "20251021_125125",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/012_20251021_125125.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125125.jpg",
+      "status": "ok",
+      "target": 1.55
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160549_gridv3_14ba57860b53.jpg",
+      "filename": "20251021_160549",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/013_20251021_160549.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160549.jpg",
+      "status": "ok",
+      "target": 1.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121827_gridv3_cc40032cba56.jpg",
+      "filename": "20251021_121827",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/014_20251021_121827.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121827.jpg",
+      "status": "ok",
+      "target": 1.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160233_gridv3_c4cc28473f04.jpg",
+      "filename": "20251021_160233",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/015_20251021_160233.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160233.jpg",
+      "status": "ok",
+      "target": 1.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_153602_gridv3_610742d9902c.jpg",
+      "filename": "20251021_153602",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/016_20251021_153602.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_153602.jpg",
+      "status": "ok",
+      "target": 2.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125148_gridv3_04d14401c25b.jpg",
+      "filename": "20251021_125148",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/017_20251021_125148.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125148.jpg",
+      "status": "ok",
+      "target": 2.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_163055_gridv3_d5db1928f61d.jpg",
+      "filename": "20251021_163055",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/018_20251021_163055.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_163055.jpg",
+      "status": "ok",
+      "target": 2.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162202_gridv3_261e9e2f5717.jpg",
+      "filename": "20251021_162202",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/019_20251021_162202.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162202.jpg",
+      "status": "ok",
+      "target": 2.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_151943_gridv3_938297c1a777.jpg",
+      "filename": "20251021_151943",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/020_20251021_151943.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_151943.jpg",
+      "status": "ok",
+      "target": 2.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132808_gridv3_930ce9e482dd.jpg",
+      "filename": "20251021_132808",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/021_20251021_132808.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132808.jpg",
+      "status": "ok",
+      "target": 2.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_123710_gridv3_ce23513cbd3f.jpg",
+      "filename": "20251021_123710",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/022_20251021_123710.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_123710.jpg",
+      "status": "ok",
+      "target": 2.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_152802_gridv3_7e8958a63ac8.jpg",
+      "filename": "20251021_152802",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/023_20251021_152802.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_152802.jpg",
+      "status": "ok",
+      "target": 2.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160837_gridv3_f35bdb856de3.jpg",
+      "filename": "20251021_160837",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/024_20251021_160837.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160837.jpg",
+      "status": "ok",
+      "target": 2.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132506_gridv3_1c802e014c89.jpg",
+      "filename": "20251021_132506",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/025_20251021_132506.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132506.jpg",
+      "status": "ok",
+      "target": 2.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_130913_gridv3_41225b0c2260.jpg",
+      "filename": "20251021_130913",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/026_20251021_130913.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_130913.jpg",
+      "status": "ok",
+      "target": 2.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162346_gridv3_f8f8bc971a03.jpg",
+      "filename": "20251021_162346",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/027_20251021_162346.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162346.jpg",
+      "status": "ok",
+      "target": 2.75
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_152528_gridv3_4f963467cb59.jpg",
+      "filename": "20251021_152528",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/028_20251021_152528.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_152528.jpg",
+      "status": "ok",
+      "target": 2.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125656_gridv3_5ade93d2dd73.jpg",
+      "filename": "20251021_125656",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/029_20251021_125656.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125656.jpg",
+      "status": "ok",
+      "target": 3.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131954_gridv3_5e98fc1bffc2.jpg",
+      "filename": "20251021_131954",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/030_20251021_131954.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131954.jpg",
+      "status": "ok",
+      "target": 3.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162121_gridv3_53274b04a836.jpg",
+      "filename": "20251021_162121",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/031_20251021_162121.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162121.jpg",
+      "status": "ok",
+      "target": 3.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162004_gridv3_067a78acbf91.jpg",
+      "filename": "20251021_162004",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/032_20251021_162004.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162004.jpg",
+      "status": "ok",
+      "target": 3.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121633_gridv3_faa95cff2abb.jpg",
+      "filename": "20251021_121633",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/033_20251021_121633.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121633.jpg",
+      "status": "ok",
+      "target": 3.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124852_gridv3_b6817cdce3d7.jpg",
+      "filename": "20251021_124852",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/034_20251021_124852.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124852.jpg",
+      "status": "ok",
+      "target": 3.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161924_gridv3_380c9d842e4d.jpg",
+      "filename": "20251021_161924",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/035_20251021_161924.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161924.jpg",
+      "status": "ok",
+      "target": 3.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_130704_gridv3_8dcdaf27ae90.jpg",
+      "filename": "20251021_130704",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/036_20251021_130704.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_130704.jpg",
+      "status": "ok",
+      "target": 3.5
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160240_gridv3_0e4fbd70e5e2.jpg",
+      "filename": "20251021_160240",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/037_20251021_160240.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160240.jpg",
+      "status": "ok",
+      "target": 3.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155505_gridv3_51fe5b034307.jpg",
+      "filename": "20251021_155505",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/038_20251021_155505.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155505.jpg",
+      "status": "ok",
+      "target": 3.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_151540_gridv3_787c875590b3.jpg",
+      "filename": "20251021_151540",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/039_20251021_151540.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_151540.jpg",
+      "status": "ok",
+      "target": 3.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132724_gridv3_9ea6ca3c9bd2.jpg",
+      "filename": "20251021_132724",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/040_20251021_132724.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132724.jpg",
+      "status": "ok",
+      "target": 4.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124920_gridv3_269d96bcf3de.jpg",
+      "filename": "20251021_124920",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/041_20251021_124920.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124920.jpg",
+      "status": "ok",
+      "target": 4.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161047_gridv3_b2e487fd689a.jpg",
+      "filename": "20251021_161047",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/042_20251021_161047.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161047.jpg",
+      "status": "ok",
+      "target": 4.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132117_gridv3_88ca91a8a390.jpg",
+      "filename": "20251021_132117",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/043_20251021_132117.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132117.jpg",
+      "status": "ok",
+      "target": 4.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132110_gridv3_c597e24b9e05.jpg",
+      "filename": "20251021_132110",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/044_20251021_132110.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132110.jpg",
+      "status": "ok",
+      "target": 4.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162057_gridv3_ea8a3abf52a7.jpg",
+      "filename": "20251021_162057",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/045_20251021_162057.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162057.jpg",
+      "status": "ok",
+      "target": 4.5
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155923_gridv3_228ba938c4cf.jpg",
+      "filename": "20251021_155923",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/046_20251021_155923.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155923.jpg",
+      "status": "ok",
+      "target": 4.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125600_gridv3_4c7dc1a4c163.jpg",
+      "filename": "20251021_125600",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/047_20251021_125600.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125600.jpg",
+      "status": "ok",
+      "target": 4.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161525_gridv3_dac334930121.jpg",
+      "filename": "20251021_161525",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/048_20251021_161525.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161525.jpg",
+      "status": "ok",
+      "target": 4.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162506_gridv3_38f8ea19eee9.jpg",
+      "filename": "20251021_162506",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/049_20251021_162506.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162506.jpg",
+      "status": "ok",
+      "target": 5.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_153843_gridv3_3fc7ec81a646.jpg",
+      "filename": "20251021_153843",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/050_20251021_153843.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_153843.jpg",
+      "status": "ok",
+      "target": 5.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132153_gridv3_df30977c8eac.jpg",
+      "filename": "20251021_132153",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/051_20251021_132153.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132153.jpg",
+      "status": "ok",
+      "target": 5.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_154716_gridv3_39c492de1c6d.jpg",
+      "filename": "20251021_154716",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/052_20251021_154716.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_154716.jpg",
+      "status": "ok",
+      "target": 5.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125545_gridv3_55bab0e43fb8.jpg",
+      "filename": "20251021_125545",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/053_20251021_125545.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125545.jpg",
+      "status": "ok",
+      "target": 5.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162807_gridv3_f900153e2ec1.jpg",
+      "filename": "20251021_162807",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/054_20251021_162807.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162807.jpg",
+      "status": "ok",
+      "target": 5.5
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160221_gridv3_8ecade61e6b4.jpg",
+      "filename": "20251021_160221",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/055_20251021_160221.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160221.jpg",
+      "status": "ok",
+      "target": 5.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162912_gridv3_e86aeed00229.jpg",
+      "filename": "20251021_162912",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/056_20251021_162912.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162912.jpg",
+      "status": "ok",
+      "target": 5.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131840_gridv3_cb17a9aa6fca.jpg",
+      "filename": "20251021_131840",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/057_20251021_131840.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131840.jpg",
+      "status": "ok",
+      "target": 6.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161731_gridv3_a08803601cf6.jpg",
+      "filename": "20251021_161731",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/058_20251021_161731.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_161731.jpg",
+      "status": "ok",
+      "target": 6.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155730_gridv3_839847d42650.jpg",
+      "filename": "20251021_155730",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/059_20251021_155730.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155730.jpg",
+      "status": "ok",
+      "target": 6.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125752_gridv3_c74f7377088f.jpg",
+      "filename": "20251021_125752",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/060_20251021_125752.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125752.jpg",
+      "status": "ok",
+      "target": 6.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_152015_gridv3_97c75a1d68db.jpg",
+      "filename": "20251021_152015",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/061_20251021_152015.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_152015.jpg",
+      "status": "ok",
+      "target": 7.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125346_gridv3_7e25d8fa57d0.jpg",
+      "filename": "20251021_125346",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/062_20251021_125346.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125346.jpg",
+      "status": "ok",
+      "target": 7.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131019_gridv3_d51903495c12.jpg",
+      "filename": "20251021_131019",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/063_20251021_131019.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131019.jpg",
+      "status": "ok",
+      "target": 7.25
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_152612_gridv3_3fcf43001ba4.jpg",
+      "filename": "20251021_152612",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/064_20251021_152612.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_152612.jpg",
+      "status": "ok",
+      "target": 7.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_130839_gridv3_c4f2c7567f51.jpg",
+      "filename": "20251021_130839",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/065_20251021_130839.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_130839.jpg",
+      "status": "ok",
+      "target": 7.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_153356_gridv3_881aaf5dee4a.jpg",
+      "filename": "20251021_153356",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/066_20251021_153356.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_153356.jpg",
+      "status": "ok",
+      "target": 7.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131948_gridv3_b512b5f2ac27.jpg",
+      "filename": "20251021_131948",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/067_20251021_131948.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131948.jpg",
+      "status": "ok",
+      "target": 8.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_151633_gridv3_fd61c52bcd7a.jpg",
+      "filename": "20251021_151633",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/068_20251021_151633.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_151633.jpg",
+      "status": "ok",
+      "target": 8.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_130642_gridv3_c3c863381eba.jpg",
+      "filename": "20251021_130642",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/069_20251021_130642.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_130642.jpg",
+      "status": "ok",
+      "target": 8.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162332_gridv3_57e1f8f6c2ea.jpg",
+      "filename": "20251021_162332",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/070_20251021_162332.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162332.jpg",
+      "status": "ok",
+      "target": 8.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160342_gridv3_42490fdcbf96.jpg",
+      "filename": "20251021_160342",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/071_20251021_160342.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_160342.jpg",
+      "status": "ok",
+      "target": 8.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155359_gridv3_a94e2beee69d.jpg",
+      "filename": "20251021_155359",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/072_20251021_155359.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155359.jpg",
+      "status": "ok",
+      "target": 9.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_123448_gridv3_6c44544c3464.jpg",
+      "filename": "20251021_123448",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/073_20251021_123448.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_123448.jpg",
+      "status": "ok",
+      "target": 9.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_152348_gridv3_4cba1250e1ef.jpg",
+      "filename": "20251021_152348",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/074_20251021_152348.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_152348.jpg",
+      "status": "ok",
+      "target": 9.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132417_gridv3_3ed351991c13.jpg",
+      "filename": "20251021_132417",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/075_20251021_132417.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_132417.jpg",
+      "status": "ok",
+      "target": 9.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155624_gridv3_1b0bcd087df4.jpg",
+      "filename": "20251021_155624",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/076_20251021_155624.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155624.jpg",
+      "status": "ok",
+      "target": 10.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155956_gridv3_741799467b71.jpg",
+      "filename": "20251021_155956",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/077_20251021_155956.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_155956.jpg",
+      "status": "ok",
+      "target": 10.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121120_gridv3_20e03d27f7ce.jpg",
+      "filename": "20251021_121120",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/078_20251021_121120.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121120.jpg",
+      "status": "ok",
+      "target": 11.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_154210_gridv3_1c9aacf3e898.jpg",
+      "filename": "20251021_154210",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/079_20251021_154210.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_154210.jpg",
+      "status": "ok",
+      "target": 11.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_122843_gridv3_b6cc079d1d0b.jpg",
+      "filename": "20251021_122843",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/080_20251021_122843.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_122843.jpg",
+      "status": "ok",
+      "target": 12.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121345_gridv3_fb8f1924845e.jpg",
+      "filename": "20251021_121345",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/081_20251021_121345.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121345.jpg",
+      "status": "ok",
+      "target": 13.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124741_gridv3_c9c3fc008eaf.jpg",
+      "filename": "20251021_124741",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/082_20251021_124741.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124741.jpg",
+      "status": "ok",
+      "target": 13.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_122628_gridv3_e128f11997c4.jpg",
+      "filename": "20251021_122628",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/083_20251021_122628.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_122628.jpg",
+      "status": "ok",
+      "target": 13.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_123915_gridv3_720755f73394.jpg",
+      "filename": "20251021_123915",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/084_20251021_123915.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_123915.jpg",
+      "status": "ok",
+      "target": 14.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_120905_gridv3_3ef6d7173848.jpg",
+      "filename": "20251021_120905",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/085_20251021_120905.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_120905.jpg",
+      "status": "ok",
+      "target": 14.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121218_gridv3_cc08d218b52d.jpg",
+      "filename": "20251021_121218",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/086_20251021_121218.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121218.jpg",
+      "status": "ok",
+      "target": 15.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_123237_gridv3_4294828559cc.jpg",
+      "filename": "20251021_123237",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/087_20251021_123237.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_123237.jpg",
+      "status": "ok",
+      "target": 15.25
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_133035_gridv3_afd65fafe8ad.jpg",
+      "filename": "20251021_133035",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/088_20251021_133035.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_133035.jpg",
+      "status": "ok",
+      "target": 15.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125309_gridv3_92e3685b7d8d.jpg",
+      "filename": "20251021_125309",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/089_20251021_125309.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_125309.jpg",
+      "status": "ok",
+      "target": 16.0
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162630_gridv3_b6e6b26ddaaa.jpg",
+      "filename": "20251021_162630",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/090_20251021_162630.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162630.jpg",
+      "status": "ok",
+      "target": 17.25
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121034_gridv3_e11538bb4a1b.jpg",
+      "filename": "20251021_121034",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/091_20251021_121034.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121034.jpg",
+      "status": "ok",
+      "target": 17.5
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121225_gridv3_bbd5ab8ff32b.jpg",
+      "filename": "20251021_121225",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/092_20251021_121225.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121225.jpg",
+      "status": "ok",
+      "target": 18.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162717_gridv3_03c5ee3cdaf2.jpg",
+      "filename": "20251021_162717",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/093_20251021_162717.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_162717.jpg",
+      "status": "ok",
+      "target": 19.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121655_gridv3_adb5d5b55e1a.jpg",
+      "filename": "20251021_121655",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/094_20251021_121655.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121655.jpg",
+      "status": "ok",
+      "target": 19.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124932_gridv3_43e67bafe93b.jpg",
+      "filename": "20251021_124932",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/095_20251021_124932.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124932.jpg",
+      "status": "ok",
+      "target": 20.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_124947_gridv3_c288e6a2f5b3.jpg",
+      "filename": "20251021_124947",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/096_20251021_124947.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_124947.jpg",
+      "status": "ok",
+      "target": 20.75
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121203_gridv3_e186b4fb824d.jpg",
+      "filename": "20251021_121203",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/097_20251021_121203.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121203.jpg",
+      "status": "ok",
+      "target": 22.25
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131440_gridv3_0ecce9a84fc9.jpg",
+      "filename": "20251021_131440",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/098_20251021_131440.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_131440.jpg",
+      "status": "ok",
+      "target": 26.5
+    },
+    {
+      "clean_crop_created": true,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_151843_gridv3_df30b23b462a.jpg",
+      "filename": "20251021_151843",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/099_20251021_151843.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_151843.jpg",
+      "status": "ok",
+      "target": 28.0
+    },
+    {
+      "clean_crop_created": false,
+      "clean_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121858_gridv3_d02e9dfb7d0a.jpg",
+      "filename": "20251021_121858",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_patch_attention_clean_inset075/preprocessing_inspection/100_20251021_121858.jpg",
+      "source_image_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/20251021_121858.jpg",
+      "status": "ok",
+      "target": 44.0
+    }
+  ],
+  "successful_samples": 100
+}

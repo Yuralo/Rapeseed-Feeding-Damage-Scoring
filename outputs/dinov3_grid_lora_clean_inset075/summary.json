@@ -1,0 +1,66 @@
+{
+  "best_checkpoint": "outputs/dinov3_grid_lora_clean_inset075/best.pt",
+  "completed_epochs": 20,
+  "device": "cuda",
+  "global_optimizer_steps": 397,
+  "last_checkpoint": "outputs/dinov3_grid_lora_clean_inset075/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 3.4673541402205443,
+    "normalized_mse": 0.5349956938089468,
+    "objective_mse": 0.5349956938089468,
+    "r2": 0.5356559560061118,
+    "rmse": 4.7663261814772095
+  },
+  "model_parameters": {
+    "adapter_parameters": 294912,
+    "block_path": "model.layer",
+    "final_norm_path": "norm",
+    "frozen_parameters": 85658880,
+    "pooled_representations": "cls+mean_patches",
+    "target_module_count": 24,
+    "target_module_names": [
+      "model.layer.0.attention.q_proj",
+      "model.layer.1.attention.q_proj",
+      "model.layer.2.attention.q_proj",
+      "model.layer.3.attention.q_proj",
+      "model.layer.4.attention.q_proj",
+      "model.layer.5.attention.q_proj",
+      "model.layer.6.attention.q_proj",
+      "model.layer.7.attention.q_proj",
+      "model.layer.8.attention.q_proj",
+      "model.layer.9.attention.q_proj",
+      "model.layer.10.attention.q_proj",
+      "model.layer.11.attention.q_proj",
+      "model.layer.0.attention.v_proj",
+      "model.layer.1.attention.v_proj",
+      "model.layer.2.attention.v_proj",
+      "model.layer.3.attention.v_proj",
+      "model.layer.4.attention.v_proj",
+      "model.layer.5.attention.v_proj",
+      "model.layer.6.attention.v_proj",
+      "model.layer.7.attention.v_proj",
+      "model.layer.8.attention.v_proj",
+      "model.layer.9.attention.v_proj",
+      "model.layer.10.attention.v_proj",
+      "model.layer.11.attention.v_proj"
+    ],
+    "total_parameters": 86352129,
+    "trainable_parameters": 693249,
+    "trainable_percentage": 0.8028163382051646
+  },
+  "samples": 156,
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}

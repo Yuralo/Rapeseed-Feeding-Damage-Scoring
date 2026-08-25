@@ -1,0 +1,42 @@
+[
+  {
+    "clusters": 0,
+    "embedding_dimension": 1536,
+    "images": 470,
+    "nearest_similarity_median": 0.9741499423980713,
+    "nearest_target_mae": 6.452021598815918,
+    "noise_fraction": 1.0,
+    "representation": "pretrained_raw_backbone",
+    "silhouette": null
+  },
+  {
+    "clusters": 2,
+    "embedding_dimension": 256,
+    "images": 470,
+    "nearest_similarity_median": 0.9934357404708862,
+    "nearest_target_mae": 5.3446807861328125,
+    "noise_fraction": 0.7446808510638298,
+    "representation": "baseline_trained_raw_head",
+    "silhouette": 0.5433804988861084
+  },
+  {
+    "clusters": 0,
+    "embedding_dimension": 1536,
+    "images": 470,
+    "nearest_similarity_median": 0.965442419052124,
+    "nearest_target_mae": 5.601914882659912,
+    "noise_fraction": 1.0,
+    "representation": "pretrained_grid_backbone",
+    "silhouette": null
+  },
+  {
+    "clusters": 2,
+    "embedding_dimension": 256,
+    "images": 470,
+    "nearest_similarity_median": 0.9896013140678406,
+    "nearest_target_mae": 4.853085041046143,
+    "noise_fraction": 0.5361702127659574,
+    "representation": "grid_trained_head",
+    "silhouette": 0.7271386384963989
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "checked": 470,
+  "failure_log": "outputs/dinvo3_grid_transformation/grid_failures.jsonl",
+  "failures": 0,
+  "successes": 470
+}

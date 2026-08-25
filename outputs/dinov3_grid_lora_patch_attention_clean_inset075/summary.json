@@ -1,0 +1,74 @@
+{
+  "attention": {
+    "maximum_normalized_entropy": 0.998372700693195,
+    "mean_normalized_entropy": 0.9900083588795753,
+    "mean_top_10_percent_mass": 0.19708907674663725,
+    "minimum_normalized_entropy": 0.9810043772184864,
+    "patches_per_image": 196
+  },
+  "best_checkpoint": "outputs/dinov3_grid_lora_patch_attention_clean_inset075/best.pt",
+  "completed_epochs": 24,
+  "device": "cuda",
+  "global_optimizer_steps": 477,
+  "last_checkpoint": "outputs/dinov3_grid_lora_patch_attention_clean_inset075/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 3.479017917926495,
+    "normalized_mse": 0.5339940855136285,
+    "objective_mse": 0.5339940855136285,
+    "r2": 0.5365252803543696,
+    "rmse": 4.7618624389312405
+  },
+  "model_parameters": {
+    "adapter_parameters": 294912,
+    "attention_parameters": 196992,
+    "block_path": "model.layer",
+    "final_norm_path": "norm",
+    "frozen_parameters": 85658880,
+    "pooled_representations": "cls+mean_patches+attention_patches",
+    "target_module_count": 24,
+    "target_module_names": [
+      "model.layer.0.attention.q_proj",
+      "model.layer.1.attention.q_proj",
+      "model.layer.2.attention.q_proj",
+      "model.layer.3.attention.q_proj",
+      "model.layer.4.attention.q_proj",
+      "model.layer.5.attention.q_proj",
+      "model.layer.6.attention.q_proj",
+      "model.layer.7.attention.q_proj",
+      "model.layer.8.attention.q_proj",
+      "model.layer.9.attention.q_proj",
+      "model.layer.10.attention.q_proj",
+      "model.layer.11.attention.q_proj",
+      "model.layer.0.attention.v_proj",
+      "model.layer.1.attention.v_proj",
+      "model.layer.2.attention.v_proj",
+      "model.layer.3.attention.v_proj",
+      "model.layer.4.attention.v_proj",
+      "model.layer.5.attention.v_proj",
+      "model.layer.6.attention.v_proj",
+      "model.layer.7.attention.v_proj",
+      "model.layer.8.attention.v_proj",
+      "model.layer.9.attention.v_proj",
+      "model.layer.10.attention.v_proj",
+      "model.layer.11.attention.v_proj"
+    ],
+    "total_parameters": 86747265,
+    "trainable_parameters": 1088385,
+    "trainable_percentage": 1.2546620345897936
+  },
+  "samples": 156,
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}

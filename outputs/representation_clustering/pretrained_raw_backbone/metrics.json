@@ -1,0 +1,9 @@
+{
+  "clusters": 0,
+  "embedding_dimension": 1536,
+  "images": 470,
+  "nearest_similarity_median": 0.9741499423980713,
+  "nearest_target_mae": 6.452021598815918,
+  "noise_fraction": 1.0,
+  "silhouette": null
+}

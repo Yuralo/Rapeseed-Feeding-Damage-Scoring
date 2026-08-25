@@ -1,0 +1,20 @@
+{
+  "mean_baseline": {
+    "mae": 5.23741831840613,
+    "r2": -5.181518019781173e-05,
+    "rmse": 6.994796306915503
+  },
+  "model": {
+    "mae": 4.597187998967293,
+    "objective_mse": 41.84475116240672,
+    "r2": 0.1447100539471562,
+    "rmse": 6.468752042997884
+  },
+  "samples": 156,
+  "target_processing": {
+    "normalized": false,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 0.0,
+    "transform_std": 1.0
+  }
+}

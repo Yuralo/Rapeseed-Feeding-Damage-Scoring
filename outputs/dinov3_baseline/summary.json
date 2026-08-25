@@ -1,0 +1,19 @@
+{
+  "best_checkpoint": "outputs/dinov3_baseline/best.pt",
+  "device": "cuda",
+  "last_checkpoint": "outputs/dinov3_baseline/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 5.096532428875948,
+    "normalized_mse": 1.0921009137080266,
+    "r2": 0.05212216280742832,
+    "rmse": 6.8098885535152816
+  },
+  "samples": 156,
+  "train_samples": 314,
+  "validation_samples": 156
+}

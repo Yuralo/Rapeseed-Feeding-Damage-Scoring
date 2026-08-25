@@ -1,0 +1,37 @@
+{
+  "best_checkpoint": "outputs/dinov3_grid_unfreeze4/best.pt",
+  "completed_epochs": 19,
+  "device": "cuda",
+  "global_optimizer_steps": 377,
+  "last_checkpoint": "outputs/dinov3_grid_unfreeze4/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 4.516427920414851,
+    "normalized_mse": 0.9552177435312516,
+    "objective_mse": 0.9552177435312516,
+    "r2": 0.1709285070387685,
+    "rmse": 6.3688322689229855
+  },
+  "model_parameters": {
+    "block_path": "model.layer",
+    "final_norm_path": "norm",
+    "frozen_parameters": 57304320,
+    "total_parameters": 86057217,
+    "trainable_parameters": 28752897,
+    "trainable_percentage": 33.411372110720244
+  },
+  "samples": 156,
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}

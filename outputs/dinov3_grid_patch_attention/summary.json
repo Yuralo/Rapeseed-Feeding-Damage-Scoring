@@ -1,0 +1,46 @@
+{
+  "attention": {
+    "maximum_normalized_entropy": 0.9983436402053201,
+    "mean_normalized_entropy": 0.9967817348938075,
+    "mean_top_10_percent_mass": 0.1506248587020076,
+    "minimum_normalized_entropy": 0.9935819451101853,
+    "patches_per_image": 196
+  },
+  "best_checkpoint": "outputs/dinov3_grid_patch_attention/best.pt",
+  "completed_epochs": 22,
+  "device": "cuda",
+  "global_optimizer_steps": 436,
+  "last_checkpoint": "outputs/dinov3_grid_patch_attention/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 4.715593195878542,
+    "normalized_mse": 0.9519158617044107,
+    "objective_mse": 0.9519158617044107,
+    "r2": 0.1737943529806063,
+    "rmse": 6.35781518984179
+  },
+  "model_parameters": {
+    "attention_parameters": 196992,
+    "block_path": "model.layer",
+    "final_norm_path": "norm",
+    "frozen_parameters": 71481600,
+    "pooled_representations": "cls+mean_patches+attention_patches",
+    "total_parameters": 86452353,
+    "trainable_parameters": 14970753,
+    "trainable_percentage": 17.316767537836707
+  },
+  "samples": 156,
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}

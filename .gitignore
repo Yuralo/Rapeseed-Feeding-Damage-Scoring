@@ -17,6 +17,7 @@ cache/
 
 # Keep experiment output folders in Git, but store model checkpoints elsewhere.
 *.pt
+*.npz
 *.pth
 
 # Editor and operating-system files

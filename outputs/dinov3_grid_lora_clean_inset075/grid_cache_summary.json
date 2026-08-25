@@ -1,0 +1,13 @@
+{
+  "cache_dir": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075",
+  "cache_schema_version": 3,
+  "created": 0,
+  "failed_filenames": [],
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_clean_inset075/grid_failures.jsonl",
+  "failures": 0,
+  "grid_crop_size": 1400,
+  "grid_inner_margin_fraction": 0.075,
+  "images": 470,
+  "reused": 470,
+  "seconds": 10.72437291406095
+}

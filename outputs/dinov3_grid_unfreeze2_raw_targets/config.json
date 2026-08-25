@@ -1,0 +1,66 @@
+{
+  "augmentation": {
+    "color_jitter_strength": 0.05,
+    "enabled": true,
+    "horizontal_flip_probability": 0.5,
+    "vertical_flip_probability": 0.5
+  },
+  "data": {
+    "dataset_dir": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set",
+    "filename_column": "Filename",
+    "grid_cache_dir": "cache/grid_crops_1400",
+    "grid_crop_size": 1400,
+    "image_extension": ".jpg",
+    "normalize_targets": false,
+    "scores_file": "RSFB-Phenotyping_training_set_scores.csv",
+    "split_seed": 42,
+    "target_column": "mean_score",
+    "validation_fraction": 0.33,
+    "verify_images": true
+  },
+  "experiment": {
+    "name": "dinov3_grid_unfreeze2_raw_targets"
+  },
+  "model": {
+    "backbone": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "dropout": 0.1,
+    "head_hidden_dim": 256,
+    "processor": "facebook/dinov3-vits16-pretrain-lvd1689m",
+    "unfreeze_final_norm": true,
+    "unfreeze_last_n_blocks": 2
+  },
+  "output": {
+    "best_checkpoint_name": "best.pt",
+    "example_columns": 4,
+    "example_images": 12,
+    "grid_failure_log": "grid_failures.jsonl",
+    "last_checkpoint_name": "last.pt",
+    "run_dir": "outputs/dinov3_grid_unfreeze2_raw_targets",
+    "save_plots": true
+  },
+  "runtime": {
+    "allow_tf32": true,
+    "deterministic": true,
+    "device": "auto",
+    "mixed_precision": "fp16",
+    "pin_memory": true,
+    "profile_first_n_epochs": 1
+  },
+  "training": {
+    "backbone_learning_rate": 1e-05,
+    "backbone_weight_decay": 0.01,
+    "batch_size": 8,
+    "early_stopping_min_delta": 0.0001,
+    "early_stopping_patience": 6,
+    "epochs": 30,
+    "eval_every": 1,
+    "gradient_accumulation_steps": 2,
+    "gradient_clip_norm": 1.0,
+    "head_learning_rate": 0.0003,
+    "head_weight_decay": 0.0001,
+    "minimum_learning_rate_ratio": 0.05,
+    "num_workers": 4,
+    "seed": 42,
+    "warmup_fraction": 0.1
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "failed_samples": 0,
+  "inspection_directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection",
+  "invalid_masks": 0,
+  "requested_samples": 24,
+  "samples": [
+    {
+      "filename": "20251021_125236",
+      "foreground_fraction": 0.0059612244897959184,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125236_gridv3_86ef33c94031.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/001_20251021_125236.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_125236_samv1_946dfc35b4db.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 0.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_161334",
+      "foreground_fraction": 0.023602551020408164,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161334_gridv3_980f1d3a46d9.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/002_20251021_161334.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_161334_samv1_99df135222f7.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 1.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_160922",
+      "foreground_fraction": 0.01435561224489796,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160922_gridv3_9f13b96d048d.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/003_20251021_160922.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_160922_samv1_b776f5d624df.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 1.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_122423",
+      "foreground_fraction": 0.025826020408163265,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_122423_gridv3_e44a3c931912.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/004_20251021_122423.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_122423_samv1_439225426db2.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 1.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_121704",
+      "foreground_fraction": 0.023751530612244897,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121704_gridv3_0f0d4c1e9758.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/005_20251021_121704.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_121704_samv1_7ccab1b12860.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 2.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_162409",
+      "foreground_fraction": 0.010707142857142858,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_162409_gridv3_9ac52869a9dc.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/006_20251021_162409.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_162409_samv1_907e1ab2ed63.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 2.4,
+      "valid": true
+    },
+    {
+      "filename": "20251021_161028",
+      "foreground_fraction": 0.0168015306122449,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161028_gridv3_6d57a83ae3ca.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/007_20251021_161028.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_161028_samv1_f9fb2073fbf2.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 2.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_161443",
+      "foreground_fraction": 0.014872959183673469,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_161443_gridv3_112e343a9f55.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/008_20251021_161443.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_161443_samv1_08c4c65ae010.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 3.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_153346",
+      "foreground_fraction": 0.012927551020408164,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_153346_gridv3_34b8ffc9c9ba.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/009_20251021_153346.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_153346_samv1_07d799974c5b.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 3.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_125011",
+      "foreground_fraction": 0.005103571428571429,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125011_gridv3_c3e3d48b98ae.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/010_20251021_125011.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_125011_samv1_233abe472d98.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 3.8,
+      "valid": true
+    },
+    {
+      "filename": "20251021_132110",
+      "foreground_fraction": 0.012575,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132110_gridv3_c597e24b9e05.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/011_20251021_132110.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_132110_samv1_8a96ec049bc6.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 4.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_155930",
+      "foreground_fraction": 0.03276020408163265,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155930_gridv3_34b622acfb4d.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/012_20251021_155930.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_155930_samv1_938904d12d28.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 4.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_125035",
+      "foreground_fraction": 0.012791836734693878,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125035_gridv3_35b73f785ac5.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/013_20251021_125035.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_125035_samv1_50b9ddf79c9a.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 5.25,
+      "valid": true
+    },
+    {
+      "filename": "20251021_131840",
+      "foreground_fraction": 0.023438775510204082,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_131840_gridv3_cb17a9aa6fca.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/014_20251021_131840.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_131840_samv1_2343ca48ecea.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 6.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_160412",
+      "foreground_fraction": 0.017069897959183674,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160412_gridv3_bb448398338f.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/015_20251021_160412.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_160412_samv1_6fbed3f0a5f8.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 7.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_160745",
+      "foreground_fraction": 0.020163775510204082,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160745_gridv3_36ff4330d68d.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/016_20251021_160745.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_160745_samv1_8c0ff4a62060.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 7.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_130752",
+      "foreground_fraction": 0.015556122448979592,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_130752_gridv3_e736b0ae810d.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/017_20251021_130752.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_130752_samv1_d4f6776e00bb.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 8.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_155718",
+      "foreground_fraction": 0.04232244897959184,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155718_gridv3_7a31b278581c.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/018_20251021_155718.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_155718_samv1_5d125af705d3.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 9.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_155541",
+      "foreground_fraction": 0.023092857142857144,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_155541_gridv3_9e2a542358b4.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/019_20251021_155541.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_155541_samv1_2ecb8ab278d2.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 11.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_160523",
+      "foreground_fraction": 0.025964285714285714,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_160523_gridv3_70838d004a1b.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/020_20251021_160523.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_160523_samv1_766ec6183f27.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 13.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_132849",
+      "foreground_fraction": 0.031569897959183676,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_132849_gridv3_8d5b8a755b94.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/021_20251021_132849.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_132849_samv1_7f9f6e988f4b.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 15.5,
+      "valid": true
+    },
+    {
+      "filename": "20251021_125552",
+      "foreground_fraction": 0.018167857142857142,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_125552_gridv3_bcc6d95be89d.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/022_20251021_125552.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_125552_samv1_f53cfc5f5b81.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 18.0,
+      "valid": true
+    },
+    {
+      "filename": "20251021_120933",
+      "foreground_fraction": 0.015271428571428571,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_120933_gridv3_80ab56d3c9bd.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/023_20251021_120933.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_120933_samv1_db925b4f50db.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 20.75,
+      "valid": true
+    },
+    {
+      "filename": "20251021_121858",
+      "foreground_fraction": 0.007959183673469388,
+      "grid_crop_path": "/home/user/tabbakhab1/dev/project/cache/grid_crops_1400_inset075/20251021_121858_gridv3_d02e9dfb7d0a.jpg",
+      "inspection_path": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_lora_patch_attention_sam_fusion_clean_inset075/sam_mask_inspection/024_20251021_121858.jpg",
+      "mask_path": "/home/user/tabbakhab1/dev/project/cache/sam3_masks_grid1400_inset075/20251021_121858_samv1_a808ac7e114f.png",
+      "quality_reasons": [],
+      "status": "ok",
+      "target": 44.0,
+      "valid": true
+    }
+  ],
+  "successful_samples": 24
+}

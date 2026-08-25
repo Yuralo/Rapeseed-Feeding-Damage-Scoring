@@ -1,0 +1,8 @@
+{
+  "block_path": "model.layer",
+  "final_norm_path": "norm",
+  "frozen_parameters": 71481600,
+  "total_parameters": 86057217,
+  "trainable_parameters": 14575617,
+  "trainable_percentage": 16.937123355964438
+}

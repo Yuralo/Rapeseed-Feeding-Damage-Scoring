@@ -1,0 +1,5 @@
+,pretrained_raw_backbone,baseline_trained_raw_head,pretrained_grid_backbone,grid_trained_head
+pretrained_raw_backbone,1.0,0.0,1.0,0.0
+baseline_trained_raw_head,0.0,1.0,0.0,0.04590409639617372
+pretrained_grid_backbone,1.0,0.0,1.0,0.0
+grid_trained_head,0.0,0.04590409639617372,0.0,1.0

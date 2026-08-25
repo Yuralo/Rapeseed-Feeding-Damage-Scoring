@@ -1,0 +1,10 @@
+{
+  "attention_parameters": 196992,
+  "block_path": "model.layer",
+  "final_norm_path": "norm",
+  "frozen_parameters": 71481600,
+  "pooled_representations": "cls+mean_patches+attention_patches",
+  "total_parameters": 86452353,
+  "trainable_parameters": 14970753,
+  "trainable_percentage": 17.316767537836707
+}
