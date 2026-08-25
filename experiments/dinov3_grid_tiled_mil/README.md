@@ -144,3 +144,21 @@ python -m experiments.dinov3_grid_tiled_mil.evaluate \
   --checkpoint outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mae.pt \
   --output-dir outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/evaluation_mae
 ```
+
+## 7. Run the 5×5 resolution control
+
+This changes only the 4×4 layout to twenty-five `350×350` tiles. The clean crop, split seed,
+frozen representation, small regularized head, optimizer, and target processing are unchanged.
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.prepare_features \
+  --config experiments/dinov3_grid_tiled_mil/config_5x5_small_regularized.toml
+
+python -m experiments.dinov3_grid_tiled_mil.train \
+  --config experiments/dinov3_grid_tiled_mil/config_5x5_small_regularized.toml \
+  --from-scratch
+```
+
+Results are written to
+`outputs/dinov3_grid_tiled_mil_5x5_small_regularized_clean_inset075/`, including separate
+best-MSE and best-MAE evaluations.
