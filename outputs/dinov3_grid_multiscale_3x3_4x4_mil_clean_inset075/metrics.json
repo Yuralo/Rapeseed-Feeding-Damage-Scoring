@@ -1,0 +1,39 @@
+{
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 2.570729613304138,
+    "normalized_mse": 0.3125800199997731,
+    "objective_mse": 0.3125800199997731,
+    "r2": 0.7286993796339576,
+    "rmse": 3.6432520129337025
+  },
+  "multiscale_attention": {
+    "coarse": {
+      "maximum_normalized_entropy": 0.9997090960407585,
+      "maximum_top_tile_mass": 0.2146957963705063,
+      "mean_normalized_entropy": 0.9943220424964571,
+      "mean_top_tile_mass": 0.14488856494426727,
+      "minimum_normalized_entropy": 0.9766857112810328,
+      "tiles_per_image": 9
+    },
+    "fine": {
+      "maximum_normalized_entropy": 0.9871590347743514,
+      "maximum_top_tile_mass": 0.5450330972671509,
+      "mean_normalized_entropy": 0.8526620624108531,
+      "mean_top_tile_mass": 0.24300682544708252,
+      "minimum_normalized_entropy": 0.6735001304096465,
+      "tiles_per_image": 16
+    }
+  },
+  "samples": 156,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  }
+}

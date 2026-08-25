@@ -1,0 +1,102 @@
+{
+  "best_checkpoint": "outputs/dinov3_grid_multiscale_3x3_4x4_mil_clean_inset075/best_mse.pt",
+  "best_mae_checkpoint": "outputs/dinov3_grid_multiscale_3x3_4x4_mil_clean_inset075/best_mae.pt",
+  "best_mae_evaluation": {
+    "checkpoint": "outputs/dinov3_grid_multiscale_3x3_4x4_mil_clean_inset075/best_mae.pt",
+    "mean_baseline": {
+      "mae": 5.237418306179536,
+      "r2": -5.181520553732e-05,
+      "rmse": 6.994796295240106
+    },
+    "model": {
+      "mae": 2.570729613304138,
+      "normalized_mse": 0.3125800199997731,
+      "objective_mse": 0.3125800199997731,
+      "r2": 0.7286993796339576,
+      "rmse": 3.6432520129337025
+    },
+    "multiscale_attention": {
+      "coarse": {
+        "maximum_normalized_entropy": 0.9997090960407585,
+        "maximum_top_tile_mass": 0.2146957963705063,
+        "mean_normalized_entropy": 0.9943220424964571,
+        "mean_top_tile_mass": 0.14488856494426727,
+        "minimum_normalized_entropy": 0.9766857112810328,
+        "tiles_per_image": 9
+      },
+      "fine": {
+        "maximum_normalized_entropy": 0.9871590347743514,
+        "maximum_top_tile_mass": 0.5450330972671509,
+        "mean_normalized_entropy": 0.8526620624108531,
+        "mean_top_tile_mass": 0.24300682544708252,
+        "minimum_normalized_entropy": 0.6735001304096465,
+        "tiles_per_image": 16
+      }
+    },
+    "samples": 156,
+    "selection_metric": "mae",
+    "target_processing": {
+      "normalized": true,
+      "training_mean": 7.404458522796631,
+      "transform_mean": 7.404458522796631,
+      "transform_std": 6.51641321182251
+    }
+  },
+  "best_mse_checkpoint": "outputs/dinov3_grid_multiscale_3x3_4x4_mil_clean_inset075/best_mse.pt",
+  "completed_epochs": 35,
+  "device": "cuda",
+  "feature_dim": 1536,
+  "global_optimizer_steps": 350,
+  "last_checkpoint": "outputs/dinov3_grid_multiscale_3x3_4x4_mil_clean_inset075/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 2.570729613304138,
+    "normalized_mse": 0.3125800199997731,
+    "objective_mse": 0.3125800199997731,
+    "r2": 0.7286993796339576,
+    "rmse": 3.6432520129337025
+  },
+  "model_parameters": {
+    "attention_parameters": 33152,
+    "coarse_tiles_per_image": 9,
+    "fine_tiles_per_image": 16,
+    "frozen_backbone_parameters_loaded_during_training": 0,
+    "frozen_feature_dimension": 1536,
+    "pooled_representations": "global+coarse_mean+coarse_attention+fine_mean+fine_attention",
+    "total_parameters": 316417,
+    "trainable_parameters": 316417
+  },
+  "multiscale_attention": {
+    "coarse": {
+      "maximum_normalized_entropy": 0.9997090960407585,
+      "maximum_top_tile_mass": 0.2146957963705063,
+      "mean_normalized_entropy": 0.9943220424964571,
+      "mean_top_tile_mass": 0.14488856494426727,
+      "minimum_normalized_entropy": 0.9766857112810328,
+      "tiles_per_image": 9
+    },
+    "fine": {
+      "maximum_normalized_entropy": 0.9871590347743514,
+      "maximum_top_tile_mass": 0.5450330972671509,
+      "mean_normalized_entropy": 0.8526620624108531,
+      "mean_top_tile_mass": 0.24300682544708252,
+      "minimum_normalized_entropy": 0.6735001304096465,
+      "tiles_per_image": 16
+    }
+  },
+  "samples": 156,
+  "selection_metric": "objective_mse",
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}
