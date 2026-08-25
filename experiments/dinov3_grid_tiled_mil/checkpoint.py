@@ -24,6 +24,7 @@ def payload(
     validation_filenames: list[str],
     history: dict[str, Any],
     best_validation_loss: float,
+    best_validation_mae: float,
     training_state: dict[str, Any],
     environment: dict[str, Any],
 ) -> dict[str, Any]:
@@ -47,6 +48,7 @@ def payload(
         "validation_filenames": validation_filenames,
         "history": history,
         "best_validation_loss": best_validation_loss,
+        "best_validation_mae": best_validation_mae,
         "training_state": training_state,
         "config": config.to_dict(),
         "environment": environment,

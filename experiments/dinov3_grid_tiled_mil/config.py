@@ -87,6 +87,7 @@ class RuntimeSettings:
 class OutputSettings:
     run_dir: str = "outputs/dinov3_grid_tiled_mil_clean_inset075"
     best_checkpoint_name: str = "best.pt"
+    best_mae_checkpoint_name: str = "best_mae.pt"
     last_checkpoint_name: str = "last.pt"
     save_plots: bool = True
     example_images: int = 12
@@ -165,6 +166,15 @@ class Config:
             raise ValueError("output example settings are invalid")
         if self.output.attention_inspection_images < 1:
             raise ValueError("output.attention_inspection_images must be positive")
+        checkpoint_names = (
+            self.output.best_checkpoint_name,
+            self.output.best_mae_checkpoint_name,
+            self.output.last_checkpoint_name,
+        )
+        if any(not name.strip() for name in checkpoint_names):
+            raise ValueError("output checkpoint names cannot be empty")
+        if len(set(checkpoint_names)) != len(checkpoint_names):
+            raise ValueError("output checkpoint names must be distinct")
 
 
 SettingsType = TypeVar("SettingsType")

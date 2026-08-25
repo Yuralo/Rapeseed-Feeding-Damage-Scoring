@@ -69,6 +69,12 @@ python -m experiments.dinov3_grid_tiled_mil.train \
 Only the small MIL head is trained. Targets use the training split's mean and standard deviation,
 and the checkpoint stores the exact filename split and scaler.
 
+Training independently saves the checkpoint with the lowest normalized validation MSE and the
+checkpoint with the lowest validation MAE. `best_checkpoint_name` is the MSE checkpoint for
+backward compatibility; `best_mae_checkpoint_name` is the MAE checkpoint. Early stopping remains
+based on MSE. Root-level evaluation artifacts use the MSE checkpoint, while
+`best_mae_evaluation/` contains a complete evaluation of the MAE checkpoint.
+
 ## 4. Evaluate
 
 ```bash
@@ -102,3 +108,39 @@ interval for mean absolute-error reduction. A positive reduction favors tiled MI
 tiny aggregate difference like 0.009 MAE as a meaningful improvement when the interval contains
 zero.
 
+## 6. Run the 4×4 small-regularized experiment
+
+The controlled next experiment changes the nine `560×560` tiles to sixteen approximately
+`431×431` tiles while retaining the global view and the small regularized MIL head. It uses a
+separate feature cache and saves explicit `best_mse.pt` and `best_mae.pt` files.
+
+Create the new frozen features:
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.prepare_features \
+  --config experiments/dinov3_grid_tiled_mil/config_4x4_small_regularized.toml
+```
+
+Train:
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.train \
+  --config experiments/dinov3_grid_tiled_mil/config_4x4_small_regularized.toml \
+  --from-scratch
+```
+
+Evaluate either selected checkpoint explicitly:
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.evaluate \
+  --config experiments/dinov3_grid_tiled_mil/config_4x4_small_regularized.toml \
+  --checkpoint outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mse.pt \
+  --output-dir outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/evaluation_mse
+```
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.evaluate \
+  --config experiments/dinov3_grid_tiled_mil/config_4x4_small_regularized.toml \
+  --checkpoint outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mae.pt \
+  --output-dir outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/evaluation_mae
+```

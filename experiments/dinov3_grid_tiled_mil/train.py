@@ -62,7 +62,8 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
     optimizer = make_optimizer(model, config)
     scheduler, total_steps, warmup_steps = make_scheduler(optimizer, config, len(train_loader))
 
-    start_epoch, history, best_loss = 1, empty_history(), float("inf")
+    start_epoch, history = 1, empty_history()
+    best_loss, best_mae = float("inf"), float("inf")
     global_step, evaluations_without_improvement = 0, 0
     if state:
         model.load_state_dict(state["model_state_dict"])
@@ -73,6 +74,13 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
         start_epoch = int(state.get("epoch", 0)) + 1
         history = restore_history(state)
         best_loss = float(state.get("best_validation_loss", state.get("val_loss", best_loss)))
+        saved_best_mae = state.get("best_validation_mae")
+        if saved_best_mae is not None:
+            best_mae = float(saved_best_mae)
+        elif history["val_mae"]:
+            best_mae = float(min(history["val_mae"]))
+        elif state.get("metrics", {}).get("mae") is not None:
+            best_mae = float(state["metrics"]["mae"])
         training_state = state.get("training_state") or {}
         global_step = int(training_state.get("global_step", 0))
         evaluations_without_improvement = int(
@@ -108,7 +116,8 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
 
     train_names = train[config.data.filename_column].astype(str).tolist()
     validation_names = validation[config.data.filename_column].astype(str).tolist()
-    best_path = run_dir / config.output.best_checkpoint_name
+    best_mse_path = run_dir / config.output.best_checkpoint_name
+    best_mae_path = run_dir / config.output.best_mae_checkpoint_name
     last_path = run_dir / config.output.last_checkpoint_name
     stopped_early = False
 
@@ -150,14 +159,17 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
             history["val_r2"].append(metrics["r2"])
             history["val_attention_entropy"].append(attention["mean_normalized_entropy"])
             history["val_top_tile_mass"].append(attention["mean_top_tile_mass"])
-            improved = (
+            improved_mse = (
                 metrics["objective_mse"] < best_loss - config.training.early_stopping_min_delta
             )
-            if improved:
+            improved_mae = metrics["mae"] < best_mae
+            if improved_mse:
                 best_loss = metrics["objective_mse"]
                 evaluations_without_improvement = 0
             else:
                 evaluations_without_improvement += 1
+            if improved_mae:
+                best_mae = metrics["mae"]
             stopped_early = (
                 evaluations_without_improvement >= config.training.early_stopping_patience
             )
@@ -174,6 +186,7 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
                 validation_filenames=validation_names,
                 history=history,
                 best_validation_loss=best_loss,
+                best_validation_mae=best_mae,
                 training_state={
                     "global_step": global_step,
                     "evaluations_without_improvement": evaluations_without_improvement,
@@ -182,38 +195,79 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
                 environment=environment,
             )
             save_checkpoint(last_path, checkpoint)
-            if improved:
-                save_checkpoint(best_path, checkpoint)
+            if improved_mse:
+                save_checkpoint(best_mse_path, checkpoint)
+            if improved_mae:
+                save_checkpoint(best_mae_path, checkpoint)
             message += (
                 f" | val {metrics['objective_mse']:.5f} | MAE {metrics['mae']:.3f} | "
                 f"R² {metrics['r2']:.3f} | tile H {attention['mean_normalized_entropy']:.3f} | "
                 f"top {attention['mean_top_tile_mass']:.3f} | patience "
                 f"{evaluations_without_improvement}/{config.training.early_stopping_patience}"
             )
+            if improved_mse:
+                message += " | saved best MSE"
+            if improved_mae:
+                message += " | saved best MAE"
         print(message, flush=True)
         write_json(run_dir / "history.json", history)
         if config.output.save_plots:
             save_history_plot(history, run_dir / "training_history.png")
         if stopped_early:
-            print(f"Early stopping after epoch {epoch}; best val loss {best_loss:.5f}", flush=True)
+            print(
+                f"Early stopping after epoch {epoch}; best val loss {best_loss:.5f}; "
+                f"best validation MAE {best_mae:.3f}",
+                flush=True,
+            )
             break
 
-    previous_best = Path(resume).parent / config.output.best_checkpoint_name if resume else None
-    if best_path.is_file():
-        evaluation_checkpoint = best_path
-    elif previous_best is not None and previous_best.is_file():
-        evaluation_checkpoint = previous_best
+    previous_dir = Path(resume).parent if resume else None
+    previous_best_mse = previous_dir / config.output.best_checkpoint_name if previous_dir else None
+    previous_best_mae = (
+        previous_dir / config.output.best_mae_checkpoint_name if previous_dir else None
+    )
+    if best_mse_path.is_file():
+        mse_checkpoint = best_mse_path
+    elif previous_best_mse is not None and previous_best_mse.is_file():
+        mse_checkpoint = previous_best_mse
     else:
-        raise RuntimeError("Training did not produce a best checkpoint")
-    best_state = load_checkpoint(evaluation_checkpoint, device)
-    validate_for(best_state, config, feature_dim)
-    model.load_state_dict(best_state["model_state_dict"])
+        raise RuntimeError("Training did not produce a best-MSE checkpoint")
+    if best_mae_path.is_file():
+        mae_checkpoint = best_mae_path
+    elif previous_best_mae is not None and previous_best_mae.is_file():
+        mae_checkpoint = previous_best_mae
+    else:
+        print(
+            "No separate best-MAE checkpoint exists (likely a legacy resume); "
+            "using the best-MSE checkpoint for both reports.",
+            flush=True,
+        )
+        mae_checkpoint = mse_checkpoint
+
+    mse_state = load_checkpoint(mse_checkpoint, device)
+    validate_for(mse_state, config, feature_dim)
+    model.load_state_dict(mse_state["model_state_dict"])
     report = save_evaluation(
         predict(model, validation_loader, device, scaler), scaler, run_dir, config
     )
+
+    mae_state = load_checkpoint(mae_checkpoint, device)
+    validate_for(mae_state, config, feature_dim)
+    model.load_state_dict(mae_state["model_state_dict"])
+    mae_destination = run_dir / "best_mae_evaluation"
+    mae_report = save_evaluation(
+        predict(model, validation_loader, device, scaler), scaler, mae_destination, config
+    )
+    mae_report.update({"checkpoint": str(mae_checkpoint), "selection_metric": "mae"})
+    write_json(mae_destination / "summary.json", mae_report)
+
     report.update(
         {
-            "best_checkpoint": str(evaluation_checkpoint),
+            "selection_metric": "objective_mse",
+            "best_checkpoint": str(mse_checkpoint),
+            "best_mse_checkpoint": str(mse_checkpoint),
+            "best_mae_checkpoint": str(mae_checkpoint),
+            "best_mae_evaluation": mae_report,
             "last_checkpoint": str(last_path if last_path.is_file() else resume),
             "train_samples": len(train),
             "validation_samples": len(validation),

@@ -1,8 +1,8 @@
 [experiment]
-name = "dinov3_grid_tiled_mil_clean_inset075"
+name = "dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075"
 
 [data]
-# Change this path on the machine containing the labeled data set.
+# Same data, clean inset preprocessing, and split as the 2.811-MAE 3x3 run.
 dataset_dir = "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set"
 scores_file = "RSFB-Phenotyping_training_set_scores.csv"
 filename_column = "Filename"
@@ -17,8 +17,9 @@ grid_inner_margin_fraction = 0.075
 normalize_targets = true
 
 [tiles]
-rows = 3
-columns = 3
+# On a 1400px crop this produces sixteen approximately 431x431 tiles.
+rows = 4
+columns = 4
 overlap_fraction = 0.25
 include_global_view = true
 
@@ -26,18 +27,19 @@ include_global_view = true
 backbone = "facebook/dinov3-vitb16-pretrain-lvd1689m"
 processor = "facebook/dinov3-vits16-pretrain-lvd1689m"
 representation = "cls_mean"
-cache_dir = "cache/dinov3_grid_tiled_mil_features"
+# Separate from the 3x3 cache because every image now has sixteen tiles.
+cache_dir = "cache/dinov3_grid_tiled_mil_features_4x4"
 storage_dtype = "float16"
 extraction_batch_size = 16
 overwrite = false
 
 [model]
-projection_dim = 256
-attention_hidden_dim = 128
+projection_dim = 128
+attention_hidden_dim = 64
 attention_dropout = 0.1
 attention_temperature = 1.0
-head_hidden_dim = 256
-dropout = 0.2
+head_hidden_dim = 128
+dropout = 0.35
 
 [training]
 epochs = 100
@@ -45,7 +47,7 @@ eval_every = 1
 batch_size = 32
 num_workers = 4
 learning_rate = 0.001
-weight_decay = 0.0001
+weight_decay = 0.001
 warmup_fraction = 0.1
 minimum_learning_rate_ratio = 0.05
 gradient_clip_norm = 1.0
@@ -61,8 +63,8 @@ mixed_precision = "fp16"
 allow_tf32 = true
 
 [output]
-run_dir = "outputs/dinov3_grid_tiled_mil_clean_inset075"
-best_checkpoint_name = "best.pt"
+run_dir = "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075"
+best_checkpoint_name = "best_mse.pt"
 best_mae_checkpoint_name = "best_mae.pt"
 last_checkpoint_name = "last.pt"
 save_plots = true
