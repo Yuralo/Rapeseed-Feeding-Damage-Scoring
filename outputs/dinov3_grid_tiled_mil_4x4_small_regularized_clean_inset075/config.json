@@ -1,0 +1,76 @@
+{
+  "data": {
+    "dataset_dir": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set",
+    "filename_column": "Filename",
+    "grid_cache_dir": "cache/grid_crops_1400_inset075",
+    "grid_crop_size": 1400,
+    "grid_inner_margin_fraction": 0.075,
+    "image_extension": ".jpg",
+    "normalize_targets": true,
+    "scores_file": "RSFB-Phenotyping_training_set_scores.csv",
+    "split_seed": 42,
+    "target_column": "mean_score",
+    "validation_fraction": 0.33,
+    "verify_images": true
+  },
+  "experiment": {
+    "name": "dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075"
+  },
+  "features": {
+    "backbone": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "cache_dir": "cache/dinov3_grid_tiled_mil_features_4x4",
+    "extraction_batch_size": 16,
+    "overwrite": false,
+    "processor": "facebook/dinov3-vits16-pretrain-lvd1689m",
+    "representation": "cls_mean",
+    "storage_dtype": "float16"
+  },
+  "model": {
+    "attention_dropout": 0.1,
+    "attention_hidden_dim": 64,
+    "attention_temperature": 1.0,
+    "dropout": 0.35,
+    "head_hidden_dim": 128,
+    "projection_dim": 128
+  },
+  "output": {
+    "attention_arrays_name": "tile_attention.npz",
+    "attention_inspection_images": 6,
+    "best_checkpoint_name": "best_mse.pt",
+    "best_mae_checkpoint_name": "best_mae.pt",
+    "example_columns": 4,
+    "example_images": 12,
+    "feature_failure_log": "feature_failures.jsonl",
+    "grid_failure_log": "grid_failures.jsonl",
+    "last_checkpoint_name": "last.pt",
+    "run_dir": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075",
+    "save_plots": true
+  },
+  "runtime": {
+    "allow_tf32": true,
+    "deterministic": true,
+    "device": "auto",
+    "mixed_precision": "fp16",
+    "pin_memory": true
+  },
+  "tiles": {
+    "columns": 4,
+    "include_global_view": true,
+    "overlap_fraction": 0.25,
+    "rows": 4
+  },
+  "training": {
+    "batch_size": 32,
+    "early_stopping_min_delta": 0.0001,
+    "early_stopping_patience": 12,
+    "epochs": 100,
+    "eval_every": 1,
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.001,
+    "minimum_learning_rate_ratio": 0.05,
+    "num_workers": 4,
+    "seed": 42,
+    "warmup_fraction": 0.1,
+    "weight_decay": 0.001
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "best_checkpoint": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mse.pt",
+  "best_mae_checkpoint": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mae.pt",
+  "best_mae_evaluation": {
+    "checkpoint": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mae.pt",
+    "mean_baseline": {
+      "mae": 5.237418306179536,
+      "r2": -5.181520553732e-05,
+      "rmse": 6.994796295240106
+    },
+    "model": {
+      "mae": 2.633925829178248,
+      "normalized_mse": 0.35666844172355455,
+      "objective_mse": 0.35666844172355455,
+      "r2": 0.6904332747916162,
+      "rmse": 3.891714357442803
+    },
+    "samples": 156,
+    "selection_metric": "mae",
+    "target_processing": {
+      "normalized": true,
+      "training_mean": 7.404458522796631,
+      "transform_mean": 7.404458522796631,
+      "transform_std": 6.51641321182251
+    },
+    "tile_attention": {
+      "maximum_normalized_entropy": 0.9470900729054057,
+      "maximum_top_tile_mass": 0.5574644804000854,
+      "mean_normalized_entropy": 0.8010137140472314,
+      "mean_top_tile_mass": 0.25659143924713135,
+      "minimum_normalized_entropy": 0.5922283528705107,
+      "tiles_per_image": 16
+    }
+  },
+  "best_mse_checkpoint": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/best_mse.pt",
+  "completed_epochs": 32,
+  "device": "cuda",
+  "feature_dim": 1536,
+  "global_optimizer_steps": 320,
+  "last_checkpoint": "outputs/dinov3_grid_tiled_mil_4x4_small_regularized_clean_inset075/last.pt",
+  "mean_baseline": {
+    "mae": 5.237418306179536,
+    "r2": -5.181520553732e-05,
+    "rmse": 6.994796295240106
+  },
+  "model": {
+    "mae": 2.7264993496430225,
+    "normalized_mse": 0.331194553619776,
+    "objective_mse": 0.331194553619776,
+    "r2": 0.7125430610643809,
+    "rmse": 3.750163636731075
+  },
+  "model_parameters": {
+    "attention_parameters": 16576,
+    "frozen_backbone_parameters_loaded_during_training": 0,
+    "frozen_feature_dimension": 1536,
+    "pooled_representations": "global+tile_mean+gated_tile_attention",
+    "total_parameters": 266561,
+    "trainable_parameters": 266561
+  },
+  "samples": 156,
+  "selection_metric": "objective_mse",
+  "stopped_early": true,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.404458522796631,
+    "transform_mean": 7.404458522796631,
+    "transform_std": 6.51641321182251
+  },
+  "tile_attention": {
+    "maximum_normalized_entropy": 0.9488152848535721,
+    "maximum_top_tile_mass": 0.5034390091896057,
+    "mean_normalized_entropy": 0.8086823831145313,
+    "mean_top_tile_mass": 0.23760002851486206,
+    "minimum_normalized_entropy": 0.6388391010563097,
+    "tiles_per_image": 16
+  },
+  "train_samples": 314,
+  "validation_samples": 156
+}
