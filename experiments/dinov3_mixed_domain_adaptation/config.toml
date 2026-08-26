@@ -1,0 +1,82 @@
+[experiment]
+name = "dinov3_mixed_domain_adaptation"
+
+[data]
+manifest = "outputs/dataset_manifests/adaptation.csv"
+prepared_manifest = "outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv"
+absolute_path_column = "absolute_path"
+filename_column = "file_name"
+id_column = "image_id"
+cohort_column = "cohort_id"
+timestamp_pattern = '^\d{8}_\d{6}\.(?:jpg|jpeg)$'
+raw_pattern = '^IMG_.*\.(?:jpg|jpeg)$'
+verify_images = true
+grid_crop_size = 1400
+grid_cache_dir = "cache/adaptation_grid_crops_1400_inset075"
+grid_inner_margin_fraction = 0.075
+validation_fraction = 0.10
+split_seed = 42
+
+[crops]
+# One high-resolution local crop is selected, then augmented into two views.
+minimum_scale = 0.35
+maximum_scale = 0.75
+# Candidate crops containing the bright collector card are rejected when possible.
+label_overlap_limit = 0.02
+candidate_attempts = 24
+preview_crops_per_image = 4
+
+[augmentation]
+horizontal_flip_probability = 0.5
+vertical_flip_probability = 0.5
+color_jitter_strength = 0.15
+grayscale_probability = 0.05
+blur_probability = 0.15
+blur_max_radius = 1.5
+
+[model]
+backbone = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+processor = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+lora_rank = 8
+lora_alpha = 16
+lora_dropout = 0.05
+lora_target_modules = ["q_proj", "v_proj"]
+train_final_norm = true
+
+[objective]
+# Cross-view teacher distillation learns invariance; same-view anchoring limits drift.
+cross_view_weight = 1.0
+same_view_anchor_weight = 0.25
+
+[training]
+epochs = 20
+eval_every = 1
+batch_size = 8
+num_workers = 4
+gradient_accumulation_steps = 2
+learning_rate = 0.0001
+weight_decay = 0.0
+warmup_fraction = 0.10
+minimum_learning_rate_ratio = 0.05
+gradient_clip_norm = 1.0
+early_stopping_patience = 5
+early_stopping_min_delta = 0.0001
+seed = 42
+
+[runtime]
+device = "auto"
+deterministic = true
+pin_memory = true
+mixed_precision = "fp16"
+allow_tf32 = true
+
+[output]
+run_dir = "outputs/dinov3_mixed_domain_adaptation"
+inspection_dir = "preprocessing_inspection"
+samples_per_mode = 12
+best_checkpoint_name = "best.pt"
+last_checkpoint_name = "last.pt"
+export_dir = "adapted_backbone"
+failure_log = "preprocessing_failures.jsonl"
+save_plots = true
+

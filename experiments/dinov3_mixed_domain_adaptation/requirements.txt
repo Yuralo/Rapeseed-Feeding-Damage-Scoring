@@ -1,0 +1,8 @@
+matplotlib>=3.8
+numpy>=1.26
+opencv-python>=4.9
+peft>=0.17
+Pillow>=10.0
+torch>=2.2
+transformers>=5.0
+
