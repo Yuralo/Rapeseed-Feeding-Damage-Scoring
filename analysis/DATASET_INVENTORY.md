@@ -42,3 +42,32 @@ Outputs:
 
 Return at least `dataset_images.csv`, `dataset_cohorts.csv`, `dataset_score_files.csv`, and
 `dataset_summary.json`. Return `dataset_duplicates.csv` as well if it is not too large.
+
+## Build supervised and adaptation manifests
+
+After the complete inventory has been returned, join the four score tables to canonical images and
+create plot-grouped manifests:
+
+```bash
+python -m analysis.build_supervised_manifests \
+  --root /home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage \
+  --inventory outputs/dataset_inventory/dataset_images.csv \
+  --output-dir outputs/dataset_manifests \
+  --gold-difference-threshold 5 \
+  --seed 42
+```
+
+The builder uses score-table QR/plot metadata for grouping. Image-decoded QR is only a fallback.
+This is not needed to identify filenames; it prevents the three views of one physical plot, or the
+same plot at two timepoints, from crossing train and holdout partitions.
+
+Supervision is kept in separate tiers:
+
+- `gold`: the curated 470-image JLU/GAU calibration subset;
+- `dual_weak`: other Gross-Gerau images with two subjective scores;
+- `single_weak`: DSV and WG images with one visual score.
+
+Validation and test contain only gold images. The remaining labels are written to `pretrain.csv`,
+while gold training images are written to `finetune.csv`. `adaptation.csv` contains canonical images
+that are safe for a later self-supervised experiment; both Gross-Gerau insect timepoints are
+conservatively excluded by default because cross-timepoint plot linkage is incomplete.
