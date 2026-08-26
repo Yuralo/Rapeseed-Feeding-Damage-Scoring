@@ -1,0 +1,101 @@
+{
+  "adaptive_crops": {
+    "context_scale": 2.0,
+    "grouping_dilation_px": 20,
+    "maximum_crop_size": 448,
+    "maximum_instances": 20,
+    "minimum_crop_size": 160,
+    "minimum_mask_coverage": 0.98
+  },
+  "context": {
+    "cache_dir": "cache/dinov3_grid_tiled_mil_features",
+    "columns": 3,
+    "overlap_fraction": 0.25,
+    "rows": 3
+  },
+  "data": {
+    "dataset_dir": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set",
+    "filename_column": "Filename",
+    "grid_cache_dir": "cache/grid_crops_1400_inset075",
+    "grid_crop_size": 1400,
+    "grid_inner_margin_fraction": 0.075,
+    "image_extension": ".jpg",
+    "normalize_targets": true,
+    "scores_file": "RSFB-Phenotyping_training_set_scores.csv",
+    "split_seed": 42,
+    "target_column": "mean_score",
+    "validation_fraction": 0.33,
+    "verify_images": true
+  },
+  "experiment": {
+    "name": "dinov3_grid_4x4_sam_adaptive_hybrid_mil_clean_inset075"
+  },
+  "features": {
+    "backbone": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "cache_dir": "cache/dinov3_grid_sam_adaptive_mil_features",
+    "extraction_batch_size": 16,
+    "overwrite": false,
+    "processor": "facebook/dinov3-vits16-pretrain-lvd1689m",
+    "representation": "cls_mean",
+    "storage_dtype": "float16"
+  },
+  "fine": {
+    "cache_dir": "cache/dinov3_grid_tiled_mil_features_4x4",
+    "columns": 4,
+    "overlap_fraction": 0.25,
+    "rows": 4
+  },
+  "model": {
+    "attention_dropout": 0.1,
+    "attention_hidden_dim": 64,
+    "attention_temperature": 1.0,
+    "dropout": 0.35,
+    "head_hidden_dim": 128,
+    "projection_dim": 128
+  },
+  "output": {
+    "attention_arrays_name": "hybrid_attention.npz",
+    "attention_inspection_images": 6,
+    "best_checkpoint_name": "best_mse.pt",
+    "best_mae_checkpoint_name": "best_mae.pt",
+    "example_columns": 4,
+    "example_images": 12,
+    "last_checkpoint_name": "last.pt",
+    "run_dir": "outputs/dinov3_grid_4x4_sam_adaptive_hybrid_mil_clean_inset075",
+    "save_plots": true
+  },
+  "runtime": {
+    "allow_tf32": true,
+    "deterministic": true,
+    "device": "auto",
+    "mixed_precision": "fp16",
+    "pin_memory": true
+  },
+  "segmentation": {
+    "background_value": 255,
+    "device": "auto",
+    "mask_cache_dir": "cache/sam3_masks_grid1400_inset075",
+    "mask_threshold": 0.5,
+    "maximum_foreground_fraction": 0.6,
+    "minimum_foreground_fraction": 0.0001,
+    "model_name": "facebook/sam3",
+    "prompts": [
+      "green leaf"
+    ],
+    "score_threshold": 0.25
+  },
+  "training": {
+    "batch_size": 32,
+    "early_stopping_min_delta": 0.0001,
+    "early_stopping_patience": 12,
+    "epochs": 100,
+    "eval_every": 1,
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.001,
+    "minimum_learning_rate_ratio": 0.05,
+    "num_workers": 4,
+    "seed": 42,
+    "warmup_fraction": 0.1,
+    "weight_decay": 0.001
+  }
+}
