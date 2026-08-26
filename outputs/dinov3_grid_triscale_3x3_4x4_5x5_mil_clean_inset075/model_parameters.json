@@ -1,0 +1,11 @@
+{
+  "attention_parameters": 33152,
+  "context_tiles_per_image": 9,
+  "frozen_backbone_parameters_loaded_during_training": 0,
+  "frozen_feature_dimension": 1536,
+  "local_tiles_per_image": 25,
+  "pooled_representations": "global+3x3_mean+4x4_mean+4x4_attention+5x5_mean+5x5_attention",
+  "regional_tiles_per_image": 16,
+  "total_parameters": 333057,
+  "trainable_parameters": 333057
+}
