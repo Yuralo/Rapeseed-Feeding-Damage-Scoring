@@ -1,0 +1,391 @@
+{
+  "cohorts": [
+    {
+      "bbch": "BBCH11",
+      "canonical_images": 900,
+      "cohort_id": "dsv_asendorf_t1_bbch11",
+      "discovered_image_paths": 1800,
+      "duplicate_copies": 900,
+      "expected_images_from_pdf_table": 910,
+      "experiment": "Insects",
+      "label_status": "labeled",
+      "location": "Asendorf",
+      "partner": "DSV",
+      "path_count_minus_expected": 890,
+      "qr_decoded_images": 904,
+      "readable_images": 1800,
+      "sampling_date": "2025-09-15_to_2025-09-17",
+      "timepoint": "T1",
+      "unique_content_hashes": 900,
+      "unique_plot_groups": 218
+    },
+    {
+      "bbch": "BBCH15",
+      "canonical_images": 900,
+      "cohort_id": "dsv_asendorf_t2_bbch15",
+      "discovered_image_paths": 900,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Asendorf",
+      "partner": "DSV",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 330,
+      "readable_images": 900,
+      "sampling_date": "2025-09-30_to_2025-10-01",
+      "timepoint": "T2",
+      "unique_content_hashes": 900,
+      "unique_plot_groups": 159
+    },
+    {
+      "bbch": "BBCH10",
+      "canonical_images": 937,
+      "cohort_id": "gg_insects_t1_bbch10",
+      "discovered_image_paths": 937,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 937,
+      "experiment": "Insects",
+      "label_status": "labeled_twice",
+      "location": "Gross-Gerau",
+      "partner": "JLU",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 1,
+      "readable_images": 937,
+      "sampling_date": "2025-10-21",
+      "timepoint": "T1",
+      "unique_content_hashes": 937,
+      "unique_plot_groups": 1
+    },
+    {
+      "bbch": "BBCH13",
+      "canonical_images": 937,
+      "cohort_id": "gg_insects_t2_bbch13",
+      "discovered_image_paths": 937,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 937,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Gross-Gerau",
+      "partner": "JLU",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 1,
+      "readable_images": 937,
+      "sampling_date": "2025-11-10",
+      "timepoint": "T2",
+      "unique_content_hashes": 937,
+      "unique_plot_groups": 1
+    },
+    {
+      "bbch": "BBCH10",
+      "canonical_images": 0,
+      "cohort_id": "gg_reliable_training_subset_bbch10",
+      "discovered_image_paths": 470,
+      "duplicate_copies": 470,
+      "expected_images_from_pdf_table": 470,
+      "experiment": "Insects",
+      "label_status": "reliable_calibration_subset",
+      "location": "Gross-Gerau",
+      "partner": "JLU+GAU",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 0,
+      "readable_images": 470,
+      "sampling_date": "2025-10-21",
+      "timepoint": "T1",
+      "unique_content_hashes": 470,
+      "unique_plot_groups": 0
+    },
+    {
+      "bbch": "BBCH15",
+      "canonical_images": 1271,
+      "cohort_id": "gg_sulfur_bbch15",
+      "discovered_image_paths": 1271,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 1271,
+      "experiment": "Sulfur",
+      "label_status": "unlabeled",
+      "location": "Gross-Gerau",
+      "partner": "JLU",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 71,
+      "readable_images": 1271,
+      "sampling_date": "2025-10-14",
+      "timepoint": "single",
+      "unique_content_hashes": 1271,
+      "unique_plot_groups": 65
+    },
+    {
+      "bbch": "BBCH10",
+      "canonical_images": 900,
+      "cohort_id": "npzi_malchow_t1_bbch10",
+      "discovered_image_paths": 900,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Malchow",
+      "partner": "NPZi",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 230,
+      "readable_images": 900,
+      "sampling_date": "2025-09-12",
+      "timepoint": "T1",
+      "unique_content_hashes": 900,
+      "unique_plot_groups": 160
+    },
+    {
+      "bbch": "BBCH13",
+      "canonical_images": 904,
+      "cohort_id": "npzi_malchow_t2_bbch13",
+      "discovered_image_paths": 904,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Malchow",
+      "partner": "NPZi",
+      "path_count_minus_expected": 4,
+      "qr_decoded_images": 227,
+      "readable_images": 904,
+      "sampling_date": "2025-09-19",
+      "timepoint": "T2",
+      "unique_content_hashes": 904,
+      "unique_plot_groups": 156
+    },
+    {
+      "bbch": "BBCH13",
+      "canonical_images": 883,
+      "cohort_id": "rhh_insects_bbch13",
+      "discovered_image_paths": 883,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Rauischholzhausen",
+      "partner": "JLU",
+      "path_count_minus_expected": -17,
+      "qr_decoded_images": 53,
+      "readable_images": 883,
+      "sampling_date": "2025-09-29",
+      "timepoint": "single",
+      "unique_content_hashes": 883,
+      "unique_plot_groups": 52
+    },
+    {
+      "bbch": "BBCH10",
+      "canonical_images": 910,
+      "cohort_id": "wg_insects_t1_bbch10",
+      "discovered_image_paths": 910,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "labeled",
+      "location": "Weilburger Grenze",
+      "partner": "JLU",
+      "path_count_minus_expected": 10,
+      "qr_decoded_images": 21,
+      "readable_images": 910,
+      "sampling_date": "2025-10-07",
+      "timepoint": "T1",
+      "unique_content_hashes": 910,
+      "unique_plot_groups": 19
+    },
+    {
+      "bbch": "BBCH15",
+      "canonical_images": 360,
+      "cohort_id": "wg_insects_t2_first_bbch15",
+      "discovered_image_paths": 361,
+      "duplicate_copies": 1,
+      "expected_images_from_pdf_table": 360,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Weilburger Grenze",
+      "partner": "JLU",
+      "path_count_minus_expected": 1,
+      "qr_decoded_images": 10,
+      "readable_images": 361,
+      "sampling_date": "2025-10-20",
+      "timepoint": "T2_first_half",
+      "unique_content_hashes": 360,
+      "unique_plot_groups": 10
+    },
+    {
+      "bbch": "BBCH15",
+      "canonical_images": 541,
+      "cohort_id": "wg_insects_t2_second_bbch15",
+      "discovered_image_paths": 541,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 541,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Weilburger Grenze",
+      "partner": "JLU",
+      "path_count_minus_expected": 0,
+      "qr_decoded_images": 14,
+      "readable_images": 541,
+      "sampling_date": "2025-10-24",
+      "timepoint": "T2_second_half",
+      "unique_content_hashes": 541,
+      "unique_plot_groups": 12
+    }
+  ],
+  "dataset_root": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage",
+  "documentation": {
+    "pdf_acquisition_table_sum": 9456,
+    "pdf_reported_total_images": 8946,
+    "pdf_training_subset_images": 470
+  },
+  "generated_at_utc": "2026-08-26T12:41:43.074172+00:00",
+  "other_root_files": [
+    "AIS_DATASHEET.md",
+    "Cabbage_stem_flea_beetle_damage_quantification.pdf"
+  ],
+  "score_files": [
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_09_15_Res4StRes_T1_DSV_scores.csv",
+      "column_count": 4,
+      "columns": "Folder|Filename|QR-Code|Score",
+      "delimiter": "';'",
+      "file_size_bytes": 63066,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_09_15_Res4StRes_T1_DSV_scores.csv",
+      "row_count": 900
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv",
+      "column_count": 4,
+      "columns": "Folder|Filename|QR-Code|Score",
+      "delimiter": "';'",
+      "file_size_bytes": 77403,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv",
+      "row_count": 910
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_21_RSFB-Phenotyping_GG1_scores.csv",
+      "column_count": 11,
+      "columns": "Folder|Filename|QR-Code|Plotnr|R4Snr|Genotyp|row|col|Score_JLU|Score_GAU|diff",
+      "delimiter": "','",
+      "file_size_bytes": 102355,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_10_21_RSFB-Phenotyping_GG1_scores.csv",
+      "row_count": 935
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv",
+      "column_count": 4,
+      "columns": "Filename|Score_JLU|Score_GAU|mean_score",
+      "delimiter": "','",
+      "file_size_bytes": 12558,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv",
+      "row_count": 470
+    }
+  ],
+  "settings": {
+    "content_hashing_enabled": true,
+    "ignored_directory_names": [
+      "__MACOSX"
+    ],
+    "image_extensions": [
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".tif",
+      ".tiff"
+    ],
+    "qr_decoding_requested": true
+  },
+  "top_level_folders": [
+    {
+      "canonical_images": 900,
+      "image_paths": 900,
+      "name": "2025_09_12_RSFB_01_NPZi"
+    },
+    {
+      "canonical_images": 900,
+      "image_paths": 900,
+      "name": "2025_09_15_Re4StRes_T1_DSV"
+    },
+    {
+      "canonical_images": 0,
+      "image_paths": 900,
+      "name": "2025_09_15_Res4StRes_T1_DSV"
+    },
+    {
+      "canonical_images": 904,
+      "image_paths": 904,
+      "name": "2025_09_19_RSFB_02_NPZi"
+    },
+    {
+      "canonical_images": 883,
+      "image_paths": 883,
+      "name": "2025_09_29_RSFB-Phenotyping_RHH1_JLU"
+    },
+    {
+      "canonical_images": 900,
+      "image_paths": 900,
+      "name": "2025_09_30_Res4StRes_T2_DSV"
+    },
+    {
+      "canonical_images": 910,
+      "image_paths": 910,
+      "name": "2025_10_07_RSFB-Phenotyping_WG1_JLU"
+    },
+    {
+      "canonical_images": 1271,
+      "image_paths": 1271,
+      "name": "2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU"
+    },
+    {
+      "canonical_images": 359,
+      "image_paths": 360,
+      "name": "2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU"
+    },
+    {
+      "canonical_images": 937,
+      "image_paths": 937,
+      "name": "2025_10_21_RSFB-Phenotyping_GG1_JLU"
+    },
+    {
+      "canonical_images": 541,
+      "image_paths": 541,
+      "name": "2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU"
+    },
+    {
+      "canonical_images": 937,
+      "image_paths": 937,
+      "name": "2025_11_10_RSFB-Phenotyping_GG2_JLU"
+    },
+    {
+      "canonical_images": 0,
+      "image_paths": 470,
+      "name": "RSFB-Phenotyping_training_set"
+    },
+    {
+      "canonical_images": 1,
+      "image_paths": 1,
+      "name": "__ROOT__"
+    }
+  ],
+  "totals": {
+    "canonical_image_paths": 9443,
+    "case_insensitive_filename_collision_groups": 1371,
+    "discovered_image_paths": 10814,
+    "duplicate_copies": 1371,
+    "duplicate_groups": 1371,
+    "qr_decoded_images": 1862,
+    "readable_images": 10814,
+    "score_csv_files": 4,
+    "unique_content_hashes": 9443,
+    "unique_qr_plot_groups": 629,
+    "unreadable_images": 0
+  },
+  "warnings": [
+    "PDF headline total 8946 differs from its acquisition table sum 9456."
+  ]
+}

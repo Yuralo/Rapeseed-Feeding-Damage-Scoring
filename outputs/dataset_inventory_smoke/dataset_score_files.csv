@@ -1,0 +1,5 @@
+absolute_path,relative_path,file_size_bytes,row_count,column_count,columns,delimiter,read_status,read_error
+/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_09_15_Res4StRes_T1_DSV_scores.csv,2025_09_15_Res4StRes_T1_DSV_scores.csv,63066,900,4,Folder|Filename|QR-Code|Score,';',ok,
+/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv,2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv,77403,910,4,Folder|Filename|QR-Code|Score,';',ok,
+/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_21_RSFB-Phenotyping_GG1_scores.csv,2025_10_21_RSFB-Phenotyping_GG1_scores.csv,102355,935,11,Folder|Filename|QR-Code|Plotnr|R4Snr|Genotyp|row|col|Score_JLU|Score_GAU|diff,"','",ok,
+/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv,RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv,12558,470,4,Filename|Score_JLU|Score_GAU|mean_score,"','",ok,

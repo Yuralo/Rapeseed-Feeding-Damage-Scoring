@@ -1,0 +1,13 @@
+cohort_id,partner,location,experiment,sampling_date,timepoint,bbch,label_status,expected_images_from_pdf_table,discovered_image_paths,canonical_images,unique_content_hashes,duplicate_copies,readable_images,qr_decoded_images,unique_plot_groups,path_count_minus_expected
+dsv_asendorf_t1_bbch11,DSV,Asendorf,Insects,2025-09-15_to_2025-09-17,T1,BBCH11,labeled,910,1800,900,900,900,1800,904,218,890
+dsv_asendorf_t2_bbch15,DSV,Asendorf,Insects,2025-09-30_to_2025-10-01,T2,BBCH15,unlabeled,900,900,900,900,0,900,330,159,0
+gg_insects_t1_bbch10,JLU,Gross-Gerau,Insects,2025-10-21,T1,BBCH10,labeled_twice,937,937,937,937,0,937,1,1,0
+gg_insects_t2_bbch13,JLU,Gross-Gerau,Insects,2025-11-10,T2,BBCH13,unlabeled,937,937,937,937,0,937,1,1,0
+gg_reliable_training_subset_bbch10,JLU+GAU,Gross-Gerau,Insects,2025-10-21,T1,BBCH10,reliable_calibration_subset,470,470,0,470,470,470,0,0,0
+gg_sulfur_bbch15,JLU,Gross-Gerau,Sulfur,2025-10-14,single,BBCH15,unlabeled,1271,1271,1271,1271,0,1271,71,65,0
+npzi_malchow_t1_bbch10,NPZi,Malchow,Insects,2025-09-12,T1,BBCH10,unlabeled,900,900,900,900,0,900,230,160,0
+npzi_malchow_t2_bbch13,NPZi,Malchow,Insects,2025-09-19,T2,BBCH13,unlabeled,900,904,904,904,0,904,227,156,4
+rhh_insects_bbch13,JLU,Rauischholzhausen,Insects,2025-09-29,single,BBCH13,unlabeled,900,883,883,883,0,883,53,52,-17
+wg_insects_t1_bbch10,JLU,Weilburger Grenze,Insects,2025-10-07,T1,BBCH10,labeled,900,910,910,910,0,910,21,19,10
+wg_insects_t2_first_bbch15,JLU,Weilburger Grenze,Insects,2025-10-20,T2_first_half,BBCH15,unlabeled,360,361,360,360,1,361,10,10,1
+wg_insects_t2_second_bbch15,JLU,Weilburger Grenze,Insects,2025-10-24,T2_second_half,BBCH15,unlabeled,541,541,541,541,0,541,14,12,0

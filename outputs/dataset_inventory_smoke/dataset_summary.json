@@ -1,0 +1,142 @@
+{
+  "cohorts": [
+    {
+      "bbch": "BBCH10",
+      "canonical_images": 19,
+      "cohort_id": "npzi_malchow_t1_bbch10",
+      "discovered_image_paths": 19,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 900,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Malchow",
+      "partner": "NPZi",
+      "path_count_minus_expected": -881,
+      "qr_decoded_images": 7,
+      "readable_images": 19,
+      "sampling_date": "2025-09-12",
+      "timepoint": "T1",
+      "unique_content_hashes": 19,
+      "unique_plot_groups": 5
+    },
+    {
+      "bbch": "BBCH15",
+      "canonical_images": 1,
+      "cohort_id": "wg_insects_t2_first_bbch15",
+      "discovered_image_paths": 1,
+      "duplicate_copies": 0,
+      "expected_images_from_pdf_table": 360,
+      "experiment": "Insects",
+      "label_status": "unlabeled",
+      "location": "Weilburger Grenze",
+      "partner": "JLU",
+      "path_count_minus_expected": -359,
+      "qr_decoded_images": 0,
+      "readable_images": 1,
+      "sampling_date": "2025-10-20",
+      "timepoint": "T2_first_half",
+      "unique_content_hashes": 1,
+      "unique_plot_groups": 0
+    }
+  ],
+  "dataset_root": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage",
+  "documentation": {
+    "pdf_acquisition_table_sum": 9456,
+    "pdf_reported_total_images": 8946,
+    "pdf_training_subset_images": 470
+  },
+  "generated_at_utc": "2026-08-26T11:16:03.989406+00:00",
+  "other_root_files": [
+    "AIS_DATASHEET.md",
+    "Cabbage_stem_flea_beetle_damage_quantification.pdf"
+  ],
+  "score_files": [
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_09_15_Res4StRes_T1_DSV_scores.csv",
+      "column_count": 4,
+      "columns": "Folder|Filename|QR-Code|Score",
+      "delimiter": "';'",
+      "file_size_bytes": 63066,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_09_15_Res4StRes_T1_DSV_scores.csv",
+      "row_count": 900
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv",
+      "column_count": 4,
+      "columns": "Folder|Filename|QR-Code|Score",
+      "delimiter": "';'",
+      "file_size_bytes": 77403,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv",
+      "row_count": 910
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/2025_10_21_RSFB-Phenotyping_GG1_scores.csv",
+      "column_count": 11,
+      "columns": "Folder|Filename|QR-Code|Plotnr|R4Snr|Genotyp|row|col|Score_JLU|Score_GAU|diff",
+      "delimiter": "','",
+      "file_size_bytes": 102355,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "2025_10_21_RSFB-Phenotyping_GG1_scores.csv",
+      "row_count": 935
+    },
+    {
+      "absolute_path": "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv",
+      "column_count": 4,
+      "columns": "Filename|Score_JLU|Score_GAU|mean_score",
+      "delimiter": "','",
+      "file_size_bytes": 12558,
+      "read_error": "",
+      "read_status": "ok",
+      "relative_path": "RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv",
+      "row_count": 470
+    }
+  ],
+  "settings": {
+    "content_hashing_enabled": true,
+    "ignored_directory_names": [
+      "__MACOSX"
+    ],
+    "image_extensions": [
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".tif",
+      ".tiff"
+    ],
+    "qr_decoding_requested": true
+  },
+  "top_level_folders": [
+    {
+      "canonical_images": 19,
+      "image_paths": 19,
+      "name": "2025_09_12_RSFB_01_NPZi"
+    },
+    {
+      "canonical_images": 1,
+      "image_paths": 1,
+      "name": "__ROOT__"
+    }
+  ],
+  "totals": {
+    "canonical_image_paths": 20,
+    "case_insensitive_filename_collision_groups": 0,
+    "discovered_image_paths": 20,
+    "duplicate_copies": 0,
+    "duplicate_groups": 0,
+    "qr_decoded_images": 7,
+    "readable_images": 20,
+    "score_csv_files": 4,
+    "unique_content_hashes": 20,
+    "unique_qr_plot_groups": 5,
+    "unreadable_images": 0
+  },
+  "warnings": [
+    "Smoke-test limit active: scanned 20 of 10814 paths; cohort totals are not a complete dataset audit.",
+    "PDF headline total 8946 differs from its acquisition table sum 9456."
+  ]
+}
