@@ -287,6 +287,7 @@ def join_scores(
     joined: dict[str, dict[str, Any]] = {}
     issues: list[dict[str, str]] = []
     source_reports = []
+    seen_score_images: set[tuple[str, str]] = set()
     for path in discover_score_files(root):
         tier, cohort_id = _score_source(path)
         matched = usable = 0
@@ -316,8 +317,20 @@ def join_scores(
                     }
                 )
                 continue
-            usable += 1
             canonical_key = image["canonical_relative_path"]
+            score_image_key = (str(path.resolve()), canonical_key)
+            if score_image_key in seen_score_images:
+                issues.append(
+                    {
+                        "score_file": str(path.relative_to(root)),
+                        "row_number": str(position),
+                        "filename": filename,
+                        "issue": "duplicate_score_row_for_image",
+                    }
+                )
+                continue
+            seen_score_images.add(score_image_key)
+            usable += 1
             record = joined.setdefault(
                 canonical_key,
                 {
@@ -361,7 +374,12 @@ def join_scores(
                 record["supervision_tier"] = "gold"
             elif record["supervision_tier"] != "gold":
                 record["target"] = values["target"]
-                record["supervision_tier"] = tier
+                record["supervision_tier"] = (
+                    "single_weak"
+                    if tier == "dual_weak"
+                    and (values["score_jlu"] is None or values["score_gau"] is None)
+                    else tier
+                )
         source_reports.append(
             {
                 "score_file": str(path.relative_to(root)),
@@ -401,7 +419,7 @@ def join_scores(
         if (
             record["is_gold_standard"]
             and record["annotator_difference"] != ""
-            and float(record["annotator_difference"]) >= settings.gold_difference_threshold
+            and float(record["annotator_difference"]) > settings.gold_difference_threshold
         ):
             gold_threshold_violations += 1
     source_reports.append(
@@ -435,30 +453,34 @@ def split_gold_groups(records: list[dict[str, Any]], settings: BuildSettings) ->
     if len(groups) < 3:
         raise ValueError("At least three gold plot groups are required for train/validation/test")
 
-    by_bin: dict[str, list[tuple[str, list[dict[str, Any]]]]] = defaultdict(list)
+    by_bin: dict[str, list[tuple[str, list[dict[str, Any]], float]]] = defaultdict(list)
     for group_id, members in groups.items():
         mean_target = sum(float(member["target"]) for member in members) / len(members)
-        by_bin[_target_bin(mean_target)].append((group_id, members))
+        by_bin[_target_bin(mean_target)].append((group_id, members, mean_target))
 
     assignment: dict[str, str] = {}
     rng = random.Random(settings.seed)
     for bin_name in sorted(by_bin):
         items = by_bin[bin_name]
         rng.shuffle(items)
-        items.sort(key=lambda item: len(item[1]), reverse=True)
-        samples = sum(len(members) for _, members in items)
+        # Process the hardest end of every target range first. The deficit-based
+        # assignment then places the first three groups into train/validation/test,
+        # preventing both holdouts from accidentally missing the severe-damage tail.
+        items.sort(key=lambda item: (item[2], len(item[1])), reverse=True)
+        samples = sum(len(members) for _, members, _ in items)
         targets = {
             "validation": samples * settings.validation_fraction,
             "test": samples * settings.test_fraction,
             "gold_train": samples * (1 - settings.validation_fraction - settings.test_fraction),
         }
         counts = Counter()
-        for group_id, members in items:
+        priority = {"gold_train": 2, "validation": 1, "test": 0}
+        for group_id, members, _ in items:
             choices = sorted(
                 targets,
                 key=lambda split: (
                     (targets[split] - counts[split]) / max(targets[split], 1.0),
-                    rng.random(),
+                    priority[split],
                 ),
                 reverse=True,
             )
