@@ -1,0 +1,23 @@
+{
+  "audit_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_multicohort_multiscale_mil/preprocessing_audit/preprocessing_audit.csv",
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "failed": 1,
+      "ok": 11
+    },
+    "gg_insects_t1_bbch10": {
+      "ok": 12
+    },
+    "wg_insects_t1_bbch10": {
+      "ok": 12
+    }
+  },
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_grid_multicohort_multiscale_mil/preprocessing_audit/grid_failures.jsonl",
+  "note": "Each processed_image_path is a separate crop; no mega-contact-sheet is created.",
+  "sampled_images": 36,
+  "samples_per_cohort_requested": 12,
+  "status": {
+    "failed": 1,
+    "ok": 35
+  }
+}
