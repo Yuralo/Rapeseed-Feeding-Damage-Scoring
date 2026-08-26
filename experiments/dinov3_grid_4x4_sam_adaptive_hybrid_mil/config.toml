@@ -1,0 +1,97 @@
+[experiment]
+name = "dinov3_grid_4x4_sam_adaptive_hybrid_mil_clean_inset075"
+
+[data]
+dataset_dir = "/home/nfs/data/nvme_datasets/Pictures_CFSB_leaf_damage/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set"
+scores_file = "RSFB-Phenotyping_training_set_scores.csv"
+filename_column = "Filename"
+target_column = "mean_score"
+image_extension = ".jpg"
+validation_fraction = 0.33
+split_seed = 42
+verify_images = true
+grid_crop_size = 1400
+grid_cache_dir = "cache/grid_crops_1400_inset075"
+grid_inner_margin_fraction = 0.075
+normalize_targets = true
+
+[segmentation]
+model_name = "facebook/sam3"
+prompts = ["green leaf"]
+score_threshold = 0.25
+mask_threshold = 0.5
+mask_cache_dir = "cache/sam3_masks_grid1400_inset075"
+device = "auto"
+background_value = 255
+minimum_foreground_fraction = 0.0001
+maximum_foreground_fraction = 0.6
+
+[context]
+rows = 3
+columns = 3
+overlap_fraction = 0.25
+cache_dir = "cache/dinov3_grid_tiled_mil_features"
+
+[fine]
+rows = 4
+columns = 4
+overlap_fraction = 0.25
+cache_dir = "cache/dinov3_grid_tiled_mil_features_4x4"
+
+[adaptive_crops]
+grouping_dilation_px = 20
+context_scale = 2.0
+minimum_crop_size = 160
+maximum_crop_size = 448
+maximum_instances = 20
+minimum_mask_coverage = 0.98
+
+[features]
+backbone = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+processor = "facebook/dinov3-vits16-pretrain-lvd1689m"
+representation = "cls_mean"
+cache_dir = "cache/dinov3_grid_sam_adaptive_mil_features"
+storage_dtype = "float16"
+extraction_batch_size = 16
+overwrite = false
+
+[model]
+projection_dim = 128
+attention_hidden_dim = 64
+attention_dropout = 0.1
+attention_temperature = 1.0
+head_hidden_dim = 128
+dropout = 0.35
+
+[training]
+epochs = 100
+eval_every = 1
+batch_size = 32
+num_workers = 4
+learning_rate = 0.001
+weight_decay = 0.001
+warmup_fraction = 0.1
+minimum_learning_rate_ratio = 0.05
+gradient_clip_norm = 1.0
+early_stopping_patience = 12
+early_stopping_min_delta = 0.0001
+seed = 42
+
+[runtime]
+device = "auto"
+deterministic = true
+pin_memory = true
+mixed_precision = "fp16"
+allow_tf32 = true
+
+[output]
+run_dir = "outputs/dinov3_grid_4x4_sam_adaptive_hybrid_mil_clean_inset075"
+best_checkpoint_name = "best_mse.pt"
+best_mae_checkpoint_name = "best_mae.pt"
+last_checkpoint_name = "last.pt"
+save_plots = true
+example_images = 12
+example_columns = 4
+attention_inspection_images = 6
+attention_arrays_name = "hybrid_attention.npz"
+
