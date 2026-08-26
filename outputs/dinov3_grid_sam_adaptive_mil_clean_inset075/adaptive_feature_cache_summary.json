@@ -1,0 +1,17 @@
+{
+  "created": 470,
+  "device": "cuda",
+  "failed": 0,
+  "feature_cache_dir": "/home/user/tabbakhab1/dev/project/cache/dinov3_grid_sam_adaptive_mil_features",
+  "images": 470,
+  "instances": {
+    "maximum": 13,
+    "mean": 5.748936170212766,
+    "minimum": 1
+  },
+  "mask_coverage": {
+    "mean": 1.0,
+    "minimum": 1.0
+  },
+  "skipped": 0
+}

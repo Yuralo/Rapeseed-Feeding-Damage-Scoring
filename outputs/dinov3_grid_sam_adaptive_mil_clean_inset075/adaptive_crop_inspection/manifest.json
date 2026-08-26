@@ -1,0 +1,174 @@
+{
+  "destination": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection",
+  "images": 24,
+  "records": [
+    {
+      "components_before_merge": 4,
+      "filename": "20251021_120858",
+      "instances": 4,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120858_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 8,
+      "filename": "20251021_120905",
+      "instances": 8,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120905_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_120912",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120912_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 7,
+      "filename": "20251021_120926",
+      "instances": 7,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120926_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_120933",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120933_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 5,
+      "filename": "20251021_120939",
+      "instances": 5,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_120939_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121011",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121011_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121034",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121034_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121047",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121047_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121100",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121100_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 5,
+      "filename": "20251021_121120",
+      "instances": 5,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121120_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 5,
+      "filename": "20251021_121149",
+      "instances": 5,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121149_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 3,
+      "filename": "20251021_121203",
+      "instances": 3,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121203_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121218",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121218_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 3,
+      "filename": "20251021_121225",
+      "instances": 3,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121225_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 4,
+      "filename": "20251021_121253",
+      "instances": 4,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121253_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 4,
+      "filename": "20251021_121320",
+      "instances": 4,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121320_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121327",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121327_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 2,
+      "filename": "20251021_121345",
+      "instances": 2,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121345_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 6,
+      "filename": "20251021_121432",
+      "instances": 6,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121432_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 2,
+      "filename": "20251021_121449",
+      "instances": 2,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121449_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 5,
+      "filename": "20251021_121457",
+      "instances": 5,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121457_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 4,
+      "filename": "20251021_121504",
+      "instances": 4,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121504_adaptive_crops.jpg"
+    },
+    {
+      "components_before_merge": 4,
+      "filename": "20251021_121525",
+      "instances": 4,
+      "mask_coverage": 1.0,
+      "output": "outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/adaptive_crop_inspection/20251021_121525_adaptive_crops.jpg"
+    }
+  ]
+}

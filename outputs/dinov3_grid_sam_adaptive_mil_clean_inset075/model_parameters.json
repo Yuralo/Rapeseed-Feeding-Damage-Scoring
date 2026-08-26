@@ -1,0 +1,7 @@
+{
+  "frozen_backbone_parameters_loaded_during_training": 0,
+  "frozen_feature_dimension": 1536,
+  "pooled_representations": "global+3x3_mean+plant_mean+plant_attention",
+  "total_parameters": 283201,
+  "trainable_parameters": 283201
+}
