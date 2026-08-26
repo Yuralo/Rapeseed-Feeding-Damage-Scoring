@@ -1,6 +1,6 @@
 matched_images,rows,score_file,source_tier,threshold_violations,usable_targets
 900,900,2025_09_15_Res4StRes_T1_DSV_scores.csv,single_weak,,897
 910,910,2025_10_07_RSFB-Phenotyping_WG1_JLU_scores.csv,single_weak,,906
-935,935,2025_10_21_RSFB-Phenotyping_GG1_scores.csv,dual_weak,,931
+935,935,2025_10_21_RSFB-Phenotyping_GG1_scores.csv,dual_weak,,930
 470,470,RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set/RSFB-Phenotyping_training_set_scores.csv,gold,,470
-,470,__gold_validation__,gold,27,
+,470,__gold_validation__,gold,0,

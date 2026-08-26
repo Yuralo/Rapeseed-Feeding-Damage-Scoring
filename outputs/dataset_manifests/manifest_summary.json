@@ -22,7 +22,7 @@
   "gold_images": 470,
   "inventory": "/home/user/tabbakhab1/dev/project/outputs/dataset_inventory/dataset_images.csv",
   "joined_scored_images": 2733,
-  "score_join_issues": 11,
+  "score_join_issues": 12,
   "score_sources": [
     {
       "matched_images": 900,
@@ -43,7 +43,7 @@
       "rows": 935,
       "score_file": "2025_10_21_RSFB-Phenotyping_GG1_scores.csv",
       "source_tier": "dual_weak",
-      "usable_targets": 931
+      "usable_targets": 930
     },
     {
       "matched_images": 470,
@@ -57,7 +57,7 @@
       "rows": 470,
       "score_file": "__gold_validation__",
       "source_tier": "gold",
-      "threshold_violations": 27,
+      "threshold_violations": 0,
       "usable_targets": ""
     }
   ],
@@ -79,56 +79,56 @@
   "splits": {
     "finetune": {
       "cohorts": {
-        "gg_insects_t1_bbch10": 326
+        "gg_insects_t1_bbch10": 325
       },
-      "plot_groups": 174,
+      "plot_groups": 176,
       "sample_weight_maximum": 1.0,
       "sample_weight_mean": 1.0,
       "sample_weight_minimum": 1.0,
-      "samples": 326,
+      "samples": 325,
       "supervision_tiers": {
-        "gold": 326
+        "gold": 325
       },
       "target_bins": {
-        "0_to_2_5": 83,
-        "over_15": 51,
+        "0_to_2_5": 80,
+        "over_15": 44,
         "over_2_5_to_7_5": 130,
-        "over_7_5_to_15": 62
+        "over_7_5_to_15": 71
       },
       "target_maximum": 44.0,
-      "target_mean": 7.569018404907975,
+      "target_mean": 7.355384615384615,
       "target_minimum": 0.0
     },
     "pretrain": {
       "cohorts": {
         "dsv_asendorf_t1_bbch11": 897,
-        "gg_insects_t1_bbch10": 376,
+        "gg_insects_t1_bbch10": 383,
         "wg_insects_t1_bbch10": 906
       },
-      "plot_groups": 795,
-      "sample_weight_maximum": 0.6,
-      "sample_weight_mean": 0.3733126942871211,
+      "plot_groups": 796,
+      "sample_weight_maximum": 0.5660377358490566,
+      "sample_weight_mean": 0.37308595700438196,
       "sample_weight_minimum": 0.1,
-      "samples": 2179,
+      "samples": 2186,
       "supervision_tiers": {
-        "dual_weak": 376,
-        "single_weak": 1803
+        "dual_weak": 381,
+        "single_weak": 1805
       },
       "target_bins": {
         "0_to_2_5": 528,
-        "over_15": 436,
-        "over_2_5_to_7_5": 768,
-        "over_7_5_to_15": 447
+        "over_15": 440,
+        "over_2_5_to_7_5": 772,
+        "over_7_5_to_15": 446
       },
       "target_maximum": 50.0,
-      "target_mean": 8.907503441945847,
+      "target_mean": 8.90413998170174,
       "target_minimum": 0.0
     },
     "test": {
       "cohorts": {
         "gg_insects_t1_bbch10": 72
       },
-      "plot_groups": 38,
+      "plot_groups": 37,
       "sample_weight_maximum": 1.0,
       "sample_weight_mean": 1.0,
       "sample_weight_minimum": 1.0,
@@ -137,35 +137,35 @@
         "gold": 72
       },
       "target_bins": {
-        "0_to_2_5": 19,
-        "over_15": 7,
-        "over_2_5_to_7_5": 27,
-        "over_7_5_to_15": 19
+        "0_to_2_5": 20,
+        "over_15": 10,
+        "over_2_5_to_7_5": 26,
+        "over_7_5_to_15": 16
       },
-      "target_maximum": 28.0,
-      "target_mean": 7.06875,
-      "target_minimum": 0.5
+      "target_maximum": 28.5,
+      "target_mean": 7.538194444444445,
+      "target_minimum": 0.0
     },
     "validation": {
       "cohorts": {
-        "gg_insects_t1_bbch10": 72
+        "gg_insects_t1_bbch10": 73
       },
-      "plot_groups": 38,
+      "plot_groups": 37,
       "sample_weight_maximum": 1.0,
       "sample_weight_mean": 1.0,
       "sample_weight_minimum": 1.0,
-      "samples": 72,
+      "samples": 73,
       "supervision_tiers": {
-        "gold": 72
+        "gold": 73
       },
       "target_bins": {
-        "0_to_2_5": 18,
-        "over_15": 9,
-        "over_2_5_to_7_5": 28,
-        "over_7_5_to_15": 17
+        "0_to_2_5": 20,
+        "over_15": 13,
+        "over_2_5_to_7_5": 29,
+        "over_7_5_to_15": 11
       },
-      "target_maximum": 28.75,
-      "target_mean": 7.104166666666667,
+      "target_maximum": 43.25,
+      "target_mean": 7.598630136986302,
       "target_minimum": 0.0
     }
   },
