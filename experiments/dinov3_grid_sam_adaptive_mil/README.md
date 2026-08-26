@@ -36,8 +36,21 @@ python -m experiments.dinov3_grid_sam_adaptive_mil.train \
 ```
 
 The output directory is `outputs/dinov3_grid_sam_adaptive_mil_clean_inset075`. It contains
-independent `best_mse.pt` and `best_mae.pt` checkpoints, prediction CSVs, instance counts, mask
-coverage, all plant attention weights, and `adaptive_attention_inspection.png`.
+independent `best_mse.pt` and `best_mae.pt` checkpoints, regression and residual plots,
+representative and worst-error image panels, SAM/attention diagnostic plots, target-range metrics,
+and a prediction CSV with paths, errors, instance counts, mask coverage, attention statistics,
+per-instance weights, and foreground-pixel counts.
+
+Regenerate the complete analysis for both saved checkpoints without retraining:
+
+```bash
+python -m experiments.dinov3_grid_sam_adaptive_mil.report \
+  --config experiments/dinov3_grid_sam_adaptive_mil/config.toml
+```
+
+Reports are written to `posthoc_reports/best_mse` and `posthoc_reports/best_mae` inside the run
+directory, with a checkpoint comparison JSON beside them. Use `--output-dir` to place these
+reports elsewhere.
 
 Resume:
 

@@ -80,6 +80,7 @@ def run(config, resume=None):
     mse_path = run_dir / config.output.best_checkpoint_name
     mae_path = run_dir / config.output.best_mae_checkpoint_name
     last_path = run_dir / config.output.last_checkpoint_name
+    stopped_early = False
     for epoch in range(start, config.training.epochs + 1):
         train_loader.sampler.set_epoch(epoch)
         model.train()
@@ -153,6 +154,7 @@ def run(config, resume=None):
         if config.output.save_plots:
             save_history_plot(history, run_dir / "training_history.png")
         if stale >= config.training.early_stopping_patience:
+            stopped_early = True
             break
     reports = []
     for checkpoint, destination, selection in (
@@ -172,9 +174,13 @@ def run(config, resume=None):
         {
             "best_mse_checkpoint": str(mse_path),
             "best_mae_checkpoint": str(mae_path),
+            "last_checkpoint": str(last_path),
             "best_mae_evaluation": reports[1],
             "train_samples": len(train),
             "validation_samples": len(val),
+            "completed_epochs": len(history["train_loss"]),
+            "global_optimizer_steps": steps,
+            "stopped_early": stopped_early,
             "feature_dim": dim,
             "device": str(device),
             "model_parameters": model.parameter_summary(),

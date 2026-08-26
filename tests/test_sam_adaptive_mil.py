@@ -3,6 +3,45 @@ import pytest
 
 from experiments.dinov3_grid_sam_adaptive_mil.config import AdaptiveCropSettings, load_config
 from experiments.dinov3_grid_sam_adaptive_mil.crops import make_adaptive_crop_layout
+from experiments.dinov3_grid_sam_adaptive_mil.metrics import Predictions
+from experiments.dinov3_grid_sam_adaptive_mil.reporting import (
+    error_analysis,
+    target_range_metrics,
+)
+
+
+def _predictions():
+    return Predictions(
+        targets=np.asarray([1.0, 5.0, 10.0, 20.0]),
+        predictions=np.asarray([2.0, 4.0, 12.0, 16.0]),
+        filenames=[f"sample_{index}.jpg" for index in range(4)],
+        source_image_paths=[""] * 4,
+        processed_image_paths=[""] * 4,
+        mask_paths=[""] * 4,
+        context_feature_cache_paths=[""] * 4,
+        adaptive_feature_cache_paths=[""] * 4,
+        objective_mse=0.5,
+        weights=np.asarray(
+            [
+                [1.0, 0.0, 0.0],
+                [0.5, 0.5, 0.0],
+                [0.2, 0.3, 0.5],
+                [0.8, 0.2, 0.0],
+            ]
+        ),
+        valid=np.asarray(
+            [
+                [True, False, False],
+                [True, True, False],
+                [True, True, True],
+                [True, True, False],
+            ]
+        ),
+        boxes=np.zeros((4, 3, 4), dtype=np.int32),
+        foreground_pixels=np.ones((4, 3), dtype=np.float32),
+        instance_counts=np.asarray([1, 2, 3, 2]),
+        mask_coverages=np.ones(4),
+    )
 
 
 def test_config_reuses_sam_and_three_by_three_caches():
@@ -69,3 +108,20 @@ def test_model_masks_padded_instances():
     assert prediction.shape == (2,)
     assert torch.all(weights[~valid] == 0)
     assert torch.allclose(weights.sum(1), torch.ones(2))
+
+
+def test_attention_statistics_handle_variable_instance_counts():
+    statistics = _predictions().attention_statistics()
+    assert statistics["normalized_entropy"][0] == pytest.approx(0.0)
+    assert statistics["normalized_entropy"][1] == pytest.approx(1.0)
+    assert statistics["top_index"].tolist() == [0, 0, 2, 0]
+    assert statistics["effective_instance_count"][1] == pytest.approx(2.0)
+
+
+def test_error_report_has_target_ranges_and_worst_filename():
+    predictions = _predictions()
+    ranges = target_range_metrics(predictions)
+    assert all(value["samples"] == 1 for value in ranges.values())
+    analysis = error_analysis(predictions)
+    assert analysis["worst_sample"]["filename"] == "sample_3.jpg"
+    assert analysis["worst_sample"]["absolute_error"] == pytest.approx(4.0)
