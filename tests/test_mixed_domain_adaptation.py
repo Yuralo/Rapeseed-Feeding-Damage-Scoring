@@ -49,6 +49,24 @@ def test_source_audit_sampling_spans_the_capture_sequence():
     ]
 
 
+def test_source_audit_recovers_and_marks_truncated_jpeg(tmp_path):
+    image_module = pytest.importorskip("PIL.Image")
+    from experiments.dinov3_mixed_domain_adaptation.inspect_sources import (
+        _load_source_image,
+    )
+
+    path = tmp_path / "truncated.jpg"
+    image_module.new("RGB", (128, 128), "green").save(path, quality=90)
+    encoded = path.read_bytes()
+    path.write_bytes(encoded[:-10])
+
+    image, status, warning = _load_source_image(path)
+
+    assert image.size == (128, 128)
+    assert status == "recovered_truncated"
+    assert "truncated" in warning.casefold()
+
+
 def test_local_crop_selection_returns_valid_box_and_avoids_supplied_label_mask():
     np = pytest.importorskip("numpy")
     image_module = pytest.importorskip("PIL.Image")

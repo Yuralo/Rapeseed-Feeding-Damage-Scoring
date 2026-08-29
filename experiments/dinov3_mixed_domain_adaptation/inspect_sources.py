@@ -10,7 +10,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFile, ImageFont, ImageOps
 
 from rapeseed_damage.artifacts import write_json
 
@@ -26,6 +26,8 @@ INDEX_FIELDS = (
     "absolute_path",
     "width",
     "height",
+    "decode_status",
+    "decode_warning",
     "preliminary_route",
     "sheet_path",
 )
@@ -81,6 +83,30 @@ def _thumbnail(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     return canvas
 
 
+def _load_source_image(path: Path) -> tuple[Image.Image, str, str]:
+    """Decode an audit image, retrying recoverable truncated files explicitly."""
+    try:
+        with Image.open(path) as handle:
+            return ImageOps.exif_transpose(handle).convert("RGB"), "ok", ""
+    except OSError as strict_error:
+        previous_setting = ImageFile.LOAD_TRUNCATED_IMAGES
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
+        try:
+            with Image.open(path) as handle:
+                image = ImageOps.exif_transpose(handle).convert("RGB")
+        except Exception as tolerant_error:
+            raise OSError(
+                f"Could not decode source audit image '{path}'. "
+                f"Strict decoder: {strict_error}. "
+                f"Truncated-image recovery: {tolerant_error}."
+            ) from tolerant_error
+        finally:
+            ImageFile.LOAD_TRUNCATED_IMAGES = previous_setting
+        warning = f"Recovered with Pillow truncated-image mode: {strict_error}"
+        print(f"WARNING: {path}: {warning}", flush=True)
+        return image, "recovered_truncated", warning
+
+
 def _route(filename: str, config: Config) -> str:
     try:
         return preprocessing_mode(filename, config)
@@ -118,10 +144,9 @@ def _save_source_sheet(
         path = Path(row[config.data.absolute_path_column])
         if not path.is_file():
             raise FileNotFoundError(f"Source audit image is missing: {path}")
-        with Image.open(path) as handle:
-            image = ImageOps.exif_transpose(handle).convert("RGB")
-            width, height = image.size
-            preview = _thumbnail(image, (tile_width, image_height))
+        image, decode_status, decode_warning = _load_source_image(path)
+        width, height = image.size
+        preview = _thumbnail(image, (tile_width, image_height))
         column, grid_row = index % columns, index // columns
         x = column * tile_width
         y = header_height + grid_row * (image_height + caption_height)
@@ -137,8 +162,8 @@ def _save_source_sheet(
         )
         draw.text(
             (x + 7, y + image_height + 45),
-            "Decision: visual review required",
-            fill="#9a3b00",
+            f"Decision: visual review required | decode: {decode_status}",
+            fill="#b00020" if decode_warning else "#9a3b00",
             font=font,
         )
         records.append(
@@ -151,6 +176,8 @@ def _save_source_sheet(
                 "absolute_path": str(path),
                 "width": width,
                 "height": height,
+                "decode_status": decode_status,
+                "decode_warning": decode_warning,
                 "preliminary_route": route,
             }
         )
@@ -179,6 +206,7 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
         sheet, records = _save_source_sheet(cohort, folder, selected, config, destination)
         index_records.extend(records)
         routes = Counter(record["preliminary_route"] for record in records)
+        decode_statuses = Counter(record["decode_status"] for record in records)
         group_records.append(
             {
                 "cohort_id": cohort,
@@ -186,6 +214,7 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
                 "total_images": len(source_rows),
                 "sampled_images": len(selected),
                 "preliminary_routes": json.dumps(dict(routes), sort_keys=True),
+                "decode_statuses": json.dumps(dict(decode_statuses), sort_keys=True),
                 "decision": "visual_review_required",
                 "sheet_path": str(sheet.resolve()),
             }
@@ -205,6 +234,9 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
         "source_groups": len(groups),
         "dataset_images": len(rows),
         "sampled_images": len(index_records),
+        "recovered_truncated_images": sum(
+            record["decode_status"] == "recovered_truncated" for record in index_records
+        ),
         "samples_per_source_requested": count,
         "directory": str(destination.resolve()),
         "index_csv": str(index_path.resolve()),
