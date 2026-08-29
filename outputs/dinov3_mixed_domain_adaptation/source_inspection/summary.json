@@ -1,0 +1,24 @@
+{
+  "dataset_images": 7569,
+  "directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection",
+  "index_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/index.csv",
+  "next_step": "Visually classify each source before running prepare_inputs.",
+  "preprocessing_applied": false,
+  "recovered_truncated_images": 3,
+  "sampled_images": 109,
+  "samples_per_source_requested": 12,
+  "sheets": [
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/dsv_asendorf_t1_bbch11__2025_09_15_Re4StRes_T1_DSV.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/dsv_asendorf_t2_bbch15__2025_09_30_Res4StRes_T2_DSV.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/gg_sulfur_bbch15__2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/npzi_malchow_t1_bbch10__2025_09_12_RSFB_01_NPZi.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/npzi_malchow_t2_bbch13__2025_09_19_RSFB_02_NPZi.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/rhh_insects_bbch13__2025_09_29_RSFB-Phenotyping_RHH1_JLU.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/wg_insects_t1_bbch10__2025_10_07_RSFB-Phenotyping_WG1_JLU.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/wg_insects_t2_first_bbch15__2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/wg_insects_t2_first_bbch15__dataset-root.jpg",
+    "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/wg_insects_t2_second_bbch15__2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU.jpg"
+  ],
+  "source_groups": 10,
+  "sources_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_inspection/sources.csv"
+}
