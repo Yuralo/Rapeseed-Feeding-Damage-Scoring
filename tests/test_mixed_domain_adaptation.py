@@ -12,6 +12,7 @@ def test_mixed_adaptation_config_preserves_explicit_routing_and_3090_defaults():
     config = load_config(CONFIG_PATH)
     assert config.data.grid_inner_margin_fraction == pytest.approx(0.075)
     assert config.data.grid_crop_size == 1400
+    assert config.output.samples_per_source == 8
     assert config.training.batch_size == 8
     assert config.training.gradient_accumulation_steps == 2
     assert config.model.lora_rank == 8
@@ -34,6 +35,20 @@ def test_filename_routing_never_falls_back():
         preprocessing_mode("mystery-camera-1.jpg", config)
 
 
+def test_source_audit_sampling_spans_the_capture_sequence():
+    pytest.importorskip("numpy")
+    pytest.importorskip("PIL")
+    from experiments.dinov3_mixed_domain_adaptation.inspect_sources import _evenly_spaced
+
+    rows = [{"file_name": f"IMG_{index:04d}.JPG"} for index in range(10)]
+    selected = _evenly_spaced(rows, 3, "file_name")
+    assert [row["file_name"] for row in selected] == [
+        "IMG_0000.JPG",
+        "IMG_0004.JPG",
+        "IMG_0009.JPG",
+    ]
+
+
 def test_local_crop_selection_returns_valid_box_and_avoids_supplied_label_mask():
     np = pytest.importorskip("numpy")
     image_module = pytest.importorskip("PIL.Image")
@@ -53,6 +68,8 @@ def test_local_crop_selection_returns_valid_box_and_avoids_supplied_label_mask()
 
 def test_readme_requires_inspection_before_training():
     text = Path("experiments/dinov3_mixed_domain_adaptation/README.md").read_text()
+    assert "inspect_sources" in text
+    assert "before creating a single grid crop" in text
     assert "Do not start training until these previews look correct" in text
     assert "IMG_*" in text
     assert "no homography" in text

@@ -18,6 +18,7 @@ class DataSettings:
     manifest: str = "outputs/dataset_manifests/adaptation.csv"
     prepared_manifest: str = "outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv"
     absolute_path_column: str = "absolute_path"
+    relative_path_column: str = "relative_path"
     filename_column: str = "file_name"
     id_column: str = "image_id"
     cohort_column: str = "cohort_id"
@@ -96,6 +97,8 @@ class RuntimeSettings:
 @dataclass(frozen=True)
 class OutputSettings:
     run_dir: str = "outputs/dinov3_mixed_domain_adaptation"
+    source_inspection_dir: str = "source_inspection"
+    samples_per_source: int = 8
     inspection_dir: str = "preprocessing_inspection"
     samples_per_mode: int = 12
     best_checkpoint_name: str = "best.pt"
@@ -126,6 +129,7 @@ class Config:
             data.manifest,
             data.prepared_manifest,
             data.absolute_path_column,
+            data.relative_path_column,
             data.filename_column,
             data.id_column,
             data.cohort_column,
@@ -195,8 +199,10 @@ class Config:
             raise ValueError("runtime.device must be auto, cpu, cuda, or mps")
         if self.runtime.mixed_precision not in {"none", "fp16", "bf16"}:
             raise ValueError("runtime.mixed_precision must be none, fp16, or bf16")
-        if self.output.samples_per_mode < 1:
-            raise ValueError("output.samples_per_mode must be positive")
+        if not self.output.source_inspection_dir.strip() or not self.output.inspection_dir.strip():
+            raise ValueError("Output inspection directories cannot be empty")
+        if self.output.samples_per_source < 1 or self.output.samples_per_mode < 1:
+            raise ValueError("Output inspection sample counts must be positive")
 
 
 SettingsType = TypeVar("SettingsType")

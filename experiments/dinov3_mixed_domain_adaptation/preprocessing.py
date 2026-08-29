@@ -8,7 +8,7 @@ from pathlib import Path
 from random import Random
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 from .config import Config
 
@@ -130,4 +130,4 @@ def load_prepared_image(record: dict[str, str]) -> Image.Image:
     if not path.is_file():
         raise FileNotFoundError(f"Prepared image is missing: {path}")
     with Image.open(path) as image:
-        return image.convert("RGB").copy()
+        return ImageOps.exif_transpose(image).convert("RGB").copy()

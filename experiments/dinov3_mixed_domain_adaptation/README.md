@@ -20,7 +20,34 @@ python -m pip install -r experiments/dinov3_mixed_domain_adaptation/requirements
 python -m pip install -e .
 ```
 
-## 2. Prepare the routed inputs
+## 2. Inspect every raw source before deciding the routing
+
+Do this before creating a single grid crop:
+
+```bash
+python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
+  --config experiments/dinov3_mixed_domain_adaptation/config.toml \
+  --samples-per-source 8
+```
+
+This writes one manageable contact sheet per cohort/source folder under
+`outputs/dinov3_mixed_domain_adaptation/source_inspection/`. The samples are spread evenly across
+the filename sequence rather than taken only from the beginning of a folder. These sheets contain
+raw, EXIF-oriented images only: no crop, inset, square resize, or perspective warp is applied.
+The display thumbnails are resized with their original aspect ratio preserved.
+
+Review every sheet and decide which source needs:
+
+- the established perspective-corrected grid crop;
+- direct raw input;
+- a simple fixed border crop; or
+- a separate source-specific rule.
+
+The route printed on a sheet is only the current filename-based proposal. It is deliberately marked
+`visual_review_required`; change the configuration/code after reviewing the sheets if the proposal
+is wrong. `index.csv` records every sampled filename and `sources.csv` provides one row per source.
+
+## 3. Prepare the reviewed routes
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.prepare_inputs \
@@ -32,7 +59,7 @@ raw `IMG_*` images. Preparation writes a resumable timestamp crop cache and
 `outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. The raw images are referenced in
 place and are not duplicated.
 
-## 3. Inspect before training
+## 4. Inspect the routed preprocessing and local crops
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.inspect_preprocessing \
@@ -53,7 +80,7 @@ Check that:
 Do not start training until these previews look correct. Adjust only `[crops]` if the local crop
 scale or card-overlap threshold needs tuning, then regenerate the previews.
 
-## 4. Train on the GPU machine
+## 5. Train on the GPU machine
 
 From scratch:
 
@@ -75,7 +102,7 @@ The configured batch size 8 with two accumulation steps has an effective batch s
 conservative starting point for a 24 GB RTX 3090. Check the reported peak CUDA memory after epoch 1
 before increasing it.
 
-## 5. Export a normal backbone
+## 6. Export a normal backbone
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.export_backbone \
@@ -87,4 +114,3 @@ This merges LoRA into DINOv3 and writes a standard Hugging Face model plus proce
 both `features.backbone` and `features.processor` in a copy of the successful 3x3 + 4x4 MIL config to
 that directory. Keep the gold split, grid preprocessing, feature representation, and MIL head
 unchanged so the backbone adaptation is the only experimental difference.
-
