@@ -1,0 +1,18 @@
+{
+  "dataset_images": 7569,
+  "decode_statuses": {
+    "ok": 98,
+    "recovered_truncated": 2
+  },
+  "directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/audit_100",
+  "failures_jsonl": null,
+  "full_dataset_processed": false,
+  "index_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/audit_100/index.csv",
+  "next_step": "Open all preview JPEGs and review index.csv. Only after approval run prepare_inputs with --full.",
+  "prepared_manifest_modified": false,
+  "preview_files": 100,
+  "requested_sample_size": 100,
+  "selected_images": 100,
+  "source_groups": 10,
+  "status": "visual_review_required"
+}

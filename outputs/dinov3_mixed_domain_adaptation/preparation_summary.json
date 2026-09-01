@@ -1,0 +1,25 @@
+{
+  "counts": {
+    "excluded": 294,
+    "raw_tiled": 7275
+  },
+  "excluded_fraction": 0.03884264764169639,
+  "excluded_images": 294,
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/input_exclusions.jsonl",
+  "images_written_or_modified": 0,
+  "input_mode": "raw_tiled",
+  "maximum_excluded_fraction": 0.05,
+  "prepared_images": 7275,
+  "prepared_manifest": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv",
+  "requested_images": 7569,
+  "source_manifest": "/home/user/tabbakhab1/dev/project/outputs/dataset_manifests/adaptation.csv",
+  "status": "completed_with_exclusions",
+  "tiling": {
+    "grid_sizes": [
+      3,
+      4
+    ],
+    "overlap_fraction": 0.15,
+    "selection": "one deterministic tile per image and epoch"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": 3,
+    "dsv_asendorf_t2_bbch15": 3,
+    "gg_sulfur_bbch15": 3,
+    "npzi_malchow_t1_bbch10": 3,
+    "npzi_malchow_t2_bbch13": 3,
+    "rhh_insects_bbch13": 3,
+    "wg_insects_t1_bbch10": 3,
+    "wg_insects_t2_first_bbch15": 3,
+    "wg_insects_t2_second_bbch15": 3
+  },
+  "directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/tile_inspection",
+  "index_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/tile_inspection/index.csv",
+  "input_pipeline": "raw image -> label-safe 3x3/4x4 tile -> paired augmentations",
+  "preview_files": 27,
+  "sampling_strategies": {
+    "plant_biased": 62,
+    "uniform": 46
+  },
+  "source_images_modified": false,
+  "tile_grid_sizes": {
+    "3": 55,
+    "4": 53
+  }
+}
