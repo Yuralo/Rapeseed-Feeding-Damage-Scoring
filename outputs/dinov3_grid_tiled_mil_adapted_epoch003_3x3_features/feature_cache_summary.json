@@ -1,0 +1,11 @@
+{
+  "created": 470,
+  "device": "cuda",
+  "failed": 0,
+  "feature_cache_dir": "/home/user/tabbakhab1/dev/project/cache/dinov3_grid_tiled_mil_features_adapted_epoch003_3x3",
+  "feature_dim": 1536,
+  "images": 470,
+  "skipped": 0,
+  "tiles_per_image": 9,
+  "views_per_image": 10
+}

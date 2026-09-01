@@ -19,6 +19,7 @@ cache/
 *.pt
 *.npz
 *.pth
+*.safetensors
 
 # Editor and operating-system files
 .DS_Store

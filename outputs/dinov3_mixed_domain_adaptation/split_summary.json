@@ -1,0 +1,30 @@
+{
+  "input_modes": {
+    "raw_tiled": 7275
+  },
+  "total": 7275,
+  "training": 6548,
+  "training_cohorts": {
+    "dsv_asendorf_t1_bbch11": 810,
+    "dsv_asendorf_t2_bbch15": 810,
+    "gg_sulfur_bbch15": 1144,
+    "npzi_malchow_t1_bbch10": 810,
+    "npzi_malchow_t2_bbch13": 814,
+    "rhh_insects_bbch13": 530,
+    "wg_insects_t1_bbch10": 819,
+    "wg_insects_t2_first_bbch15": 324,
+    "wg_insects_t2_second_bbch15": 487
+  },
+  "validation": 727,
+  "validation_cohorts": {
+    "dsv_asendorf_t1_bbch11": 90,
+    "dsv_asendorf_t2_bbch15": 90,
+    "gg_sulfur_bbch15": 127,
+    "npzi_malchow_t1_bbch10": 90,
+    "npzi_malchow_t2_bbch13": 90,
+    "rhh_insects_bbch13": 59,
+    "wg_insects_t1_bbch10": 91,
+    "wg_insects_t2_first_bbch15": 36,
+    "wg_insects_t2_second_bbch15": 54
+  }
+}

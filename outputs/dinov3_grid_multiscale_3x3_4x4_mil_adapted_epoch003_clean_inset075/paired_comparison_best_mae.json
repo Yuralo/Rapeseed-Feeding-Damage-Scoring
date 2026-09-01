@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "mae": 2.570729605128205,
+    "r2": 0.7286993819710819,
+    "rmse": 3.6432519973818667
+  },
+  "candidate": {
+    "mae": 2.5550535971153843,
+    "r2": 0.7072461366755186,
+    "rmse": 3.784557757929831
+  },
+  "paired_absolute_error": {
+    "bootstrap_95_percent_ci_for_mean_reduction": [
+      -0.19740572695512823,
+      0.21798855335737174
+    ],
+    "bootstrap_samples": 10000,
+    "improved_samples": 80,
+    "mean_reduction": 0.01567600801282052,
+    "median_reduction": 0.07533869999999987,
+    "seed": 42,
+    "unchanged_samples": 0,
+    "worsened_samples": 76
+  },
+  "samples": 156
+}
