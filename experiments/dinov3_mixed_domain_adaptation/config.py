@@ -94,6 +94,8 @@ class RuntimeSettings:
 @dataclass(frozen=True)
 class OutputSettings:
     run_dir: str = "outputs/dinov3_mixed_domain_adaptation"
+    audit_dir: str = "audit_100"
+    audit_sample_size: int = 100
     source_inspection_dir: str = "source_inspection"
     samples_per_source: int = 8
     inspection_dir: str = "tile_inspection"
@@ -199,9 +201,17 @@ class Config:
             raise ValueError("runtime.device must be auto, cpu, cuda, or mps")
         if self.runtime.mixed_precision not in {"none", "fp16", "bf16"}:
             raise ValueError("runtime.mixed_precision must be none, fp16, or bf16")
-        if not self.output.source_inspection_dir.strip() or not self.output.inspection_dir.strip():
+        if (
+            not self.output.audit_dir.strip()
+            or not self.output.source_inspection_dir.strip()
+            or not self.output.inspection_dir.strip()
+        ):
             raise ValueError("Output inspection directories cannot be empty")
-        if self.output.samples_per_source < 1 or self.output.samples_per_cohort < 1:
+        if (
+            self.output.audit_sample_size < 1
+            or self.output.samples_per_source < 1
+            or self.output.samples_per_cohort < 1
+        ):
             raise ValueError("Output inspection sample counts must be positive")
 
 

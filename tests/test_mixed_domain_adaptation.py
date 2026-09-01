@@ -16,6 +16,8 @@ def test_mixed_adaptation_config_preserves_raw_tiling_and_3090_defaults():
     assert config.tiles.overlap_fraction == pytest.approx(0.15)
     assert config.tiles.plant_biased_probability == pytest.approx(0.70)
     assert config.data.maximum_excluded_fraction == pytest.approx(0.05)
+    assert config.output.audit_sample_size == 100
+    assert config.output.audit_dir == "audit_100"
     assert config.output.samples_per_source == 8
     assert config.training.batch_size == 8
     assert config.training.gradient_accumulation_steps == 2
@@ -51,6 +53,37 @@ def test_source_audit_sampling_spans_the_capture_sequence():
         "IMG_0004.JPG",
         "IMG_0009.JPG",
     ]
+
+
+def test_mandatory_audit_is_exact_size_and_covers_filename_families():
+    pytest.importorskip("numpy")
+    pytest.importorskip("PIL")
+    from experiments.dinov3_mixed_domain_adaptation.audit_inputs import (
+        representative_sample,
+    )
+
+    config = load_config(CONFIG_PATH)
+    rows = []
+    for cohort in ("first", "second"):
+        for family in ("IMG", "20251021"):
+            for index in range(80):
+                filename = f"{family}_{index:04d}.jpg"
+                rows.append(
+                    {
+                        "image_id": f"{cohort}-{filename}",
+                        "file_name": filename,
+                        "cohort_id": cohort,
+                        "relative_path": f"{cohort}/{filename}",
+                        "absolute_path": f"/dataset/{cohort}/{filename}",
+                    }
+                )
+
+    selected = representative_sample(rows, 100, config)
+
+    assert len(selected) == 100
+    assert {row["cohort_id"] for row in selected} == {"first", "second"}
+    assert any(row["file_name"].startswith("IMG") for row in selected)
+    assert any(row["file_name"].startswith("20251021") for row in selected)
 
 
 def test_source_audit_recovers_and_marks_truncated_jpeg(tmp_path):
@@ -278,6 +311,9 @@ def test_paired_dataset_returns_two_views_of_a_deterministic_raw_tile(tmp_path):
 
 def test_readme_requires_inspection_before_training():
     text = Path("experiments/dinov3_mixed_domain_adaptation/README.md").read_text()
+    assert "Mandatory 100-image audit" in text
+    assert "audit_inputs" in text
+    assert "--full" in text
     assert "inspect_sources" in text
     assert "does not detect grids, crop" in text
     assert "Do not train until these previews look correct" in text

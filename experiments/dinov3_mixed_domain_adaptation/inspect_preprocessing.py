@@ -100,8 +100,15 @@ def _overlay(image: Image.Image, label_mask: np.ndarray, vegetation_mask: np.nda
     return result.convert("RGB")
 
 
-def _save_preview(record: dict[str, str], config: Config, destination: Path, index: int):
-    image = load_prepared_image(record)
+def _save_preview(
+    record: dict[str, str],
+    config: Config,
+    destination: Path,
+    index: int,
+    *,
+    image: Image.Image | None = None,
+):
+    image = load_prepared_image(record) if image is None else image
     label_mask, vegetation_mask = selection_masks(image, config)
     candidates = deserialize_tile_candidates(record["tile_candidates"])
     selections = []

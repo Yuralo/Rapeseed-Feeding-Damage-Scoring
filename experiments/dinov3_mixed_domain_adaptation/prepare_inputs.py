@@ -184,8 +184,18 @@ def run(config: Config, *, limit: int | None = None) -> dict:
 def main(argv=None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
-    parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Explicitly approve validating the complete manifest after visual audit.",
+    )
+    parser.add_argument("--limit", type=int, help=argparse.SUPPRESS)
     arguments = parser.parse_args(argv)
+    if not arguments.full and arguments.limit is None:
+        parser.error(
+            "Refusing a full-dataset pass without --full. First run audit_inputs and "
+            "visually inspect its 100 previews."
+        )
     report = run(load_config(arguments.config), limit=arguments.limit)
     print(json.dumps(report, indent=2, sort_keys=True))
 

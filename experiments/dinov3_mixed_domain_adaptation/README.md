@@ -20,9 +20,29 @@ python -m pip install -r experiments/dinov3_mixed_domain_adaptation/requirements
 python -m pip install -e .
 ```
 
-## 2. Optional raw-source audit
+## 2. Mandatory 100-image audit
 
-The source audit is already complete, but it can be regenerated without changing any image:
+Do this before any full-dataset pass:
+
+```bash
+python -m experiments.dinov3_mixed_domain_adaptation.audit_inputs \
+  --config experiments/dinov3_mixed_domain_adaptation/config.toml \
+  --sample-size 100
+```
+
+This selects exactly 100 images across every cohort, source folder, and both `IMG_*` and timestamp
+filename families. It spans each capture sequence instead of taking the first 100 files. For every
+sample it writes a separate JPEG containing the untouched raw image, sampling masks, candidate tile
+boxes, and four actual tiles under:
+
+`outputs/dinov3_mixed_domain_adaptation/audit_100/`
+
+`index.csv` marks each image as strictly decoded, recovered from a truncated JPEG, or failed. The
+audit does not write or modify the prepared manifest and automatically removes its own stale
+previews. Open all 100 previews before continuing. Recoverable truncated files must be judged from
+their pixels here, not accepted from a console warning alone.
+
+The older contact-sheet source audit remains available as an optional dataset overview:
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
@@ -30,12 +50,15 @@ python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
   --samples-per-source 8
 ```
 
-## 3. Validate the raw inputs
+## 3. Validate the complete raw dataset only after approving the audit
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.prepare_inputs \
-  --config experiments/dinov3_mixed_domain_adaptation/config.toml
+  --config experiments/dinov3_mixed_domain_adaptation/config.toml \
+  --full
 ```
+
+The command refuses to make a full-dataset pass unless `--full` is supplied deliberately.
 
 This fully decodes each canonical source once and writes
 `outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. It does not detect grids, crop,
@@ -44,7 +67,7 @@ small vegetation/label sampling scores, preventing repeated mask analysis during
 Unreadable files are logged and excluded. Preparation continues while exclusions remain below the
 configured 5% safety limit.
 
-## 4. Inspect the exact tile sampler
+## 4. Optional second inspection from the completed manifest
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.inspect_preprocessing \

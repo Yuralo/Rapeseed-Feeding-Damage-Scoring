@@ -73,6 +73,8 @@ allow_tf32 = true
 
 [output]
 run_dir = "outputs/dinov3_mixed_domain_adaptation"
+audit_dir = "audit_100"
+audit_sample_size = 100
 source_inspection_dir = "source_inspection"
 samples_per_source = 8
 inspection_dir = "tile_inspection"
