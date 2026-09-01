@@ -9,26 +9,23 @@ relative_path_column = "relative_path"
 filename_column = "file_name"
 id_column = "image_id"
 cohort_column = "cohort_id"
-timestamp_pattern = '^\d{8}_\d{6}\.(?:jpg|jpeg)$'
-raw_pattern = '^IMG_.*\.(?:jpg|jpeg)$'
-verify_images = true
-grid_crop_size = 1400
-grid_cache_dir = "cache/adaptation_grid_crops_1400_inset075"
-grid_inner_margin_fraction = 0.075
-# Individual unreadable images and failed grid detections are excluded. Stop only
-# when the rate is high enough to indicate a systemic preprocessing problem.
+# Individual unreadable images are excluded. Stop only when the rate is high
+# enough to indicate a systemic dataset problem.
 maximum_excluded_fraction = 0.05
 validation_fraction = 0.10
 split_seed = 42
 
-[crops]
-# One high-resolution local crop is selected, then augmented into two views.
-minimum_scale = 0.35
-maximum_scale = 0.75
-# Candidate crops containing the bright collector card are rejected when possible.
+[tiles]
+# Raw images are never rectified. One 3x3 or 4x4 overlapping high-resolution
+# tile is selected per image and epoch, then augmented into two views.
+grid_sizes = [3, 4]
+overlap_fraction = 0.15
+plant_biased_probability = 0.70
+vegetation_score_power = 1.0
+# Candidate tiles containing the bright collector card are rejected when possible.
 label_overlap_limit = 0.02
-candidate_attempts = 24
-preview_crops_per_image = 4
+mask_analysis_max_side = 768
+preview_tiles_per_image = 4
 
 [augmentation]
 horizontal_flip_probability = 0.5
@@ -78,10 +75,10 @@ allow_tf32 = true
 run_dir = "outputs/dinov3_mixed_domain_adaptation"
 source_inspection_dir = "source_inspection"
 samples_per_source = 8
-inspection_dir = "preprocessing_inspection"
-samples_per_mode = 12
+inspection_dir = "tile_inspection"
+samples_per_cohort = 2
 best_checkpoint_name = "best.pt"
 last_checkpoint_name = "last.pt"
 export_dir = "adapted_backbone"
-failure_log = "preprocessing_failures.jsonl"
+failure_log = "input_exclusions.jsonl"
 save_plots = true

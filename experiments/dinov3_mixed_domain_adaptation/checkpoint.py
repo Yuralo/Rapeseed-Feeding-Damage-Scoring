@@ -8,7 +8,7 @@ from .config import Config
 from .preprocessing import PREPARED_SCHEMA_VERSION
 
 EXPERIMENT_ID = "dinov3_mixed_domain_adaptation"
-CHECKPOINT_VERSION = 1
+CHECKPOINT_VERSION = 2
 
 
 def payload(
@@ -63,12 +63,13 @@ def validate_for(state: dict[str, Any], config: Config) -> None:
         raise ValueError("Prepared-manifest schema changed; rebuild inputs and restart training")
     saved = state.get("config", {})
     comparisons = {
-        "data": ("grid_crop_size", "grid_inner_margin_fraction"),
-        "crops": (
-            "minimum_scale",
-            "maximum_scale",
+        "tiles": (
+            "grid_sizes",
+            "overlap_fraction",
+            "plant_biased_probability",
+            "vegetation_score_power",
             "label_overlap_limit",
-            "candidate_attempts",
+            "mask_analysis_max_side",
         ),
         "model": (
             "backbone",

@@ -31,5 +31,5 @@ def augment_view(image: Image.Image, config: Config, rng: Random) -> Image.Image
 
 
 def paired_views(image: Image.Image, config: Config, rng: Random):
-    """Create two augmentations of the same local content crop."""
+    """Create two augmentations of the same high-resolution tile."""
     return augment_view(image, config, rng), augment_view(image, config, rng)

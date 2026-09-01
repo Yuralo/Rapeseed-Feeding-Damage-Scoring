@@ -1,9 +1,10 @@
-"""Explicit mixed-source routing and reusable local-crop selection."""
+"""Raw-image tile selection for DINOv3 domain adaptation."""
 
 from __future__ import annotations
 
-import re
-from dataclasses import dataclass
+import json
+import math
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from random import Random
 
@@ -12,30 +13,12 @@ from PIL import Image, ImageOps
 
 from .config import Config
 
-GRID_CROP_MODE = "grid_crop"
-RAW_MODE = "raw"
-PREPARED_SCHEMA_VERSION = 1
-
-
-def preprocessing_mode(filename: str, config: Config) -> str:
-    """Route by source filename; never silently fall back between modes."""
-    name = Path(filename).name
-    if re.fullmatch(config.data.timestamp_pattern, name, flags=re.IGNORECASE):
-        return GRID_CROP_MODE
-    if re.fullmatch(config.data.raw_pattern, name, flags=re.IGNORECASE):
-        return RAW_MODE
-    raise ValueError(
-        f"Unsupported adaptation filename {name!r}; it matches neither the timestamp "
-        "grid-crop pattern nor the IMG raw-input pattern"
-    )
+RAW_TILED_MODE = "raw_tiled"
+PREPARED_SCHEMA_VERSION = 2
 
 
 def probable_label_mask(image: Image.Image) -> np.ndarray:
-    """Find compact, bright, low-saturation collector-card regions.
-
-    This mask is used only to reject local training crops. The image itself is
-    never painted over or altered by this heuristic.
-    """
+    """Find compact, bright collector-card regions without altering the image."""
     import cv2
 
     rgb = np.asarray(image.convert("RGB"))
@@ -65,69 +48,230 @@ def probable_label_mask(image: Image.Image) -> np.ndarray:
     return result
 
 
+def probable_vegetation_mask(image: Image.Image) -> np.ndarray:
+    """Return a permissive green-vegetation mask used only for tile sampling."""
+    import cv2
+
+    rgb = np.asarray(image.convert("RGB"))
+    hsv = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV)
+    return (
+        (hsv[..., 0] >= 25)
+        & (hsv[..., 0] <= 95)
+        & (hsv[..., 1] >= 40)
+        & (hsv[..., 2] >= 35)
+    ).astype(np.uint8)
+
+
+def selection_masks(image: Image.Image, config: Config) -> tuple[np.ndarray, np.ndarray]:
+    """Compute inexpensive label/vegetation masks on a bounded-size thumbnail."""
+    maximum = config.tiles.mask_analysis_max_side
+    scale = min(1.0, maximum / max(image.size))
+    size = tuple(max(1, round(value * scale)) for value in image.size)
+    analysis_image = image if size == image.size else image.resize(size, Image.Resampling.BILINEAR)
+    try:
+        return probable_label_mask(analysis_image), probable_vegetation_mask(analysis_image)
+    finally:
+        if analysis_image is not image:
+            analysis_image.close()
+
+
 @dataclass(frozen=True)
-class CropSelection:
+class TileCandidate:
+    grid_size: int
+    row: int
+    column: int
+    box: tuple[int, int, int, int]
+
+
+@dataclass(frozen=True)
+class TileSelection:
+    grid_size: int
+    row: int
+    column: int
     box: tuple[int, int, int, int]
     label_overlap_fraction: float
+    vegetation_fraction: float
+    sampling_strategy: str
 
 
-def _candidate_box(image_size: tuple[int, int], config: Config, rng: Random):
+@dataclass(frozen=True)
+class ScoredTileCandidate:
+    grid_size: int
+    row: int
+    column: int
+    box: tuple[int, int, int, int]
+    label_overlap_fraction: float
+    vegetation_fraction: float
+
+
+def _positions(length: int, side: int, count: int) -> list[int]:
+    available = max(0, length - side)
+    return [round(index * available / (count - 1)) for index in range(count)]
+
+
+def tile_candidates(image_size: tuple[int, int], config: Config) -> list[TileCandidate]:
+    """Build square, overlapping 3x3/4x4 grids that cover the complete raw image."""
     width, height = image_size
-    short_side = min(width, height)
-    scale = rng.uniform(config.crops.minimum_scale, config.crops.maximum_scale)
-    side = max(1, min(short_side, round(short_side * scale)))
-    left = rng.randint(0, max(0, width - side))
-    top = rng.randint(0, max(0, height - side))
-    return left, top, left + side, top + side
+    if width < 1 or height < 1:
+        raise ValueError(f"Invalid image size: {image_size}")
+    maximum = max(width, height)
+    candidates = []
+    for grid_size in config.tiles.grid_sizes:
+        effective_spans = grid_size - (grid_size - 1) * config.tiles.overlap_fraction
+        side = min(min(width, height), math.ceil(maximum / effective_spans))
+        left_positions = _positions(width, side, grid_size)
+        top_positions = _positions(height, side, grid_size)
+        for row, top in enumerate(top_positions):
+            for column, left in enumerate(left_positions):
+                candidates.append(
+                    TileCandidate(
+                        grid_size=grid_size,
+                        row=row,
+                        column=column,
+                        box=(left, top, left + side, top + side),
+                    )
+                )
+    return candidates
 
 
-def _overlap(mask: np.ndarray, box: tuple[int, int, int, int]) -> float:
+def _mask_fraction(
+    mask: np.ndarray,
+    box: tuple[int, int, int, int],
+    image_size: tuple[int, int],
+) -> float:
+    image_width, image_height = image_size
+    mask_height, mask_width = mask.shape
     left, top, right, bottom = box
-    region = mask[top:bottom, left:right]
-    return float(region.mean()) if region.size else 1.0
+    x0 = max(0, min(mask_width, math.floor(left * mask_width / image_width)))
+    x1 = max(0, min(mask_width, math.ceil(right * mask_width / image_width)))
+    y0 = max(0, min(mask_height, math.floor(top * mask_height / image_height)))
+    y1 = max(0, min(mask_height, math.ceil(bottom * mask_height / image_height)))
+    region = mask[y0:y1, x0:x1]
+    return float(region.mean()) if region.size else 0.0
 
 
-def _fallback_boxes(image_size: tuple[int, int], config: Config):
-    """Cover corners and center when random candidates all intersect a label."""
-    width, height = image_size
-    side = max(1, round(min(width, height) * config.crops.minimum_scale))
-    left_positions = (0, max(0, (width - side) // 2), max(0, width - side))
-    top_positions = (0, max(0, (height - side) // 2), max(0, height - side))
-    for top in top_positions:
-        for left in left_positions:
-            yield left, top, left + side, top + side
+def score_tile_candidates(
+    image: Image.Image,
+    config: Config,
+    *,
+    label_mask: np.ndarray | None = None,
+    vegetation_mask: np.ndarray | None = None,
+) -> list[ScoredTileCandidate]:
+    """Analyze the fixed candidate boxes once without modifying source pixels."""
+    if label_mask is None or vegetation_mask is None:
+        detected_label, detected_vegetation = selection_masks(image, config)
+        label_mask = detected_label if label_mask is None else label_mask
+        vegetation_mask = detected_vegetation if vegetation_mask is None else vegetation_mask
+    scored: list[ScoredTileCandidate] = []
+    for candidate in tile_candidates(image.size, config):
+        scored.append(
+            ScoredTileCandidate(
+                grid_size=candidate.grid_size,
+                row=candidate.row,
+                column=candidate.column,
+                box=candidate.box,
+                label_overlap_fraction=_mask_fraction(
+                    label_mask, candidate.box, image.size
+                ),
+                vegetation_fraction=_mask_fraction(
+                    vegetation_mask, candidate.box, image.size
+                ),
+            )
+        )
+    return scored
 
 
-def select_local_crop(
+def serialize_tile_candidates(candidates: list[ScoredTileCandidate]) -> str:
+    return json.dumps([asdict(candidate) for candidate in candidates], separators=(",", ":"))
+
+
+def deserialize_tile_candidates(value: str) -> list[ScoredTileCandidate]:
+    try:
+        raw = json.loads(value)
+        candidates = [
+            ScoredTileCandidate(
+                grid_size=int(item["grid_size"]),
+                row=int(item["row"]),
+                column=int(item["column"]),
+                box=tuple(map(int, item["box"])),
+                label_overlap_fraction=float(item["label_overlap_fraction"]),
+                vegetation_fraction=float(item["vegetation_fraction"]),
+            )
+            for item in raw
+        ]
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        raise ValueError("Invalid serialized tile-candidate metadata") from error
+    if not candidates or any(len(candidate.box) != 4 for candidate in candidates):
+        raise ValueError("Serialized tile-candidate metadata is empty or malformed")
+    return candidates
+
+
+def choose_adaptation_tile(
+    scored: list[ScoredTileCandidate], config: Config, rng: Random
+) -> TileSelection:
+    """Choose one label-safe scale, then use mixed plant-biased/uniform sampling."""
+    if not scored:
+        raise ValueError("No scored tile candidates were provided")
+    eligible = [
+        item
+        for item in scored
+        if item.label_overlap_fraction <= config.tiles.label_overlap_limit
+    ]
+    if not eligible:
+        minimum_overlap = min(item.label_overlap_fraction for item in scored)
+        eligible = [item for item in scored if item.label_overlap_fraction == minimum_overlap]
+    available_scales = sorted({item.grid_size for item in eligible})
+    selected_scale = rng.choice(available_scales)
+    pool = [item for item in eligible if item.grid_size == selected_scale]
+    use_plant_bias = (
+        rng.random() < config.tiles.plant_biased_probability
+        and any(item.vegetation_fraction > 0 for item in pool)
+    )
+    if use_plant_bias:
+        weights = [
+            item.vegetation_fraction**config.tiles.vegetation_score_power for item in pool
+        ]
+        candidate = rng.choices(pool, weights=weights, k=1)[0]
+        strategy = "plant_biased"
+    else:
+        candidate = rng.choice(pool)
+        strategy = "uniform"
+    return TileSelection(
+        grid_size=candidate.grid_size,
+        row=candidate.row,
+        column=candidate.column,
+        box=candidate.box,
+        label_overlap_fraction=candidate.label_overlap_fraction,
+        vegetation_fraction=candidate.vegetation_fraction,
+        sampling_strategy=strategy,
+    )
+
+
+def select_adaptation_tile(
     image: Image.Image,
     config: Config,
     rng: Random,
     *,
     label_mask: np.ndarray | None = None,
-) -> CropSelection:
-    mask = probable_label_mask(image) if label_mask is None else label_mask
-    best: CropSelection | None = None
-    for _ in range(config.crops.candidate_attempts):
-        box = _candidate_box(image.size, config, rng)
-        selection = CropSelection(box, _overlap(mask, box))
-        if best is None or selection.label_overlap_fraction < best.label_overlap_fraction:
-            best = selection
-        if selection.label_overlap_fraction <= config.crops.label_overlap_limit:
-            return selection
-    for box in _fallback_boxes(image.size, config):
-        selection = CropSelection(box, _overlap(mask, box))
-        if best is None or selection.label_overlap_fraction < best.label_overlap_fraction:
-            best = selection
-        if selection.label_overlap_fraction <= config.crops.label_overlap_limit:
-            return selection
-    if best is None:  # pragma: no cover - candidate_attempts is validated positive.
-        raise RuntimeError("No local crop candidate was generated")
-    return best
+    vegetation_mask: np.ndarray | None = None,
+) -> TileSelection:
+    """Convenience path for audits/tests; training uses precomputed candidate scores."""
+    return choose_adaptation_tile(
+        score_tile_candidates(
+            image,
+            config,
+            label_mask=label_mask,
+            vegetation_mask=vegetation_mask,
+        ),
+        config,
+        rng,
+    )
 
 
 def load_prepared_image(record: dict[str, str]) -> Image.Image:
-    path = Path(record["processed_path"])
+    """Load the original validated image; no geometric preprocessing is applied."""
+    path = Path(record["source_path"])
     if not path.is_file():
-        raise FileNotFoundError(f"Prepared image is missing: {path}")
+        raise FileNotFoundError(f"Raw adaptation image is missing: {path}")
     with Image.open(path) as image:
         return ImageOps.exif_transpose(image).convert("RGB").copy()

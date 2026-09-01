@@ -1,28 +1,28 @@
-# Mixed-source DINOv3 domain adaptation
+# Raw tiled DINOv3 domain adaptation
 
-This experiment adapts DINOv3 to the unlabeled CSFB photographs without mixing incompatible
-preprocessing rules:
+This package adapts DINOv3 to the 7,569 canonical unlabeled CSFB photographs without applying the
+supervised task's grid cropper. Every usable image remains untouched on disk. Training reads its
+EXIF-oriented raw pixels and samples one overlapping high-resolution tile per image and epoch.
 
-- `YYYYMMDD_HHMMSS.jpg` uses the established grid detector, perspective crop, and 7.5% inset.
-- `IMG_*.JPG` is already framed well and is used directly, with no homography.
-- unknown filename styles fail explicitly; there is no silent preprocessing fallback.
+The tile scale is chosen equally from 3x3 and 4x4 grids. Within that scale, 70% of selections are
+weighted toward probable vegetation and 30% are uniform, preserving soil and acquisition diversity.
+Tiles overlapping the bright collector card are rejected when possible. These masks only control
+sampling; they never paint over or modify pixels.
 
-Training selects a high-resolution local crop from each routed input. It rejects crops overlapping
-the bright collector card when possible, but never paints over or modifies the underlying image.
-Two augmented views of the same local content are passed through a LoRA student and frozen original
-DINOv3 teacher. Cross-view cosine distillation supplies the adaptation signal; a smaller same-view
+Two augmented views of the same tile are passed through a LoRA student and frozen original DINOv3
+teacher. Cross-view cosine distillation supplies the adaptation signal, while a smaller same-view
 teacher anchor limits destructive representation drift.
 
-## 1. Install this experiment
+## 1. Install
 
 ```bash
 python -m pip install -r experiments/dinov3_mixed_domain_adaptation/requirements.txt
 python -m pip install -e .
 ```
 
-## 2. Inspect every raw source before deciding the routing
+## 2. Optional raw-source audit
 
-Do this before creating a single grid crop:
+The source audit is already complete, but it can be regenerated without changing any image:
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
@@ -30,58 +30,41 @@ python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
   --samples-per-source 8
 ```
 
-This writes one manageable contact sheet per cohort/source folder under
-`outputs/dinov3_mixed_domain_adaptation/source_inspection/`. The samples are spread evenly across
-the filename sequence rather than taken only from the beginning of a folder. These sheets contain
-raw, EXIF-oriented images only: no crop, inset, square resize, or perspective warp is applied.
-The display thumbnails are resized with their original aspect ratio preserved.
-
-Review every sheet and decide which source needs:
-
-- the established perspective-corrected grid crop;
-- direct raw input;
-- a simple fixed border crop; or
-- a separate source-specific rule.
-
-The route printed on a sheet is only the current filename-based proposal. It is deliberately marked
-`visual_review_required`; change the configuration/code after reviewing the sheets if the proposal
-is wrong. `index.csv` records every sampled filename and `sources.csv` provides one row per source.
-
-## 3. Prepare the reviewed routes
+## 3. Validate the raw inputs
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.prepare_inputs \
   --config experiments/dinov3_mixed_domain_adaptation/config.toml
 ```
 
-The source audit found 7,569 canonical images: approximately 5,769 `grid_crop` timestamp images and
-1,800 raw `IMG_*` images. Preparation writes a resumable timestamp crop cache and
-`outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. Individual unreadable files and
-failed grid detections are logged and excluded; the command succeeds while exclusions remain below
-the configured 5% safety limit. This avoids spending effort on a tiny unusable fraction while still
-stopping if preprocessing is broken systemically. The raw images are referenced in place and are
-not duplicated.
+This fully decodes each canonical source once and writes
+`outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. It does not detect grids, crop,
+rectify, resize, or create an image cache. The manifest stores only the 25 candidate boxes and their
+small vegetation/label sampling scores, preventing repeated mask analysis during every epoch.
+Unreadable files are logged and excluded. Preparation continues while exclusions remain below the
+configured 5% safety limit.
 
-## 4. Inspect the routed preprocessing and local crops
+## 4. Inspect the exact tile sampler
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.inspect_preprocessing \
   --config experiments/dinov3_mixed_domain_adaptation/config.toml \
-  --samples-per-mode 20
+  --samples-per-cohort 3
 ```
 
-Open the separate JPEG files under
-`outputs/dinov3_mixed_domain_adaptation/preprocessing_inspection/`. Each preview shows the source,
-the routed input, probable collector-label regions in red, and four example local training crops.
-Check that:
+Open the separate JPEG previews under
+`outputs/dinov3_mixed_domain_adaptation/tile_inspection/`. Each preview contains the untouched raw
+image, vegetation/collector-card diagnostics, sampled tile boxes, and the actual high-resolution
+tiles. Check that:
 
-- timestamp inputs are correctly rectified quadrats;
-- `IMG_*` inputs remain unwarped;
-- local boxes cover plants and damage at useful resolution;
-- selected crops avoid the QR/collector card.
+- both 3x3 and 4x4 tiles appear;
+- plant-biased samples contain useful plant detail;
+- uniform samples retain some soil and acquisition diversity;
+- selected tiles avoid collector labels;
+- no image has been perspective-warped or grid-cropped.
 
-Do not start training until these previews look correct. Adjust only `[crops]` if the local crop
-scale or card-overlap threshold needs tuning, then regenerate the previews.
+Do not train until these previews look correct. Tile choices change deterministically with the epoch,
+so the backbone sees different regions while resumed runs remain reproducible.
 
 ## 5. Train on the GPU machine
 
@@ -101,19 +84,18 @@ python -m experiments.dinov3_mixed_domain_adaptation.train \
   --resume outputs/dinov3_mixed_domain_adaptation/last.pt
 ```
 
-The configured batch size 8 with two accumulation steps has an effective batch size of 16 and is a
-conservative starting point for a 24 GB RTX 3090. Check the reported peak CUDA memory after epoch 1
-before increasing it.
+Batch size 8 with two accumulation steps gives an effective batch size of 16 and is a conservative
+starting point for a 24 GB RTX 3090. Check the reported peak CUDA memory after epoch 1.
 
-## 6. Export a normal backbone
+## 6. Export and run the controlled downstream comparison
 
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.export_backbone \
   --config experiments/dinov3_mixed_domain_adaptation/config.toml
 ```
 
-This merges LoRA into DINOv3 and writes a standard Hugging Face model plus processor to
-`outputs/dinov3_mixed_domain_adaptation/adapted_backbone/`. For the controlled downstream test, set
-both `features.backbone` and `features.processor` in a copy of the successful 3x3 + 4x4 MIL config to
-that directory. Keep the gold split, grid preprocessing, feature representation, and MIL head
-unchanged so the backbone adaptation is the only experimental difference.
+The export merges LoRA into DINOv3 and writes a standard Hugging Face model and processor under
+`outputs/dinov3_mixed_domain_adaptation/adapted_backbone/`. Point both `features.backbone` and
+`features.processor` in a copy of the successful supervised tiled-MIL configuration to that folder.
+Keep the labeled split, seed, supervised preprocessing, MIL tiles, head, and optimizer unchanged so
+the adapted backbone is the only experimental difference.

@@ -1,4 +1,4 @@
-"""Audit representative raw images from every adaptation source before cropping."""
+"""Audit representative raw images from every adaptation source."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageFile, ImageFont, ImageOps
 from rapeseed_damage.artifacts import write_json
 
 from .config import Config, load_config
-from .preprocessing import preprocessing_mode
+from .preprocessing import RAW_TILED_MODE
 
 INDEX_FIELDS = (
     "cohort_id",
@@ -28,7 +28,7 @@ INDEX_FIELDS = (
     "height",
     "decode_status",
     "decode_warning",
-    "preliminary_route",
+    "adaptation_input",
     "sheet_path",
 )
 
@@ -107,13 +107,6 @@ def _load_source_image(path: Path) -> tuple[Image.Image, str, str]:
         return image, "recovered_truncated", warning
 
 
-def _route(filename: str, config: Config) -> str:
-    try:
-        return preprocessing_mode(filename, config)
-    except ValueError:
-        return "unclassified"
-
-
 def _save_source_sheet(
     cohort: str,
     folder: str,
@@ -152,11 +145,10 @@ def _save_source_sheet(
         y = header_height + grid_row * (image_height + caption_height)
         canvas.paste(preview, (x, y))
         filename = row[config.data.filename_column]
-        route = _route(filename, config)
         draw.text((x + 7, y + image_height + 5), filename, fill="black", font=font)
         draw.text(
             (x + 7, y + image_height + 25),
-            f"{width}x{height} | preliminary route: {route}",
+            f"{width}x{height} | adaptation input: {RAW_TILED_MODE}",
             fill="black",
             font=font,
         )
@@ -178,7 +170,7 @@ def _save_source_sheet(
                 "height": height,
                 "decode_status": decode_status,
                 "decode_warning": decode_warning,
-                "preliminary_route": route,
+                "adaptation_input": RAW_TILED_MODE,
             }
         )
     sheet = destination / f"{_safe_name(cohort)}__{_safe_name(folder)}.jpg"
@@ -205,7 +197,7 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
         selected = _evenly_spaced(source_rows, count, config.data.filename_column)
         sheet, records = _save_source_sheet(cohort, folder, selected, config, destination)
         index_records.extend(records)
-        routes = Counter(record["preliminary_route"] for record in records)
+        inputs = Counter(record["adaptation_input"] for record in records)
         decode_statuses = Counter(record["decode_status"] for record in records)
         group_records.append(
             {
@@ -213,9 +205,9 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
                 "source_folder": folder,
                 "total_images": len(source_rows),
                 "sampled_images": len(selected),
-                "preliminary_routes": json.dumps(dict(routes), sort_keys=True),
+                "adaptation_inputs": json.dumps(dict(inputs), sort_keys=True),
                 "decode_statuses": json.dumps(dict(decode_statuses), sort_keys=True),
-                "decision": "visual_review_required",
+                "decision": "raw_tiled",
                 "sheet_path": str(sheet.resolve()),
             }
         )
@@ -243,7 +235,7 @@ def run(config: Config, *, samples_per_source: int | None = None) -> dict:
         "sources_csv": str(source_summary_path.resolve()),
         "sheets": [record["sheet_path"] for record in group_records],
         "preprocessing_applied": False,
-        "next_step": "Visually classify each source before running prepare_inputs.",
+        "next_step": "Run prepare_inputs to validate raw files, then inspect sampled tiles.",
     }
     write_json(destination / "summary.json", summary)
     return summary

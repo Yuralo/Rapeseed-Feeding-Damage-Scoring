@@ -1,4 +1,4 @@
-"""Prepare the explicit grid-crop/raw adaptation manifest."""
+"""Validate raw adaptation images and write the usable-image manifest."""
 
 from __future__ import annotations
 
@@ -11,21 +11,27 @@ from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 
-from experiments.dinov3_grid_lora_patch_attention.preprocessing import (
-    load_or_create_grid_crop,
-)
+from PIL import Image, ImageOps
+
 from rapeseed_damage.artifacts import append_jsonl, write_json
 
 from .config import Config, load_config
-from .preprocessing import GRID_CROP_MODE, PREPARED_SCHEMA_VERSION, preprocessing_mode
+from .preprocessing import (
+    PREPARED_SCHEMA_VERSION,
+    RAW_TILED_MODE,
+    score_tile_candidates,
+    serialize_tile_candidates,
+)
 
 OUTPUT_FIELDS = (
     "image_id",
     "file_name",
     "cohort_id",
     "source_path",
-    "processed_path",
-    "preprocessing_mode",
+    "width",
+    "height",
+    "input_mode",
+    "tile_candidates",
     "prepared_schema_version",
 )
 
@@ -62,7 +68,19 @@ def _write_csv_atomic(path: Path, rows: list[dict[str, object]]) -> None:
     os.replace(temporary, path)
 
 
-def run(config: Config, *, overwrite: bool = False, limit: int | None = None) -> dict:
+def _analyze_image(path: Path, config: Config) -> tuple[int, int, str]:
+    """Decode and cache tiny tile-selection metadata, never derived image pixels."""
+    with Image.open(path) as handle:
+        image = ImageOps.exif_transpose(handle).convert("RGB")
+        try:
+            image.load()
+            candidates = score_tile_candidates(image, config)
+            return image.width, image.height, serialize_tile_candidates(candidates)
+        finally:
+            image.close()
+
+
+def run(config: Config, *, limit: int | None = None) -> dict:
     source_rows = _read_source_manifest(config)
     if limit is not None:
         if limit < 1:
@@ -86,33 +104,28 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
             raise ValueError(f"Duplicate image_id in adaptation manifest: {image_id}")
         seen_ids.add(image_id)
         try:
-            mode = preprocessing_mode(filename, config)
-            if config.data.verify_images and not source.is_file():
+            if not source.is_file():
                 raise FileNotFoundError(f"Source image is missing: {source}")
-            if mode == GRID_CROP_MODE:
-                image, processed, _ = load_or_create_grid_crop(
-                    source,
-                    config.data.grid_cache_dir,
-                    size=config.data.grid_crop_size,
-                    inner_margin_fraction=config.data.grid_inner_margin_fraction,
-                    overwrite=overwrite,
-                )
-                image.close()
-            else:
-                processed = source.resolve()
+            width, height, candidates = _analyze_image(source, config)
             prepared.append(
                 {
                     "image_id": image_id,
                     "file_name": filename,
                     "cohort_id": row[config.data.cohort_column],
                     "source_path": str(source.resolve()),
-                    "processed_path": str(processed),
-                    "preprocessing_mode": mode,
+                    "width": width,
+                    "height": height,
+                    "input_mode": RAW_TILED_MODE,
+                    "tile_candidates": candidates,
                     "prepared_schema_version": PREPARED_SCHEMA_VERSION,
                 }
             )
-            counts[mode] += 1
-            print(f"[{index + 1:04d}/{len(source_rows):04d}] {mode:9s} {filename}", flush=True)
+            counts[RAW_TILED_MODE] += 1
+            print(
+                f"[{index + 1:04d}/{len(source_rows):04d}] "
+                f"{RAW_TILED_MODE:9s} {filename}",
+                flush=True,
+            )
         except Exception as error:  # noqa: BLE001 - preserve complete batch audit.
             counts["excluded"] += 1
             append_jsonl(
@@ -141,13 +154,13 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
         "maximum_excluded_fraction": config.data.maximum_excluded_fraction,
         "status": "completed_with_exclusions" if excluded_images else "completed",
         "counts": dict(sorted(counts.items())),
-        "grid_crop_size": config.data.grid_crop_size,
-        "grid_inner_margin_fraction": config.data.grid_inner_margin_fraction,
+        "input_mode": RAW_TILED_MODE,
+        "images_written_or_modified": 0,
         "failure_log": str(failure_log.resolve()),
-        "routing": {
-            "timestamp_pattern": GRID_CROP_MODE,
-            "IMG_pattern": "raw",
-            "silent_fallback": False,
+        "tiling": {
+            "grid_sizes": list(config.tiles.grid_sizes),
+            "overlap_fraction": config.tiles.overlap_fraction,
+            "selection": "one deterministic tile per image and epoch",
         },
     }
     write_json(run_dir / "preparation_summary.json", summary)
@@ -171,12 +184,9 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
 def main(argv=None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
-    parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--limit", type=int)
     arguments = parser.parse_args(argv)
-    report = run(
-        load_config(arguments.config), overwrite=arguments.overwrite, limit=arguments.limit
-    )
+    report = run(load_config(arguments.config), limit=arguments.limit)
     print(json.dumps(report, indent=2, sort_keys=True))
 
 

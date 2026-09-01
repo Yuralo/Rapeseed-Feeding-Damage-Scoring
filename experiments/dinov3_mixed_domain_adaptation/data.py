@@ -16,12 +16,11 @@ from rapeseed_damage.reproducibility import seed_worker
 from .augmentations import paired_views
 from .config import Config
 from .preprocessing import (
-    GRID_CROP_MODE,
     PREPARED_SCHEMA_VERSION,
-    RAW_MODE,
+    RAW_TILED_MODE,
+    choose_adaptation_tile,
+    deserialize_tile_candidates,
     load_prepared_image,
-    probable_label_mask,
-    select_local_crop,
 )
 
 
@@ -39,8 +38,10 @@ def load_prepared_manifest(config: Config) -> list[dict[str, str]]:
         "file_name",
         "cohort_id",
         "source_path",
-        "processed_path",
-        "preprocessing_mode",
+        "width",
+        "height",
+        "input_mode",
+        "tile_candidates",
         "prepared_schema_version",
     }
     missing = required - set(rows[0] if rows else ())
@@ -51,8 +52,8 @@ def load_prepared_manifest(config: Config) -> list[dict[str, str]]:
     ids = [row["image_id"] for row in rows]
     if len(ids) != len(set(ids)):
         raise ValueError("Prepared manifest contains duplicate image IDs")
-    allowed_modes = {GRID_CROP_MODE, RAW_MODE}
-    bad_modes = sorted({row["preprocessing_mode"] for row in rows} - allowed_modes)
+    allowed_modes = {RAW_TILED_MODE}
+    bad_modes = sorted({row["input_mode"] for row in rows} - allowed_modes)
     if bad_modes:
         raise ValueError(f"Prepared manifest contains unsupported modes: {bad_modes}")
     bad_schema = sorted(
@@ -67,6 +68,15 @@ def load_prepared_manifest(config: Config) -> list[dict[str, str]]:
             "Prepared manifest schema mismatch; rebuild it with prepare_inputs. "
             f"Found versions: {bad_schema}"
         )
+    expected_scales = set(config.tiles.grid_sizes)
+    for row in rows:
+        candidates = deserialize_tile_candidates(row["tile_candidates"])
+        scales = {candidate.grid_size for candidate in candidates}
+        if scales != expected_scales:
+            raise ValueError(
+                f"Prepared tile scales for {row['image_id']} are {sorted(scales)}, "
+                f"but the config requests {sorted(expected_scales)}. Re-run prepare_inputs."
+            )
     source_path = Path(config.data.manifest)
     if not source_path.is_file():
         raise FileNotFoundError(f"Source adaptation manifest is missing: {source_path}")
@@ -90,15 +100,12 @@ def load_prepared_manifest(config: Config) -> list[dict[str, str]]:
             f"missing={len(missing_ids)}/{len(source_ids)} ({missing_fraction:.2%}), "
             f"limit={config.data.maximum_excluded_fraction:.2%}. Inspect the preparation log."
         )
-    if config.data.verify_images:
-        absent = [
-            row["processed_path"] for row in rows if not Path(row["processed_path"]).is_file()
-        ]
-        if absent:
-            raise FileNotFoundError(
-                f"{len(absent)} prepared image(s) are missing. First paths:\n"
-                + "\n".join(absent[:5])
-            )
+    absent = [row["source_path"] for row in rows if not Path(row["source_path"]).is_file()]
+    if absent:
+        raise FileNotFoundError(
+            f"{len(absent)} raw adaptation image(s) are missing. First paths:\n"
+            + "\n".join(absent[:5])
+        )
     return rows
 
 
@@ -143,7 +150,10 @@ def split_records(
 
 class PairedViewDataset(Dataset):
     def __init__(self, rows, processor, config: Config, *, training: bool):
-        self.rows = list(rows)
+        self.rows = [
+            {**row, "_tile_candidates": deserialize_tile_candidates(row["tile_candidates"])}
+            for row in rows
+        ]
         self.processor = processor
         self.config = config
         self.training = training
@@ -158,23 +168,38 @@ class PairedViewDataset(Dataset):
             epoch, index = 0, int(item)
         record = self.rows[index]
         image = load_prepared_image(record)
-        rng = Random(f"{self.config.training.seed}:{epoch}:{record['image_id']}")
-        label_mask = probable_label_mask(image)
-        selection = select_local_crop(image, self.config, rng, label_mask=label_mask)
-        local = image.crop(selection.box)
-        view_a, view_b = paired_views(local, self.config, rng)
-        pixels = self.processor(images=[view_a, view_b], return_tensors="pt")["pixel_values"]
-        image.close()
-        local.close()
-        view_a.close()
-        view_b.close()
+        tile = view_a = view_b = None
+        try:
+            rng = Random(f"{self.config.training.seed}:{epoch}:{record['image_id']}")
+            selection = choose_adaptation_tile(
+                record["_tile_candidates"],
+                self.config,
+                rng,
+            )
+            tile = image.crop(selection.box)
+            view_a, view_b = paired_views(tile, self.config, rng)
+            pixels = self.processor(images=[view_a, view_b], return_tensors="pt")[
+                "pixel_values"
+            ]
+        finally:
+            image.close()
+            for opened in (tile, view_a, view_b):
+                if opened is not None:
+                    opened.close()
         return {
             "view_a": pixels[0],
             "view_b": pixels[1],
             "image_id": record["image_id"],
             "file_name": record["file_name"],
             "cohort_id": record["cohort_id"],
-            "preprocessing_mode": record["preprocessing_mode"],
+            "input_mode": record["input_mode"],
+            "tile_grid_size": torch.tensor(selection.grid_size, dtype=torch.int64),
+            "tile_row": torch.tensor(selection.row, dtype=torch.int64),
+            "tile_column": torch.tensor(selection.column, dtype=torch.int64),
+            "tile_sampling_strategy": selection.sampling_strategy,
+            "tile_vegetation_fraction": torch.tensor(
+                selection.vegetation_fraction, dtype=torch.float32
+            ),
             "label_overlap_fraction": torch.tensor(
                 selection.label_overlap_fraction, dtype=torch.float32
             ),

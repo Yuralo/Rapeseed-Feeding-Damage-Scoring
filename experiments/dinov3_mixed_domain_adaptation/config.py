@@ -1,4 +1,4 @@
-"""Configuration for mixed raw/grid DINOv3 LoRA domain adaptation."""
+"""Configuration for raw tiled DINOv3 LoRA domain adaptation."""
 
 from __future__ import annotations
 
@@ -22,24 +22,20 @@ class DataSettings:
     filename_column: str = "file_name"
     id_column: str = "image_id"
     cohort_column: str = "cohort_id"
-    timestamp_pattern: str = r"^\d{8}_\d{6}\.(?:jpg|jpeg)$"
-    raw_pattern: str = r"^IMG_.*\.(?:jpg|jpeg)$"
-    verify_images: bool = True
-    grid_crop_size: int = 1400
-    grid_cache_dir: str = "cache/adaptation_grid_crops_1400_inset075"
-    grid_inner_margin_fraction: float = 0.075
     maximum_excluded_fraction: float = 0.05
     validation_fraction: float = 0.1
     split_seed: int = 42
 
 
 @dataclass(frozen=True)
-class CropSettings:
-    minimum_scale: float = 0.35
-    maximum_scale: float = 0.75
+class TileSettings:
+    grid_sizes: tuple[int, ...] = (3, 4)
+    overlap_fraction: float = 0.15
+    plant_biased_probability: float = 0.7
+    vegetation_score_power: float = 1.0
     label_overlap_limit: float = 0.02
-    candidate_attempts: int = 24
-    preview_crops_per_image: int = 4
+    mask_analysis_max_side: int = 768
+    preview_tiles_per_image: int = 4
 
 
 @dataclass(frozen=True)
@@ -100,12 +96,12 @@ class OutputSettings:
     run_dir: str = "outputs/dinov3_mixed_domain_adaptation"
     source_inspection_dir: str = "source_inspection"
     samples_per_source: int = 8
-    inspection_dir: str = "preprocessing_inspection"
-    samples_per_mode: int = 12
+    inspection_dir: str = "tile_inspection"
+    samples_per_cohort: int = 2
     best_checkpoint_name: str = "best.pt"
     last_checkpoint_name: str = "last.pt"
     export_dir: str = "adapted_backbone"
-    failure_log: str = "preprocessing_failures.jsonl"
+    failure_log: str = "input_exclusions.jsonl"
     save_plots: bool = True
 
 
@@ -113,7 +109,7 @@ class OutputSettings:
 class Config:
     experiment: ExperimentSettings = ExperimentSettings()
     data: DataSettings = DataSettings()
-    crops: CropSettings = CropSettings()
+    tiles: TileSettings = TileSettings()
     augmentation: AugmentationSettings = AugmentationSettings()
     model: ModelSettings = ModelSettings()
     objective: ObjectiveSettings = ObjectiveSettings()
@@ -134,27 +130,28 @@ class Config:
             data.filename_column,
             data.id_column,
             data.cohort_column,
-            data.timestamp_pattern,
-            data.raw_pattern,
-            data.grid_cache_dir,
         )
         if any(not value.strip() for value in required_strings):
-            raise ValueError("Data paths, columns, and filename patterns cannot be empty")
-        if data.grid_crop_size < 1:
-            raise ValueError("data.grid_crop_size must be positive")
-        if not 0 <= data.grid_inner_margin_fraction < 0.25:
-            raise ValueError("data.grid_inner_margin_fraction must be in [0, 0.25)")
+            raise ValueError("Data paths and columns cannot be empty")
         if not 0 <= data.maximum_excluded_fraction < 1:
             raise ValueError("data.maximum_excluded_fraction must be in [0, 1)")
         if not 0 < data.validation_fraction < 0.5:
             raise ValueError("data.validation_fraction must be between 0 and 0.5")
-        crops = self.crops
-        if not 0 < crops.minimum_scale <= crops.maximum_scale <= 1:
-            raise ValueError("Crop scales must satisfy 0 < minimum <= maximum <= 1")
-        if not 0 <= crops.label_overlap_limit <= 1:
-            raise ValueError("crops.label_overlap_limit must be in [0, 1]")
-        if crops.candidate_attempts < 1 or crops.preview_crops_per_image < 1:
-            raise ValueError("Crop attempt and preview counts must be positive")
+        tiles = self.tiles
+        if not tiles.grid_sizes or any(size < 2 for size in tiles.grid_sizes):
+            raise ValueError("tiles.grid_sizes must contain integers of at least 2")
+        if len(set(tiles.grid_sizes)) != len(tiles.grid_sizes):
+            raise ValueError("tiles.grid_sizes cannot contain duplicates")
+        if not 0 <= tiles.overlap_fraction < 1:
+            raise ValueError("tiles.overlap_fraction must be in [0, 1)")
+        if not 0 <= tiles.plant_biased_probability <= 1:
+            raise ValueError("tiles.plant_biased_probability must be in [0, 1]")
+        if tiles.vegetation_score_power <= 0:
+            raise ValueError("tiles.vegetation_score_power must be positive")
+        if not 0 <= tiles.label_overlap_limit <= 1:
+            raise ValueError("tiles.label_overlap_limit must be in [0, 1]")
+        if tiles.mask_analysis_max_side < 64 or tiles.preview_tiles_per_image < 1:
+            raise ValueError("Tile mask size and preview count must be positive")
         augmentation = self.augmentation
         probabilities = (
             augmentation.horizontal_flip_probability,
@@ -204,7 +201,7 @@ class Config:
             raise ValueError("runtime.mixed_precision must be none, fp16, or bf16")
         if not self.output.source_inspection_dir.strip() or not self.output.inspection_dir.strip():
             raise ValueError("Output inspection directories cannot be empty")
-        if self.output.samples_per_source < 1 or self.output.samples_per_mode < 1:
+        if self.output.samples_per_source < 1 or self.output.samples_per_cohort < 1:
             raise ValueError("Output inspection sample counts must be positive")
 
 
@@ -225,7 +222,7 @@ def load_config(path: str | Path) -> Config:
     sections = {
         "experiment": ExperimentSettings,
         "data": DataSettings,
-        "crops": CropSettings,
+        "tiles": TileSettings,
         "augmentation": AugmentationSettings,
         "model": ModelSettings,
         "objective": ObjectiveSettings,

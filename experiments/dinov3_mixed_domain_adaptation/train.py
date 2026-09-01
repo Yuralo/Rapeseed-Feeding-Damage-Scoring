@@ -1,4 +1,4 @@
-"""Train mixed-source DINOv3 LoRA adaptation against a frozen teacher."""
+"""Train raw tiled DINOv3 LoRA adaptation against a frozen teacher."""
 
 from __future__ import annotations
 
@@ -64,9 +64,11 @@ def _move(batch, device):
     )
 
 
-def evaluate(model, loader, config: Config, device) -> dict[str, float]:
+def evaluate(model, loader, config: Config, device) -> dict[str, object]:
     model.eval()
     totals = Counter()
+    tile_scales = Counter()
+    sampling_strategies = Counter()
     samples = 0
     with torch.no_grad():
         for batch in loader:
@@ -77,10 +79,22 @@ def evaluate(model, loader, config: Config, device) -> dict[str, float]:
             for key in METRIC_KEYS:
                 totals[key] += float(metrics[key].detach().item()) * batch_size
             totals["label_overlap_fraction"] += float(batch["label_overlap_fraction"].sum().item())
+            totals["tile_vegetation_fraction"] += float(
+                batch["tile_vegetation_fraction"].sum().item()
+            )
+            tile_scales.update(str(int(value)) for value in batch["tile_grid_size"])
+            sampling_strategies.update(batch["tile_sampling_strategy"])
             samples += batch_size
     if not samples:
         raise ValueError("Validation loader is empty")
-    return {key: float(value / samples) for key, value in totals.items()} | {"samples": samples}
+    return (
+        {key: float(value / samples) for key, value in totals.items()}
+        | {
+            "samples": samples,
+            "tile_grid_sizes": dict(sorted(tile_scales.items())),
+            "tile_sampling_strategies": dict(sorted(sampling_strategies.items())),
+        }
+    )
 
 
 def _checkpoint(
@@ -167,7 +181,7 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
         "total": len(rows),
         "training": len(training),
         "validation": len(validation),
-        "modes": dict(Counter(row["preprocessing_mode"] for row in rows)),
+        "input_modes": dict(Counter(row["input_mode"] for row in rows)),
         "training_cohorts": dict(Counter(row["cohort_id"] for row in training)),
         "validation_cohorts": dict(Counter(row["cohort_id"] for row in validation)),
     }
@@ -177,7 +191,7 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
     write_json(run_dir / "split_summary.json", split_summary)
     print(
         f"Prepared images={len(rows)} | train={len(training)} | val={len(validation)} | "
-        f"modes={split_summary['modes']}",
+        f"input_modes={split_summary['input_modes']}",
         flush=True,
     )
     print(
@@ -244,7 +258,7 @@ def run(config: Config, resume: str | Path | None = None) -> dict:
         history["peak_cuda_memory_gb"].append(peak_memory)
         message = (
             f"Epoch {epoch:03d}/{config.training.epochs} | train={train_metrics['loss']:.5f} "
-            f"| {epoch_seconds:.1f}s | {samples / epoch_seconds:.1f} images/s | "
+            f"| {epoch_seconds:.1f}s | {samples / epoch_seconds:.1f} tiles/s | "
             f"peak={peak_memory:.2f} GB | steps={optimizer_steps}"
         )
         should_evaluate = epoch % config.training.eval_every == 0 or epoch == config.training.epochs
