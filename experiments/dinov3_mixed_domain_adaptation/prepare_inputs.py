@@ -72,6 +72,9 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
     run_dir = Path(config.output.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     failure_log = run_dir / config.output.failure_log
+    # Each preparation report describes this run only; do not accumulate stale
+    # exclusions from earlier attempts.
+    failure_log.unlink(missing_ok=True)
     prepared: list[dict[str, object]] = []
     counts: Counter[str] = Counter()
     seen_ids: set[str] = set()
@@ -111,7 +114,7 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
             counts[mode] += 1
             print(f"[{index + 1:04d}/{len(source_rows):04d}] {mode:9s} {filename}", flush=True)
         except Exception as error:  # noqa: BLE001 - preserve complete batch audit.
-            counts["failed"] += 1
+            counts["excluded"] += 1
             append_jsonl(
                 failure_log,
                 {
@@ -124,13 +127,19 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
                     "traceback": traceback.format_exc(),
                 },
             )
-            print(f"FAILED {filename}: {error}", flush=True)
+            print(f"EXCLUDED {filename}: {error}", flush=True)
     _write_csv_atomic(destination, prepared)
+    excluded_images = counts["excluded"]
+    excluded_fraction = excluded_images / len(source_rows)
     summary = {
         "source_manifest": str(Path(config.data.manifest).resolve()),
         "prepared_manifest": str(destination.resolve()),
         "requested_images": len(source_rows),
         "prepared_images": len(prepared),
+        "excluded_images": excluded_images,
+        "excluded_fraction": excluded_fraction,
+        "maximum_excluded_fraction": config.data.maximum_excluded_fraction,
+        "status": "completed_with_exclusions" if excluded_images else "completed",
         "counts": dict(sorted(counts.items())),
         "grid_crop_size": config.data.grid_crop_size,
         "grid_inner_margin_fraction": config.data.grid_inner_margin_fraction,
@@ -142,9 +151,19 @@ def run(config: Config, *, overwrite: bool = False, limit: int | None = None) ->
         },
     }
     write_json(run_dir / "preparation_summary.json", summary)
-    if counts["failed"]:
+    if not prepared:
+        raise RuntimeError("Preparation produced no usable images; inspect the failure log")
+    if excluded_fraction > config.data.maximum_excluded_fraction:
         raise RuntimeError(
-            f"Preparation failed for {counts['failed']} image(s); inspect {failure_log}"
+            f"Excluded {excluded_images}/{len(source_rows)} images "
+            f"({excluded_fraction:.2%}), above the configured "
+            f"{config.data.maximum_excluded_fraction:.2%} safety limit; inspect {failure_log}"
+        )
+    if excluded_images:
+        print(
+            f"Preparation completed with {excluded_images} excluded image(s) "
+            f"({excluded_fraction:.2%}); details: {failure_log}",
+            flush=True,
         )
     return summary
 

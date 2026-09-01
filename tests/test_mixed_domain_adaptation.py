@@ -12,6 +12,7 @@ def test_mixed_adaptation_config_preserves_explicit_routing_and_3090_defaults():
     config = load_config(CONFIG_PATH)
     assert config.data.grid_inner_margin_fraction == pytest.approx(0.075)
     assert config.data.grid_crop_size == 1400
+    assert config.data.maximum_excluded_fraction == pytest.approx(0.05)
     assert config.output.samples_per_source == 8
     assert config.training.batch_size == 8
     assert config.training.gradient_accumulation_steps == 2

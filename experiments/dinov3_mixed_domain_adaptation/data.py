@@ -74,13 +74,21 @@ def load_prepared_manifest(config: Config) -> list[dict[str, str]]:
         source_rows = list(csv.DictReader(handle))
     source_ids = {row[config.data.id_column] for row in source_rows}
     prepared_ids = set(ids)
-    if prepared_ids != source_ids:
+    if not prepared_ids <= source_ids:
         missing_ids = sorted(source_ids - prepared_ids)
         extra_ids = sorted(prepared_ids - source_ids)
         raise ValueError(
-            "Prepared manifest does not exactly cover the adaptation manifest. "
+            "Prepared manifest contains images outside the adaptation manifest. "
             f"missing={len(missing_ids)}, extra={len(extra_ids)}. "
             "Re-run prepare_inputs without --limit."
+        )
+    missing_ids = sorted(source_ids - prepared_ids)
+    missing_fraction = len(missing_ids) / len(source_ids)
+    if missing_fraction > config.data.maximum_excluded_fraction:
+        raise ValueError(
+            "Prepared manifest excludes too many adaptation images: "
+            f"missing={len(missing_ids)}/{len(source_ids)} ({missing_fraction:.2%}), "
+            f"limit={config.data.maximum_excluded_fraction:.2%}. Inspect the preparation log."
         )
     if config.data.verify_images:
         absent = [

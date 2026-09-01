@@ -54,10 +54,13 @@ python -m experiments.dinov3_mixed_domain_adaptation.prepare_inputs \
   --config experiments/dinov3_mixed_domain_adaptation/config.toml
 ```
 
-Expected full counts are 7,569 images: approximately 5,769 `grid_crop` timestamp images and 1,800
-raw `IMG_*` images. Preparation writes a resumable timestamp crop cache and
-`outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. The raw images are referenced in
-place and are not duplicated.
+The source audit found 7,569 canonical images: approximately 5,769 `grid_crop` timestamp images and
+1,800 raw `IMG_*` images. Preparation writes a resumable timestamp crop cache and
+`outputs/dinov3_mixed_domain_adaptation/prepared_manifest.csv`. Individual unreadable files and
+failed grid detections are logged and excluded; the command succeeds while exclusions remain below
+the configured 5% safety limit. This avoids spending effort on a tiny unusable fraction while still
+stopping if preprocessing is broken systemically. The raw images are referenced in place and are
+not duplicated.
 
 ## 4. Inspect the routed preprocessing and local crops
 

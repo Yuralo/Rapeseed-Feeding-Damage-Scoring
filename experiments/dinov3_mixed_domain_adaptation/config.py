@@ -28,6 +28,7 @@ class DataSettings:
     grid_crop_size: int = 1400
     grid_cache_dir: str = "cache/adaptation_grid_crops_1400_inset075"
     grid_inner_margin_fraction: float = 0.075
+    maximum_excluded_fraction: float = 0.05
     validation_fraction: float = 0.1
     split_seed: int = 42
 
@@ -143,6 +144,8 @@ class Config:
             raise ValueError("data.grid_crop_size must be positive")
         if not 0 <= data.grid_inner_margin_fraction < 0.25:
             raise ValueError("data.grid_inner_margin_fraction must be in [0, 0.25)")
+        if not 0 <= data.maximum_excluded_fraction < 1:
+            raise ValueError("data.maximum_excluded_fraction must be in [0, 1)")
         if not 0 < data.validation_fraction < 0.5:
             raise ValueError("data.validation_fraction must be between 0 and 0.5")
         crops = self.crops

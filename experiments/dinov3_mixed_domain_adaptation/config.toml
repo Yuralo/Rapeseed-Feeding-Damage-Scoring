@@ -15,6 +15,9 @@ verify_images = true
 grid_crop_size = 1400
 grid_cache_dir = "cache/adaptation_grid_crops_1400_inset075"
 grid_inner_margin_fraction = 0.075
+# Individual unreadable images and failed grid detections are excluded. Stop only
+# when the rate is high enough to indicate a systemic preprocessing problem.
+maximum_excluded_fraction = 0.05
 validation_fraction = 0.10
 split_seed = 42
 
