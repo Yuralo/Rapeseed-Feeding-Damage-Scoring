@@ -5,27 +5,27 @@
     "rmse": 6.994796295240106
   },
   "model": {
-    "mae": 2.625389118989309,
-    "normalized_mse": 0.3422281436431102,
-    "objective_mse": 0.3422281436431102,
-    "r2": 0.7029665775432374,
-    "rmse": 3.8121192678930473
+    "mae": 2.614710332491459,
+    "normalized_mse": 0.34522192294781023,
+    "objective_mse": 0.34522192294781023,
+    "r2": 0.7003681758099645,
+    "rmse": 3.828756871683434
   },
   "multiscale_attention": {
     "coarse": {
-      "maximum_normalized_entropy": 0.9998870765260572,
-      "maximum_top_tile_mass": 0.154241681098938,
-      "mean_normalized_entropy": 0.9982352479835077,
-      "mean_top_tile_mass": 0.12680432200431824,
-      "minimum_normalized_entropy": 0.9946157247054439,
+      "maximum_normalized_entropy": 0.9994322167563605,
+      "maximum_top_tile_mass": 0.20097428560256958,
+      "mean_normalized_entropy": 0.9937845933650923,
+      "mean_top_tile_mass": 0.14735566079616547,
+      "minimum_normalized_entropy": 0.9798755453705293,
       "tiles_per_image": 9
     },
     "fine": {
-      "maximum_normalized_entropy": 0.9983601587122825,
-      "maximum_top_tile_mass": 0.17553488910198212,
-      "mean_normalized_entropy": 0.9797962784907802,
-      "mean_top_tile_mass": 0.11283201724290848,
-      "minimum_normalized_entropy": 0.9403083768391739,
+      "maximum_normalized_entropy": 0.985659966336144,
+      "maximum_top_tile_mass": 0.5331593751907349,
+      "mean_normalized_entropy": 0.8538319725994884,
+      "mean_top_tile_mass": 0.25183767080307007,
+      "minimum_normalized_entropy": 0.6630396461885188,
       "tiles_per_image": 16
     }
   },

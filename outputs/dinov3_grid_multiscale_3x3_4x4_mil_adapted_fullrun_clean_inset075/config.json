@@ -64,7 +64,7 @@
   "training": {
     "batch_size": 32,
     "early_stopping_min_delta": 0.0001,
-    "early_stopping_patience": 12,
+    "early_stopping_patience": 20,
     "epochs": 100,
     "eval_every": 1,
     "gradient_clip_norm": 1.0,
