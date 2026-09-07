@@ -112,13 +112,34 @@ starting point for a 24 GB RTX 3090. Check the reported peak CUDA memory after e
 
 ## 6. Export and run the controlled downstream comparison
 
+Export the best checkpoint from the completed adaptation run to a dedicated snapshot. A separate
+destination keeps this model distinct from the earlier epoch-3 export:
+
 ```bash
 python -m experiments.dinov3_mixed_domain_adaptation.export_backbone \
-  --config experiments/dinov3_mixed_domain_adaptation/config.toml
+  --config experiments/dinov3_mixed_domain_adaptation/config.toml \
+  --destination outputs/dinov3_mixed_domain_adaptation/adapted_backbone_fullrun
 ```
 
-The export merges LoRA into DINOv3 and writes a standard Hugging Face model and processor under
-`outputs/dinov3_mixed_domain_adaptation/adapted_backbone/`. Point both `features.backbone` and
-`features.processor` in a copy of the successful supervised tiled-MIL configuration to that folder.
-Keep the labeled split, seed, supervised preprocessing, MIL tiles, head, and optimizer unchanged so
-the adapted backbone is the only experimental difference.
+Create new 3x3 and 4x4 feature caches with that backbone. Do not reuse the epoch-3 caches:
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.prepare_features \
+  --config experiments/dinov3_grid_tiled_mil/config_adapted_fullrun_3x3.toml
+
+python -m experiments.dinov3_grid_tiled_mil.prepare_features \
+  --config experiments/dinov3_grid_tiled_mil/config_adapted_fullrun_4x4.toml
+```
+
+Then train the same multiscale supervised head from scratch:
+
+```bash
+python -m experiments.dinov3_grid_multiscale_tiled_mil.train \
+  --config experiments/dinov3_grid_multiscale_tiled_mil/config_adapted_fullrun.toml \
+  --from-scratch
+```
+
+The export merges LoRA into DINOv3 and writes a standard Hugging Face model and processor. The
+full-run configurations preserve the labeled split, seed, supervised preprocessing, MIL tiles,
+head, and optimizer from the epoch-3 comparison. Their distinct feature-cache and output paths
+make the adapted backbone the only experimental change.
