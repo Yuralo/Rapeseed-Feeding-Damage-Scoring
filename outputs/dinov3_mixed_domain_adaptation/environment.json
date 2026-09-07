@@ -4,7 +4,7 @@
   "cudnn_version": 91900,
   "device": "cuda",
   "git": {
-    "commit": "aa357dfcd0b9f74e1699fd595012c7a98c86d2ea",
+    "commit": "b21fa2c35511ed8a587a295deb3f143254e22c6a",
     "dirty": false
   },
   "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
