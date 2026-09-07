@@ -1,0 +1,31 @@
+{
+  "base_backbone": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+  "checkpoint_epoch": 20,
+  "downstream_usage": {
+    "backbone": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/adapted_backbone_fullrun",
+    "processor": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/adapted_backbone_fullrun"
+  },
+  "export_directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/adapted_backbone_fullrun",
+  "processor": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+  "representation_used_during_adaptation": "cls+mean_patches",
+  "source_checkpoint": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/best.pt",
+  "validation_metrics": {
+    "anchor_loss": 0.007294741998512447,
+    "cross_view_loss": 0.034024737888058085,
+    "feature_std": 0.1813300434792058,
+    "label_overlap_fraction": 0.00015005275627605853,
+    "loss": 0.03584842338768619,
+    "samples": 727,
+    "student_teacher_cosine": 0.992705257673539,
+    "student_view_cosine": 0.9801760428217451,
+    "tile_grid_sizes": {
+      "3": 389,
+      "4": 338
+    },
+    "tile_sampling_strategies": {
+      "plant_biased": 496,
+      "uniform": 231
+    },
+    "tile_vegetation_fraction": 0.12497244685109413
+  }
+}

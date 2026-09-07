@@ -1,0 +1,10 @@
+{
+  "attention_parameters": 33152,
+  "coarse_tiles_per_image": 9,
+  "fine_tiles_per_image": 16,
+  "frozen_backbone_parameters_loaded_during_training": 0,
+  "frozen_feature_dimension": 1536,
+  "pooled_representations": "global+coarse_mean+coarse_attention+fine_mean+fine_attention",
+  "total_parameters": 316417,
+  "trainable_parameters": 316417
+}
