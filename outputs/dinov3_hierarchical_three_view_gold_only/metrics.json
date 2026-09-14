@@ -1,0 +1,90 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.19814388806687439,
+      "plant_count": 0.1275976850542369,
+      "plant_entropy": -0.029401569739446017,
+      "target": 0.4397599385882386
+    },
+    "mean_residual": 0.15696099400520325,
+    "median_absolute_error": 1.8090343475341797,
+    "prediction_vs_target_intercept": 2.3029473635784874,
+    "prediction_vs_target_slope": 0.7175824672154234,
+    "within_1_point_fraction": 0.273972602739726,
+    "within_2_5_points_fraction": 0.6575342465753424,
+    "within_5_points_fraction": 0.8767123287671232,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.777402877807617,
+      "residual": -13.472597122192383,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9997272706238042,
+      "mean_normalized_entropy": 0.9879190371591056,
+      "mean_top_mass": 0.30555546283721924,
+      "minimum_normalized_entropy": 0.9483869004938102
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9981273300211153,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9271845571001007,
+      "mean_top_mass": 0.31269359588623047,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.469225204154237,
+    "normalized_mse": 0.2775389527621335,
+    "objective_mse": 0.2775389527621335,
+    "r2": 0.7754641033126004,
+    "rmse": 3.4311695050075146
+  },
+  "samples": 73,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.8360310912132263,
+      "mean_residual": 1.8348973989486694,
+      "r2": -10.54185937902441,
+      "rmse": 2.148979777170728,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 3.7740906201876125,
+      "mean_residual": -2.545201539993286,
+      "r2": 0.47903793167815734,
+      "rmse": 5.383563285326199,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.1192281575038514,
+      "mean_residual": 1.1728448867797852,
+      "r2": -1.96886172163703,
+      "rmse": 2.820654293500105,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.001093040813099,
+      "mean_residual": -2.3786070346832275,
+      "r2": -2.0995961593023833,
+      "rmse": 3.808587865681928,
+      "samples": 11
+    }
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "best_checkpoint": "outputs/dinov3_hierarchical_three_view_gold_only/best_mse.pt",
+  "best_mae_checkpoint": "outputs/dinov3_hierarchical_three_view_gold_only/best_mae.pt",
+  "best_mae_evaluation": {
+    "checkpoint": "outputs/dinov3_hierarchical_three_view_gold_only/best_mae.pt",
+    "error_analysis": {
+      "absolute_error_correlations": {
+        "cell_entropy": -0.24184795232844003,
+        "plant_count": 0.14675976244972322,
+        "plant_entropy": -0.09269070558836752,
+        "target": 0.5790739438226612
+      },
+      "mean_residual": -0.7397487759590149,
+      "median_absolute_error": 1.8623099327087402,
+      "prediction_vs_target_intercept": 1.0010327588860328,
+      "prediction_vs_target_slope": 0.7709085099794223,
+      "within_1_point_fraction": 0.3698630136986301,
+      "within_2_5_points_fraction": 0.6575342465753424,
+      "within_5_points_fraction": 0.863013698630137,
+      "worst_sample": {
+        "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+        "prediction": 29.770936965942383,
+        "residual": -13.479063034057617,
+        "target": 43.25
+      }
+    },
+    "hierarchical_attention": {
+      "cells": {
+        "maximum_normalized_entropy": 0.9996374485555201,
+        "mean_normalized_entropy": 0.9704688293766341,
+        "mean_top_mass": 0.33667507767677307,
+        "minimum_normalized_entropy": 0.8914352200444148
+      },
+      "plants": {
+        "maximum_instances_per_image": 10,
+        "maximum_normalized_entropy": 0.9982142140470165,
+        "mean_instances_per_image": 5.917808219178082,
+        "mean_mask_coverage": 1.0,
+        "mean_normalized_entropy": 0.9059398402543744,
+        "mean_top_mass": 0.3399670720100403,
+        "minimum_instances_per_image": 1,
+        "minimum_normalized_entropy": 0.0
+      }
+    },
+    "mean_baseline": {
+      "mae": 5.167987425033361,
+      "r2": -0.0011284708739882632,
+      "rmse": 7.245096738610969
+    },
+    "model": {
+      "mae": 2.4272274252486556,
+      "normalized_mse": 0.28913104370848774,
+      "objective_mse": 0.28913104370848774,
+      "r2": 0.7660858258057555,
+      "rmse": 3.502092009411711
+    },
+    "samples": 73,
+    "selection_metric": "mae",
+    "target_processing": {
+      "normalized": true,
+      "training_mean": 7.355384826660156,
+      "transform_mean": 7.355384826660156,
+      "transform_std": 6.512986660003662
+    },
+    "target_ranges": {
+      "0_to_2_5": {
+        "mae": 0.8298909664154053,
+        "mean_residual": 0.5126855969429016,
+        "r2": -2.4745331674907574,
+        "rmse": 1.179078363858228,
+        "samples": 20
+      },
+      "over_15": {
+        "mae": 4.285915888272799,
+        "mean_residual": -2.5605878829956055,
+        "r2": 0.41671189440228573,
+        "rmse": 5.696503011596022,
+        "samples": 13
+      },
+      "over_2_5_to_7_5": {
+        "mae": 2.21991413215111,
+        "mean_residual": 0.17236998677253723,
+        "r2": -1.9207837724802115,
+        "rmse": 2.797722139359414,
+        "samples": 29
+      },
+      "over_7_5_to_15": {
+        "mae": 3.6813969395377417,
+        "mean_residual": -3.2696783542633057,
+        "r2": -3.2479462828752466,
+        "rmse": 4.45862483216899,
+        "samples": 11
+      }
+    }
+  },
+  "checkpoint": "outputs/dinov3_hierarchical_three_view_gold_only/best_mse.pt",
+  "device": "cuda",
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.19814388806687439,
+      "plant_count": 0.1275976850542369,
+      "plant_entropy": -0.029401569739446017,
+      "target": 0.4397599385882386
+    },
+    "mean_residual": 0.15696099400520325,
+    "median_absolute_error": 1.8090343475341797,
+    "prediction_vs_target_intercept": 2.3029473635784874,
+    "prediction_vs_target_slope": 0.7175824672154234,
+    "within_1_point_fraction": 0.273972602739726,
+    "within_2_5_points_fraction": 0.6575342465753424,
+    "within_5_points_fraction": 0.8767123287671232,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.777402877807617,
+      "residual": -13.472597122192383,
+      "target": 43.25
+    }
+  },
+  "feature_dim": 1536,
+  "gold_finetune_samples": 325,
+  "gold_validation_samples": 73,
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9997272706238042,
+      "mean_normalized_entropy": 0.9879190371591056,
+      "mean_top_mass": 0.30555546283721924,
+      "minimum_normalized_entropy": 0.9483869004938102
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9981273300211153,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9271845571001007,
+      "mean_top_mass": 0.31269359588623047,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "last_checkpoint": "outputs/dinov3_hierarchical_three_view_gold_only/last.pt",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.469225204154237,
+    "normalized_mse": 0.2775389527621335,
+    "objective_mse": 0.2775389527621335,
+    "r2": 0.7754641033126004,
+    "rmse": 3.4311695050075146
+  },
+  "pretrain_checkpoint": null,
+  "reserved_gold_test_samples": 72,
+  "samples": 73,
+  "selection_metric": "objective_mse",
+  "stage_reports": {
+    "finetune": {
+      "best_validation_loss": 0.2775389527621335,
+      "best_validation_mae": 2.4272274252486556,
+      "completed_stage_epochs": 33,
+      "stopped_early": true
+    }
+  },
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.8360310912132263,
+      "mean_residual": 1.8348973989486694,
+      "r2": -10.54185937902441,
+      "rmse": 2.148979777170728,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 3.7740906201876125,
+      "mean_residual": -2.545201539993286,
+      "r2": 0.47903793167815734,
+      "rmse": 5.383563285326199,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.1192281575038514,
+      "mean_residual": 1.1728448867797852,
+      "r2": -1.96886172163703,
+      "rmse": 2.820654293500105,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.001093040813099,
+      "mean_residual": -2.3786070346832275,
+      "r2": -2.0995961593023833,
+      "rmse": 3.808587865681928,
+      "samples": 11
+    }
+  },
+  "test_evaluated_during_training": false,
+  "training_mode": "gold_only",
+  "weak_pretrain_samples": 0,
+  "weak_records_skipped": 0
+}

@@ -1,0 +1,123 @@
+{
+  "adaptive_crops": {
+    "context_scale": 2.0,
+    "grouping_dilation_px": 20,
+    "maximum_crop_size": 448,
+    "maximum_instances": 20,
+    "minimum_crop_size": 160,
+    "minimum_mask_coverage": 0.98
+  },
+  "data": {
+    "absolute_path_column": "absolute_path",
+    "cell_inner_margin_fraction": 0.02,
+    "cohort_column": "cohort_id",
+    "crop_size": 1400,
+    "filename_column": "relative_path",
+    "finetune_manifest": "finetune.csv",
+    "grid_inner_margin_fraction": 0.075,
+    "group_column": "plot_group_id",
+    "manifest_dir": "outputs/dataset_manifests",
+    "maximum_weak_failure_fraction": 0.05,
+    "pretrain_manifest": "pretrain.csv",
+    "processed_cache_dir": "cache/hierarchical_three_view_processed",
+    "processed_jpeg_quality": 95,
+    "raw_source_folders": [
+      "2025_09_15_Re4StRes_T1_DSV",
+      "2025_09_12_RSFB_01_NPZi",
+      "2025_09_19_RSFB_02_NPZi"
+    ],
+    "sam_inference_max_side": 1400,
+    "sample_weight_column": "sample_weight",
+    "supervision_tier_column": "supervision_tier",
+    "target_column": "target",
+    "test_manifest": "test.csv",
+    "validation_manifest": "validation.csv",
+    "verify_images": true
+  },
+  "experiment": {
+    "name": "dinov3_hierarchical_three_view_weak_then_gold"
+  },
+  "features": {
+    "backbone": "outputs/dinov3_routed_source_adaptation/adapted_backbone",
+    "cache_dir": "cache/dinov3_hierarchical_three_view_features_adapted_routed",
+    "extraction_batch_size": 16,
+    "mask_cache_dir": "cache/sam3_masks_hierarchical_three_view",
+    "overwrite": false,
+    "processor": "outputs/dinov3_routed_source_adaptation/adapted_backbone",
+    "representation": "cls_mean",
+    "storage_dtype": "float16"
+  },
+  "model": {
+    "attention_dropout": 0.1,
+    "attention_hidden_dim": 64,
+    "attention_temperature": 1.0,
+    "dropout": 0.3,
+    "head_hidden_dim": 128,
+    "projection_dim": 128
+  },
+  "output": {
+    "attention_arrays_name": "hierarchical_attention.npz",
+    "attention_inspection_images": 6,
+    "best_checkpoint_name": "best_mse.pt",
+    "best_mae_checkpoint_name": "best_mae.pt",
+    "example_columns": 4,
+    "example_images": 12,
+    "feature_failure_log": "feature_failures.jsonl",
+    "last_checkpoint_name": "last.pt",
+    "pretrain_checkpoint_name": "pretrain_best_mse.pt",
+    "run_dir": "outputs/dinov3_hierarchical_three_view_weak_then_gold",
+    "save_plots": true,
+    "usable_pretrain_manifest": "usable_pretrain.csv"
+  },
+  "runtime": {
+    "allow_tf32": true,
+    "deterministic": true,
+    "device": "auto",
+    "mixed_precision": "fp16",
+    "pin_memory": true
+  },
+  "segmentation": {
+    "background_value": 255,
+    "device": "auto",
+    "mask_cache_dir": "cache/sam3_masks_grid1400_inset075",
+    "mask_threshold": 0.5,
+    "maximum_foreground_fraction": 0.6,
+    "minimum_foreground_fraction": 0.0001,
+    "model_name": "facebook/sam3",
+    "prompts": [
+      "green leaf"
+    ],
+    "score_threshold": 0.25
+  },
+  "training": {
+    "cohort_balanced_pretraining": true,
+    "finetuning": {
+      "batch_size": 32,
+      "early_stopping_min_delta": 0.0001,
+      "early_stopping_patience": 15,
+      "epochs": 100,
+      "gradient_clip_norm": 1.0,
+      "huber_delta": 1.0,
+      "learning_rate": 0.0003,
+      "minimum_learning_rate_ratio": 0.05,
+      "num_workers": 4,
+      "warmup_fraction": 0.1,
+      "weight_decay": 0.001
+    },
+    "pretraining": {
+      "batch_size": 32,
+      "early_stopping_min_delta": 0.0001,
+      "early_stopping_patience": 10,
+      "epochs": 40,
+      "gradient_clip_norm": 1.0,
+      "huber_delta": 1.0,
+      "learning_rate": 0.001,
+      "minimum_learning_rate_ratio": 0.05,
+      "num_workers": 4,
+      "warmup_fraction": 0.1,
+      "weight_decay": 0.001
+    },
+    "seed": 42,
+    "use_weak_pretraining": true
+  }
+}
