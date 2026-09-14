@@ -1,0 +1,20 @@
+{
+  "crop_size": 1400,
+  "dataset_images": 7569,
+  "directory": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_preprocessing_audit/seed_42_n8",
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_preprocessing_audit/seed_42_n8/failures.jsonl",
+  "grid_statuses": {
+    "detected_needs_manual_review": 71,
+    "failed": 2
+  },
+  "index_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_preprocessing_audit/seed_42_n8/index.csv",
+  "inset_fraction": 0.075,
+  "manual_review_required": true,
+  "review_instruction": "Open each comparison image, then fill the review_* columns in index.csv. A successful detector call is not evidence that its geometry is correct.",
+  "sampled_images": 73,
+  "samples_per_source_requested": 8,
+  "seed": 42,
+  "source_groups": 10,
+  "source_images_modified": false,
+  "sources_csv": "/home/user/tabbakhab1/dev/project/outputs/dinov3_mixed_domain_adaptation/source_preprocessing_audit/seed_42_n8/sources.csv"
+}
