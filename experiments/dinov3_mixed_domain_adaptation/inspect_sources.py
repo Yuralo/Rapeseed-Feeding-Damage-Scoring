@@ -9,6 +9,7 @@ import math
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
+from random import Random
 
 from PIL import Image, ImageDraw, ImageFile, ImageFont, ImageOps
 
@@ -69,6 +70,47 @@ def _evenly_spaced(rows: list[dict[str, str]], count: int, filename_column: str)
         return [ordered[len(ordered) // 2]]
     positions = [round(index * (len(ordered) - 1) / (count - 1)) for index in range(count)]
     return [ordered[position] for position in positions]
+
+
+def filename_family(filename: str) -> str:
+    """Separate camera-style IMG names from timestamp-style capture names."""
+    stem = Path(filename).stem
+    if stem.upper().startswith("IMG_"):
+        return "IMG"
+    if len(stem) >= 8 and stem[:8].isdigit():
+        return "timestamp"
+    return "other"
+
+
+def family_aware_random_sample(
+    rows: list[dict[str, str]],
+    count: int,
+    *,
+    seed: int,
+    group_key: str,
+    filename_column: str,
+) -> list[dict[str, str]]:
+    """Randomly sample a source while covering filename families when possible."""
+    if len(rows) <= count:
+        return sorted(rows, key=lambda row: row[filename_column].casefold())
+
+    rng = Random(f"{seed}:{group_key}")
+    by_family: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        by_family[filename_family(row[filename_column])].append(row)
+    for family_rows in by_family.values():
+        rng.shuffle(family_rows)
+
+    selected: list[dict[str, str]] = []
+    families = sorted(by_family)
+    if count >= len(families):
+        for family in families:
+            selected.append(by_family[family].pop())
+
+    remaining = [row for family in families for row in by_family[family]]
+    rng.shuffle(remaining)
+    selected.extend(remaining[: count - len(selected)])
+    return sorted(selected, key=lambda row: row[filename_column].casefold())
 
 
 def _safe_name(value: str) -> str:

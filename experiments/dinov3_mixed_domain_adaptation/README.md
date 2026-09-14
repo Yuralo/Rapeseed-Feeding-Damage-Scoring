@@ -50,6 +50,27 @@ python -m experiments.dinov3_mixed_domain_adaptation.inspect_sources \
   --samples-per-source 8
 ```
 
+To decide which preprocessing route each source actually needs, run the source-stratified grid
+audit. It selects a reproducible random sample from every cohort/source-folder pair and covers both
+`IMG_*` and timestamp filename families whenever a source contains both:
+
+```bash
+python -m experiments.dinov3_mixed_domain_adaptation.audit_source_preprocessing \
+  --config experiments/dinov3_mixed_domain_adaptation/config.toml \
+  --samples-per-source 8 \
+  --seed 42 \
+  --inset-fraction 0.075
+```
+
+For each sampled image, the audit writes separate files for the exact raw source copy, detected-grid
+overlay, outer-grid perspective crop, 7.5% inset crop, and a four-panel comparison under
+`outputs/dinov3_mixed_domain_adaptation/source_preprocessing_audit/seed_42_n8/`. It never modifies
+the dataset and does not create one large contact sheet. Detection errors and full tracebacks go to
+`failures.jsonl`; `index.csv` contains the filenames, geometry diagnostics, every output path, and
+empty `review_*` columns for recording whether the detected grid and inset are actually correct.
+A `detected_needs_manual_review` status only means the algorithm returned corners, not that those
+corners are visually valid.
+
 ## 3. Validate the complete raw dataset only after approving the audit
 
 ```bash
