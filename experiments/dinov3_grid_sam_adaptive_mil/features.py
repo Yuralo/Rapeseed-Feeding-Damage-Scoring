@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from hashlib import sha1
 from pathlib import Path
 
@@ -117,12 +117,60 @@ def extract_adaptive_features(extractor, image, mask, config: Config):
     return features.astype(dtype), layout
 
 
+def cached_layout_config(config: Config) -> Config:
+    """Reconstruct the configuration that produced the reusable plant boxes."""
+    settings = config.cached_layouts
+    return replace(
+        config,
+        features=replace(
+            config.features,
+            backbone=settings.backbone,
+            processor=settings.processor,
+            cache_dir=settings.cache_dir,
+        ),
+    )
+
+
+def load_cached_layout(config: Config, filename: str, source: Path) -> tuple[dict, Path]:
+    if not config.cached_layouts.enabled:
+        raise FileNotFoundError("Backbone-independent cached-layout reuse is disabled")
+    layout_config = cached_layout_config(config)
+    path = feature_cache_path(layout_config, filename, source)
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"Cached SAM plant layout is missing for {filename}: {path}. "
+            "Restore the earlier adaptive feature cache or regenerate the SAM masks."
+        )
+    return (
+        load_feature_record(
+            path,
+            expected_identity=cache_identity(layout_config, filename, source),
+        ),
+        path,
+    )
+
+
+def extract_features_from_layout(extractor, image, layout_record: dict, config: Config):
+    """Re-embed the exact old plant crops without reusing any old DINO features."""
+    instances = crop_instances(image, layout_record["boxes"])
+    try:
+        features = extractor.extract(instances)
+    finally:
+        for instance in instances:
+            instance.close()
+    dtype = np.float16 if config.features.storage_dtype == "float16" else np.float32
+    return features.astype(dtype)
+
+
 __all__ = [
     "ADAPTIVE_FEATURE_SCHEMA_VERSION",
     "FrozenDinoExtractor",
     "cache_identity",
+    "cached_layout_config",
     "extract_adaptive_features",
+    "extract_features_from_layout",
     "feature_cache_path",
+    "load_cached_layout",
     "load_feature_record",
     "save_feature_record",
 ]

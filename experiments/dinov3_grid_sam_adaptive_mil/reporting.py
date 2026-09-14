@@ -158,13 +158,17 @@ def save_attention_inspection(result: Predictions, path: Path, count: int) -> No
     for row, index in enumerate(indices):
         with Image.open(result.processed_image_paths[index]) as image:
             rgb = image.convert("RGB").copy()
-        with Image.open(result.mask_paths[index]) as mask:
-            mask_array = np.asarray(mask.convert("L"))
+        mask_path = Path(result.mask_paths[index])
+        mask_array = None
+        if mask_path.is_file():
+            with Image.open(mask_path) as mask:
+                mask_array = np.asarray(mask.convert("L"))
         valid = np.flatnonzero(result.valid[index])
         top = int(statistics["top_index"][index])
         axes[row, 0].imshow(rgb)
         axes[row, 1].imshow(rgb)
-        axes[row, 1].imshow(mask_array, cmap="Greens", alpha=0.4)
+        if mask_array is not None:
+            axes[row, 1].imshow(mask_array, cmap="Greens", alpha=0.4)
         for instance in valid:
             x0, y0, x1, y1 = result.boxes[index, instance]
             axes[row, 0].add_patch(
@@ -185,8 +189,10 @@ def save_attention_inspection(result: Predictions, path: Path, count: int) -> No
             f"{Path(result.filenames[index]).name} | target {result.targets[index]:.2f} | "
             f"pred {result.predictions[index]:.2f} | error {error:+.2f}"
         )
+        mask_label = "SAM mask" if mask_array is not None else "Cached SAM boxes (mask unavailable)"
         axes[row, 1].set_title(
-            f"SAM mask | {len(valid)} instances | coverage {result.mask_coverages[index]:.3f}"
+            f"{mask_label} | {len(valid)} instances | "
+            f"coverage {result.mask_coverages[index]:.3f}"
         )
         axes[row, 2].set_title(
             f"Top crop {top} | mass {result.weights[index, top]:.3f} | "

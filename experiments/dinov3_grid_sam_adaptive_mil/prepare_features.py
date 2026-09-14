@@ -22,7 +22,9 @@ from .features import (
     FrozenDinoExtractor,
     cache_identity,
     extract_adaptive_features,
+    extract_features_from_layout,
     feature_cache_path,
+    load_cached_layout,
     load_feature_record,
     save_feature_record,
 )
@@ -38,8 +40,10 @@ def run(config, *, overwrite: bool = False, limit: int | None = None) -> dict:
     run_dir = Path(config.output.run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     failure_log = run_dir / config.output.feature_failure_log
+    failure_log.unlink(missing_ok=True)
     extractor = FrozenDinoExtractor(config, device)
     created = skipped = failed = 0
+    layout_sources = {"sam_mask": 0, "cached_layout": 0}
     instance_counts, coverages = [], []
     total = len(table)
     for position, (_, row) in enumerate(table.iterrows(), start=1):
@@ -59,15 +63,45 @@ def run(config, *, overwrite: bool = False, limit: int | None = None) -> dict:
                     size=config.data.grid_crop_size,
                     inner_margin_fraction=config.data.grid_inner_margin_fraction,
                 )
-                mask, mask_path, _ = load_cached_mask(source, config)
-                features, layout = extract_adaptive_features(extractor, image, mask, config)
+                try:
+                    mask, mask_path, _ = load_cached_mask(source, config)
+                    features, layout = extract_adaptive_features(extractor, image, mask, config)
+                    boxes = layout.boxes
+                    foreground_pixels = layout.foreground_pixels
+                    mask_coverage = layout.mask_coverage
+                    components_before_merge = layout.component_count_before_merge
+                    layout_sources["sam_mask"] += 1
+                except FileNotFoundError as mask_error:
+                    try:
+                        old_layout, old_layout_path = load_cached_layout(
+                            config, filename, source
+                        )
+                    except FileNotFoundError as layout_error:
+                        raise FileNotFoundError(
+                            f"Neither a SAM mask nor a reusable plant layout exists for "
+                            f"{filename}. SAM error: {mask_error} Layout error: {layout_error}"
+                        ) from layout_error
+                    features = extract_features_from_layout(
+                        extractor, image, old_layout, config
+                    )
+                    boxes = old_layout["boxes"]
+                    foreground_pixels = old_layout["foreground_pixels"]
+                    mask_coverage = old_layout["mask_coverage"]
+                    components_before_merge = old_layout["components_before_merge"]
+                    mask_path = Path(old_layout["mask_path"])
+                    layout_sources["cached_layout"] += 1
+                    print(
+                        f"[{position:04d}/{total:04d}] reusing plant layout "
+                        f"{old_layout_path.name}",
+                        flush=True,
+                    )
                 save_feature_record(
                     destination,
                     features=features,
-                    boxes=layout.boxes,
-                    foreground_pixels=layout.foreground_pixels,
-                    mask_coverage=layout.mask_coverage,
-                    components_before_merge=layout.component_count_before_merge,
+                    boxes=boxes,
+                    foreground_pixels=foreground_pixels,
+                    mask_coverage=mask_coverage,
+                    components_before_merge=components_before_merge,
                     processed_image_path=str(processed),
                     mask_path=str(mask_path),
                     identity=identity,
@@ -116,6 +150,7 @@ def run(config, *, overwrite: bool = False, limit: int | None = None) -> dict:
             "minimum": min(coverages) if coverages else None,
             "mean": sum(coverages) / len(coverages) if coverages else None,
         },
+        "layout_sources": layout_sources,
         "feature_cache_dir": str(Path(config.features.cache_dir).resolve()),
         "device": str(device),
     }

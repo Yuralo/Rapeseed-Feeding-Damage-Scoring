@@ -88,6 +88,11 @@ python -m experiments.dinov3_grid_sam_adaptive_mil.prepare_features \
   --config experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml
 ```
 
+This comparison reuses the plant boxes stored in
+`cache/dinov3_grid_sam_adaptive_mil_features`; it does not reuse the old DINO features and does not
+need to rerun SAM. If the original mask PNGs are still available they are used for visualization;
+otherwise the attention report shows the cached boxes without the mask overlay.
+
 Train the unchanged best supervised architecture from scratch:
 
 ```bash

@@ -154,6 +154,10 @@ def test_best_supervised_architecture_can_use_routed_adapted_backbone():
 
     assert adapted.features.backbone == expected
     assert adapted.features.processor == expected
+    assert adapted.cached_layouts.enabled
+    assert adapted.cached_layouts.cache_dir == base.features.cache_dir
+    assert adapted.cached_layouts.backbone == base.features.backbone
+    assert adapted.cached_layouts.processor == base.features.processor
     assert adapted.context.cache_dir == context.features.cache_dir
     assert adapted.features.cache_dir != base.features.cache_dir
     assert adapted.output.run_dir != base.output.run_dir
@@ -162,3 +166,46 @@ def test_best_supervised_architecture_can_use_routed_adapted_backbone():
     assert adapted.adaptive_crops == base.adaptive_crops
     assert adapted.model == base.model
     assert adapted.training == base.training
+
+
+def test_adapted_backbone_reuses_only_cached_sam_layout_metadata(tmp_path):
+    np = pytest.importorskip("numpy")
+    pytest.importorskip("torch")
+    from experiments.dinov3_grid_sam_adaptive_mil.config import load_config as load_adaptive
+    from experiments.dinov3_grid_sam_adaptive_mil.features import (
+        cache_identity,
+        cached_layout_config,
+        feature_cache_path,
+        load_cached_layout,
+        save_feature_record,
+    )
+
+    adapted = load_adaptive(
+        "experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml"
+    )
+    adapted = replace(
+        adapted,
+        cached_layouts=replace(adapted.cached_layouts, cache_dir=str(tmp_path / "old")),
+        features=replace(adapted.features, cache_dir=str(tmp_path / "new")),
+    )
+    source = tmp_path / "plant.jpg"
+    source.write_bytes(b"source identity")
+    old = cached_layout_config(adapted)
+    destination = feature_cache_path(old, "plant", source)
+    save_feature_record(
+        destination,
+        features=np.ones((2, 4), dtype=np.float16),
+        boxes=np.asarray([[0, 0, 10, 10], [10, 10, 20, 20]], dtype=np.int32),
+        foreground_pixels=np.asarray([50, 40], dtype=np.int32),
+        mask_coverage=1.0,
+        components_before_merge=2,
+        processed_image_path="old-grid.jpg",
+        mask_path="old-mask.png",
+        identity=cache_identity(old, "plant", source),
+    )
+
+    layout, path = load_cached_layout(adapted, "plant", source)
+    assert path == destination
+    assert layout["boxes"].tolist() == [[0, 0, 10, 10], [10, 10, 20, 20]]
+    assert layout["features"].shape == (2, 4)
+    assert not Path(adapted.features.cache_dir).exists()

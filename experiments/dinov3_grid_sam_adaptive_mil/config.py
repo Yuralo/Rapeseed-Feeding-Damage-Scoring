@@ -55,6 +55,16 @@ class AdaptiveCropSettings:
 
 
 @dataclass(frozen=True)
+class CachedLayoutSettings:
+    """Optional backbone-independent plant layouts from an earlier feature cache."""
+
+    enabled: bool = False
+    cache_dir: str = "cache/dinov3_grid_sam_adaptive_mil_features"
+    backbone: str = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+    processor: str = "facebook/dinov3-vits16-pretrain-lvd1689m"
+
+
+@dataclass(frozen=True)
 class ModelSettings:
     projection_dim: int = 128
     attention_hidden_dim: int = 64
@@ -86,6 +96,7 @@ class Config:
     segmentation: SegmentationSettings = field(default_factory=SegmentationSettings)
     context: ContextSettings = ContextSettings()
     adaptive_crops: AdaptiveCropSettings = AdaptiveCropSettings()
+    cached_layouts: CachedLayoutSettings = CachedLayoutSettings()
     features: FeatureSettings = field(
         default_factory=lambda: FeatureSettings(
             cache_dir="cache/dinov3_grid_sam_adaptive_mil_features"
@@ -160,6 +171,14 @@ class Config:
             raise ValueError("adaptive maximum_instances must be positive")
         if not 0 < crops.minimum_mask_coverage <= 1:
             raise ValueError("minimum_mask_coverage must be in (0, 1]")
+        layouts = self.cached_layouts
+        if layouts.enabled:
+            if not layouts.cache_dir.strip():
+                raise ValueError("cached_layouts.cache_dir cannot be empty when enabled")
+            if not layouts.backbone.strip() or not layouts.processor.strip():
+                raise ValueError("cached layout backbone and processor cannot be empty")
+            if Path(layouts.cache_dir) == Path(self.features.cache_dir):
+                raise ValueError("Cached layouts and new features must use different directories")
         if self.features.representation != "cls_mean":
             raise ValueError("features.representation must be 'cls_mean'")
         if self.features.storage_dtype not in {"float16", "float32"}:
@@ -210,6 +229,7 @@ def load_config(path: str | Path) -> Config:
         "segmentation",
         "context",
         "adaptive_crops",
+        "cached_layouts",
         "features",
         "model",
         "training",
@@ -227,6 +247,7 @@ def load_config(path: str | Path) -> Config:
         segmentation=_settings(SegmentationSettings, raw.get("segmentation", {})),
         context=_settings(ContextSettings, raw.get("context", {})),
         adaptive_crops=_settings(AdaptiveCropSettings, raw.get("adaptive_crops", {})),
+        cached_layouts=_settings(CachedLayoutSettings, raw.get("cached_layouts", {})),
         features=_settings(FeatureSettings, raw.get("features", {})),
         model=_settings(ModelSettings, raw.get("model", {})),
         training=_settings(TrainingSettings, raw.get("training", {})),
