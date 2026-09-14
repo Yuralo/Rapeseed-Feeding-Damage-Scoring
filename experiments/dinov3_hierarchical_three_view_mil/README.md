@@ -33,9 +33,15 @@ Build the shared feature cache once. This is the expensive step because it runs 
 preprocessing, SAM3, and the adapted DINOv3 backbone over every supervised image:
 
 ```bash
+PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
 python -m experiments.dinov3_hierarchical_three_view_mil.prepare_features \
   --config experiments/dinov3_hierarchical_three_view_mil/config_weak_then_gold.toml
 ```
+
+SAM inference is capped at a 1400-pixel longest side and its mask is restored to the
+prepared image coordinates afterward. If a particular image still exhausts CUDA memory,
+the preparation command clears the allocator and retries at 1050 and then 700 pixels.
+Mask PNGs use fast compression because the uncropped raw sources have large dimensions.
 
 Train the gold-only control:
 

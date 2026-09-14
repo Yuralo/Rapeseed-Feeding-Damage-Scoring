@@ -46,6 +46,56 @@ def _table(config: Config, splits: list[str]) -> pd.DataFrame:
     return combined.drop_duplicates(subset=[config.data.absolute_path_column]).reset_index(drop=True)
 
 
+def _is_cuda_oom(error: RuntimeError) -> bool:
+    return isinstance(error, torch.cuda.OutOfMemoryError) or "CUDA out of memory" in str(error)
+
+
+def generate_memory_bounded_mask(segmenter, image: Image.Image, config: Config):
+    """Run SAM at bounded resolution and retry smaller after allocator pressure."""
+    configured = config.data.sam_inference_max_side
+    attempt_limits = list(dict.fromkeys((configured, round(configured * 0.75),
+                                         max(512, round(configured * 0.5)))))
+    original_width, original_height = image.size
+    last_error = None
+    for retry, limit in enumerate(attempt_limits):
+        scale = min(1.0, limit / max(original_width, original_height))
+        resized = None
+        if scale < 1:
+            resized = image.resize(
+                (max(1, round(original_width * scale)), max(1, round(original_height * scale))),
+                Image.Resampling.BILINEAR,
+            )
+        inference_image = resized if resized is not None else image
+        try:
+            mask = generate_mask(segmenter, inference_image, config)
+        except RuntimeError as error:
+            if not _is_cuda_oom(error):
+                raise
+            last_error = error
+            segmenter_device = getattr(segmenter, "device", None)
+            if segmenter_device is not None and torch.device(segmenter_device).type == "cuda":
+                torch.cuda.empty_cache()
+            gc.collect()
+            continue
+        finally:
+            if resized is not None:
+                resized.close()
+        if mask.shape != (original_height, original_width):
+            small_mask = Image.fromarray(mask.astype(np.uint8) * 255, mode="L")
+            try:
+                restored = small_mask.resize(image.size, Image.Resampling.NEAREST)
+                try:
+                    mask = np.asarray(restored, dtype=np.uint8) >= 128
+                finally:
+                    restored.close()
+            finally:
+                small_mask.close()
+        return mask, limit, retry
+    raise RuntimeError(
+        f"SAM exhausted CUDA memory at all bounded sizes {attempt_limits}"
+    ) from last_error
+
+
 def run(
     config: Config,
     *,
@@ -69,6 +119,8 @@ def run(
     # materially lowers preparation memory on a 24 GB 3090.
     segmenter = create_segmenter(config, device)
     mask_created = mask_skipped = mask_reused = 0
+    sam_inference_limits: dict[str, int] = {}
+    sam_oom_retries = 0
     failed_keys: set[str] = set()
     failures_by_split: dict[str, int] = {name: 0 for name in splits}
     for position, (_, row) in enumerate(table.iterrows(), start=1):
@@ -103,7 +155,13 @@ def run(
                         mask = None
                 if mask is None:
                     image, _, _ = prepare_image(source, relative, config)
-                    mask = generate_mask(segmenter, image, config)
+                    mask, used_limit, retries = generate_memory_bounded_mask(
+                        segmenter, image, config
+                    )
+                    sam_inference_limits[str(used_limit)] = (
+                        sam_inference_limits.get(str(used_limit), 0) + 1
+                    )
+                    sam_oom_retries += retries
                     generated = True
                 quality = validate_mask(mask, config)
                 if not quality["valid"]:
@@ -139,9 +197,13 @@ def run(
                 },
             )
             print(f"[mask {position:04d}/{len(table):04d}] FAILED {relative}: {error}", flush=True)
+            if device.type == "cuda" and _is_cuda_oom(error):
+                torch.cuda.empty_cache()
         finally:
             if image is not None:
                 image.close()
+        if device.type == "cuda" and position % 25 == 0:
+            torch.cuda.empty_cache()
     del segmenter
     gc.collect()
     if device.type == "cuda":
@@ -219,6 +281,8 @@ def run(
             "created": mask_created,
             "reused_from_existing_grid_cache": mask_reused,
             "skipped": mask_skipped,
+            "sam_inference_max_side_counts": sam_inference_limits,
+            "cuda_oom_retries": sam_oom_retries,
         },
         "features": {"created": created, "skipped": skipped},
         "failed": failed,

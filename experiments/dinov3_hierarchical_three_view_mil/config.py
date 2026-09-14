@@ -46,6 +46,7 @@ class DataSettings:
     cell_inner_margin_fraction: float = 0.02
     processed_cache_dir: str = "cache/hierarchical_three_view_processed"
     processed_jpeg_quality: int = 95
+    sam_inference_max_side: int = 1400
     maximum_weak_failure_fraction: float = 0.05
 
     @property
@@ -159,6 +160,8 @@ class Config:
             raise ValueError("maximum_weak_failure_fraction must be in [0, 1)")
         if not 1 <= self.data.processed_jpeg_quality <= 100:
             raise ValueError("processed_jpeg_quality must be in [1, 100]")
+        if self.data.sam_inference_max_side < 512:
+            raise ValueError("sam_inference_max_side must be at least 512")
         if self.features.representation != "cls_mean":
             raise ValueError("features.representation must be cls_mean")
         if self.features.storage_dtype not in {"float16", "float32"}:

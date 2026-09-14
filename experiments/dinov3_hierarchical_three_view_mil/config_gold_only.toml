@@ -25,6 +25,7 @@ grid_inner_margin_fraction = 0.075
 cell_inner_margin_fraction = 0.02
 processed_cache_dir = "cache/hierarchical_three_view_processed"
 processed_jpeg_quality = 95
+sam_inference_max_side = 1400
 maximum_weak_failure_fraction = 0.05
 
 [segmentation]

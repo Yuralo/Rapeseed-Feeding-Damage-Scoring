@@ -19,7 +19,7 @@ from rapeseed_damage.grid import detect_grid, to_rgb, warp_big_square
 
 from .config import Config
 
-FEATURE_SCHEMA_VERSION = 1
+FEATURE_SCHEMA_VERSION = 2
 RAW_MODE = "raw_full_image"
 GRID_MODE = "grid_crop_inset075"
 
@@ -61,6 +61,7 @@ def cache_identity(config: Config, relative_path: str, source: Path) -> str:
         config.data.crop_size,
         config.data.grid_inner_margin_fraction,
         config.data.cell_inner_margin_fraction,
+        config.data.sam_inference_max_side,
         tuple(sorted(asdict(config.adaptive_crops).items())),
         tuple(sorted(asdict(config.segmentation).items())),
         config.features.backbone,
@@ -149,7 +150,7 @@ def save_mask(mask: np.ndarray, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(f".{destination.name}.{os.getpid()}.tmp")
     Image.fromarray(np.asarray(mask, dtype=np.uint8) * 255, mode="L").save(
-        temporary, format="PNG", optimize=True
+        temporary, format="PNG", optimize=False, compress_level=1
     )
     os.replace(temporary, destination)
 

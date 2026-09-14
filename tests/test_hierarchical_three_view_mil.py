@@ -53,3 +53,28 @@ def test_hierarchical_model_shapes_and_attention():
     assert torch.allclose(attention["cell_weights"].sum(1), torch.ones(2))
     assert torch.allclose(attention["plant_weights"].sum(1), torch.ones(2))
     assert torch.all(attention["plant_weights"][~valid] == 0)
+
+
+def test_sam_inference_is_bounded_and_mask_is_restored(monkeypatch):
+    pytest.importorskip("torch")
+    pytest.importorskip("pandas")
+    from PIL import Image
+
+    from experiments.dinov3_hierarchical_three_view_mil import prepare_features
+
+    observed = []
+
+    def fake_generate_mask(segmenter, image, config):
+        observed.append(image.size)
+        return np.ones((image.height, image.width), dtype=bool)
+
+    monkeypatch.setattr(prepare_features, "generate_mask", fake_generate_mask)
+    config = load_config(WEAK_CONFIG)
+    image = Image.new("RGB", (4000, 2000))
+    mask, limit, retries = prepare_features.generate_memory_bounded_mask(
+        object(), image, config
+    )
+    assert observed == [(1400, 700)]
+    assert mask.shape == (2000, 4000)
+    assert limit == 1400
+    assert retries == 0
