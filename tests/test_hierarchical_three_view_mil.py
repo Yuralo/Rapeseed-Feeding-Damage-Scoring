@@ -78,3 +78,33 @@ def test_sam_inference_is_bounded_and_mask_is_restored(monkeypatch):
     assert mask.shape == (2000, 4000)
     assert limit == 1400
     assert retries == 0
+
+
+def test_three_view_feature_cache_round_trip(tmp_path):
+    from experiments.dinov3_hierarchical_three_view_mil.features import (
+        load_record,
+        save_record,
+    )
+
+    destination = tmp_path / "features.npz"
+    save_record(
+        destination,
+        global_feature=np.arange(6, dtype=np.float32),
+        cell_features=np.ones((4, 6), dtype=np.float32),
+        cell_boxes=np.asarray(
+            [[0, 0, 10, 10], [10, 0, 20, 10], [0, 10, 10, 20], [10, 10, 20, 20]]
+        ),
+        plant_features=np.ones((2, 6), dtype=np.float32),
+        plant_boxes=np.asarray([[1, 1, 5, 5], [12, 12, 18, 18]]),
+        plant_cell_indices=np.asarray([0, 3]),
+        foreground_pixels=np.asarray([8, 12]),
+        mask_coverage=1.0,
+        processed_image_path="processed.jpg",
+        mask_path="mask.png",
+        mode="grid_crop_inset075",
+        identity="test-identity",
+    )
+    record = load_record(destination, expected_identity="test-identity")
+    assert record["cell_boxes"].shape == (4, 4)
+    assert record["plant_features"].shape == (2, 6)
+    assert record["plant_cell_indices"].tolist() == [0, 3]
