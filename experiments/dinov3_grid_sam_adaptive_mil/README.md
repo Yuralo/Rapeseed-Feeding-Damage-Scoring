@@ -59,3 +59,39 @@ python -m experiments.dinov3_grid_sam_adaptive_mil.train \
   --config experiments/dinov3_grid_sam_adaptive_mil/config.toml \
   --resume outputs/dinov3_grid_sam_adaptive_mil_clean_inset075/last.pt
 ```
+
+## Controlled routed-backbone comparison on the 470 labeled images
+
+`config_adapted_routed.toml` preserves this experiment's 470-image dataset, split, seed, SAM
+instances, model head, and optimizer. It changes only the frozen DINO backbone and uses separate
+feature caches and outputs. The grid crops and SAM masks are unchanged and can be reused.
+
+Export the best routed-adaptation checkpoint if the backbone directory has not already been
+created on the training machine:
+
+```bash
+python -m experiments.dinov3_routed_source_adaptation.export_backbone \
+  --config experiments/dinov3_routed_source_adaptation/config.toml
+```
+
+First extract the 3x3 context features with the routed adapted backbone:
+
+```bash
+python -m experiments.dinov3_grid_tiled_mil.prepare_features \
+  --config experiments/dinov3_grid_tiled_mil/config_adapted_routed_3x3.toml
+```
+
+Then extract the SAM-guided plant-instance features with that same backbone:
+
+```bash
+python -m experiments.dinov3_grid_sam_adaptive_mil.prepare_features \
+  --config experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml
+```
+
+Train the unchanged best supervised architecture from scratch:
+
+```bash
+python -m experiments.dinov3_grid_sam_adaptive_mil.train \
+  --config experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml \
+  --from-scratch
+```

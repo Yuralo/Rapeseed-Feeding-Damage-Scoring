@@ -135,3 +135,30 @@ def test_downstream_routed_configs_are_valid_and_use_dedicated_caches():
     assert multiscale.features.backbone == expected
     assert coarse.features.cache_dir == multiscale.coarse.cache_dir
     assert fine.features.cache_dir == multiscale.fine.cache_dir
+
+
+def test_best_supervised_architecture_can_use_routed_adapted_backbone():
+    from experiments.dinov3_grid_sam_adaptive_mil.config import (
+        load_config as load_adaptive,
+    )
+    from experiments.dinov3_grid_tiled_mil.config import load_config as load_single
+
+    base = load_adaptive("experiments/dinov3_grid_sam_adaptive_mil/config.toml")
+    adapted = load_adaptive(
+        "experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml"
+    )
+    context = load_single(
+        "experiments/dinov3_grid_tiled_mil/config_adapted_routed_3x3.toml"
+    )
+    expected = "outputs/dinov3_routed_source_adaptation/adapted_backbone"
+
+    assert adapted.features.backbone == expected
+    assert adapted.features.processor == expected
+    assert adapted.context.cache_dir == context.features.cache_dir
+    assert adapted.features.cache_dir != base.features.cache_dir
+    assert adapted.output.run_dir != base.output.run_dir
+    assert adapted.data == base.data
+    assert adapted.segmentation == base.segmentation
+    assert adapted.adaptive_crops == base.adaptive_crops
+    assert adapted.model == base.model
+    assert adapted.training == base.training
