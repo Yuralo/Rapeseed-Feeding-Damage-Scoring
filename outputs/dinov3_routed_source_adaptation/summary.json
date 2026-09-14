@@ -1,0 +1,96 @@
+{
+  "best_checkpoint": "/home/user/tabbakhab1/dev/project/outputs/dinov3_routed_source_adaptation/best.pt",
+  "completed_epochs": 20,
+  "global_optimizer_steps": 8180,
+  "input_modes": {
+    "grid_inset075_tiled": 4562,
+    "raw_full_tiled": 2704
+  },
+  "last_checkpoint": "/home/user/tabbakhab1/dev/project/outputs/dinov3_routed_source_adaptation/last.pt",
+  "model_parameters": {
+    "block_path": "model.layer",
+    "final_norm_path": "norm",
+    "representation": "cls+mean_patches",
+    "student_parameters": 85955328,
+    "target_module_count": 24,
+    "target_module_names": [
+      "model.layer.0.attention.q_proj",
+      "model.layer.1.attention.q_proj",
+      "model.layer.2.attention.q_proj",
+      "model.layer.3.attention.q_proj",
+      "model.layer.4.attention.q_proj",
+      "model.layer.5.attention.q_proj",
+      "model.layer.6.attention.q_proj",
+      "model.layer.7.attention.q_proj",
+      "model.layer.8.attention.q_proj",
+      "model.layer.9.attention.q_proj",
+      "model.layer.10.attention.q_proj",
+      "model.layer.11.attention.q_proj",
+      "model.layer.0.attention.v_proj",
+      "model.layer.1.attention.v_proj",
+      "model.layer.2.attention.v_proj",
+      "model.layer.3.attention.v_proj",
+      "model.layer.4.attention.v_proj",
+      "model.layer.5.attention.v_proj",
+      "model.layer.6.attention.v_proj",
+      "model.layer.7.attention.v_proj",
+      "model.layer.8.attention.v_proj",
+      "model.layer.9.attention.v_proj",
+      "model.layer.10.attention.v_proj",
+      "model.layer.11.attention.v_proj"
+    ],
+    "teacher_parameters": 85660416,
+    "trainable_parameters": 296448,
+    "trainable_percentage": 0.3448861250346226
+  },
+  "next_step": "Export the best checkpoint and run the controlled supervised MIL comparison.",
+  "source_routes": {
+    "2025_09_12_RSFB_01_NPZi|raw_full_tiled": 900,
+    "2025_09_15_Re4StRes_T1_DSV|raw_full_tiled": 900,
+    "2025_09_19_RSFB_02_NPZi|raw_full_tiled": 904,
+    "2025_09_29_RSFB-Phenotyping_RHH1_JLU|grid_inset075_tiled": 589,
+    "2025_09_30_Res4StRes_T2_DSV|grid_inset075_tiled": 900,
+    "2025_10_07_RSFB-Phenotyping_WG1_JLU|grid_inset075_tiled": 906,
+    "2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU|grid_inset075_tiled": 1266,
+    "2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU|grid_inset075_tiled": 359,
+    "2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU|grid_inset075_tiled": 541,
+    "<dataset-root>|grid_inset075_tiled": 1
+  },
+  "stopped_early": false,
+  "train_samples": 6539,
+  "validation": {
+    "anchor_loss": 0.006403020561315334,
+    "cross_view_loss": 0.03355211691810472,
+    "feature_std": 0.19820178916070616,
+    "input_modes": {
+      "grid_inset075_tiled": 457,
+      "raw_full_tiled": 270
+    },
+    "label_overlap_fraction": 0.00010637560362275562,
+    "loss": 0.03515287205843355,
+    "samples": 727,
+    "source_folders": {
+      "2025_09_12_RSFB_01_NPZi": 90,
+      "2025_09_15_Re4StRes_T1_DSV": 90,
+      "2025_09_19_RSFB_02_NPZi": 90,
+      "2025_09_29_RSFB-Phenotyping_RHH1_JLU": 59,
+      "2025_09_30_Res4StRes_T2_DSV": 90,
+      "2025_10_07_RSFB-Phenotyping_WG1_JLU": 91,
+      "2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU": 127,
+      "2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU": 36,
+      "2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU": 54
+    },
+    "student_teacher_cosine": 0.9935969781678842,
+    "student_view_cosine": 0.9793643874348111,
+    "tile_grid_sizes": {
+      "3": 396,
+      "4": 331
+    },
+    "tile_sampling_strategies": {
+      "plant_biased": 493,
+      "uniform": 234
+    },
+    "tile_vegetation_fraction": 0.18282743185717598
+  },
+  "validation_samples": 727
+}

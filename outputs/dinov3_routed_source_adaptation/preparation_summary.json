@@ -1,0 +1,48 @@
+{
+  "excluded_fraction": 0.04003170828378914,
+  "excluded_images": 303,
+  "failure_log": "/home/user/tabbakhab1/dev/project/outputs/dinov3_routed_source_adaptation/input_exclusions.jsonl",
+  "grid_crop": {
+    "cache_dir": "/home/user/tabbakhab1/dev/project/outputs/dinov3_routed_source_adaptation/grid_crops_1400_inset075",
+    "existing_crops_reused": 0,
+    "inner_margin_fraction": 0.075,
+    "new_crops_written": 4562,
+    "size": 1400
+  },
+  "input_modes": {
+    "grid_inset075_tiled": 4562,
+    "raw_full_tiled": 2704
+  },
+  "maximum_excluded_fraction": 0.05,
+  "prepared_images": 7266,
+  "prepared_manifest": "/home/user/tabbakhab1/dev/project/outputs/dinov3_routed_source_adaptation/prepared_manifest.csv",
+  "raw_source_folders": [
+    "2025_09_15_Re4StRes_T1_DSV",
+    "2025_09_12_RSFB_01_NPZi",
+    "2025_09_19_RSFB_02_NPZi"
+  ],
+  "requested_images": 7569,
+  "source_images_written_or_modified": 0,
+  "source_manifest": "/home/user/tabbakhab1/dev/project/outputs/dataset_manifests/adaptation.csv",
+  "source_routes": {
+    "2025_09_12_RSFB_01_NPZi|raw_full_tiled": 900,
+    "2025_09_15_Re4StRes_T1_DSV|raw_full_tiled": 900,
+    "2025_09_19_RSFB_02_NPZi|raw_full_tiled": 904,
+    "2025_09_29_RSFB-Phenotyping_RHH1_JLU|grid_inset075_tiled": 589,
+    "2025_09_30_Res4StRes_T2_DSV|grid_inset075_tiled": 900,
+    "2025_10_07_RSFB-Phenotyping_WG1_JLU|grid_inset075_tiled": 906,
+    "2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU|grid_inset075_tiled": 1266,
+    "2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU|grid_inset075_tiled": 359,
+    "2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU|grid_inset075_tiled": 541,
+    "<dataset-root>|grid_inset075_tiled": 1
+  },
+  "status": "completed_with_exclusions",
+  "tiling": {
+    "grid_sizes": [
+      3,
+      4
+    ],
+    "overlap_fraction": 0.15,
+    "selection": "one deterministic tile per routed image and epoch"
+  }
+}

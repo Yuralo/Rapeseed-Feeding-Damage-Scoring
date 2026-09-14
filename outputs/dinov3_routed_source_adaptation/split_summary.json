@@ -1,0 +1,51 @@
+{
+  "input_modes": {
+    "grid_inset075_tiled": 4562,
+    "raw_full_tiled": 2704
+  },
+  "source_routes": {
+    "2025_09_12_RSFB_01_NPZi|raw_full_tiled": 900,
+    "2025_09_15_Re4StRes_T1_DSV|raw_full_tiled": 900,
+    "2025_09_19_RSFB_02_NPZi|raw_full_tiled": 904,
+    "2025_09_29_RSFB-Phenotyping_RHH1_JLU|grid_inset075_tiled": 589,
+    "2025_09_30_Res4StRes_T2_DSV|grid_inset075_tiled": 900,
+    "2025_10_07_RSFB-Phenotyping_WG1_JLU|grid_inset075_tiled": 906,
+    "2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU|grid_inset075_tiled": 1266,
+    "2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU|grid_inset075_tiled": 359,
+    "2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU|grid_inset075_tiled": 541,
+    "<dataset-root>|grid_inset075_tiled": 1
+  },
+  "total": 7266,
+  "training": 6539,
+  "training_cohorts": {
+    "dsv_asendorf_t1_bbch11": 810,
+    "dsv_asendorf_t2_bbch15": 810,
+    "gg_sulfur_bbch15": 1139,
+    "npzi_malchow_t1_bbch10": 810,
+    "npzi_malchow_t2_bbch13": 814,
+    "rhh_insects_bbch13": 530,
+    "wg_insects_t1_bbch10": 815,
+    "wg_insects_t2_first_bbch15": 324,
+    "wg_insects_t2_second_bbch15": 487
+  },
+  "training_input_modes": {
+    "grid_inset075_tiled": 4105,
+    "raw_full_tiled": 2434
+  },
+  "validation": 727,
+  "validation_cohorts": {
+    "dsv_asendorf_t1_bbch11": 90,
+    "dsv_asendorf_t2_bbch15": 90,
+    "gg_sulfur_bbch15": 127,
+    "npzi_malchow_t1_bbch10": 90,
+    "npzi_malchow_t2_bbch13": 90,
+    "rhh_insects_bbch13": 59,
+    "wg_insects_t1_bbch10": 91,
+    "wg_insects_t2_first_bbch15": 36,
+    "wg_insects_t2_second_bbch15": 54
+  },
+  "validation_input_modes": {
+    "grid_inset075_tiled": 457,
+    "raw_full_tiled": 270
+  }
+}

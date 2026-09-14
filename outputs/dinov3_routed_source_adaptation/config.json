@@ -1,0 +1,97 @@
+{
+  "augmentation": {
+    "blur_max_radius": 1.5,
+    "blur_probability": 0.15,
+    "color_jitter_strength": 0.15,
+    "grayscale_probability": 0.05,
+    "horizontal_flip_probability": 0.5,
+    "vertical_flip_probability": 0.5
+  },
+  "data": {
+    "absolute_path_column": "absolute_path",
+    "cohort_column": "cohort_id",
+    "filename_column": "file_name",
+    "id_column": "image_id",
+    "manifest": "outputs/dataset_manifests/adaptation.csv",
+    "maximum_excluded_fraction": 0.05,
+    "prepared_manifest": "outputs/dinov3_routed_source_adaptation/prepared_manifest.csv",
+    "relative_path_column": "relative_path",
+    "split_seed": 42,
+    "validation_fraction": 0.1
+  },
+  "experiment": {
+    "name": "dinov3_routed_source_adaptation"
+  },
+  "model": {
+    "backbone": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "lora_rank": 8,
+    "lora_target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "processor": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "train_final_norm": true
+  },
+  "objective": {
+    "cross_view_weight": 1.0,
+    "same_view_anchor_weight": 0.25
+  },
+  "output": {
+    "best_checkpoint_name": "best.pt",
+    "export_dir": "adapted_backbone",
+    "failure_log": "input_exclusions.jsonl",
+    "inspection_dir": "routed_input_inspection",
+    "last_checkpoint_name": "last.pt",
+    "run_dir": "outputs/dinov3_routed_source_adaptation",
+    "samples_per_source": 3,
+    "save_plots": true
+  },
+  "preprocessing": {
+    "crop_cache_dir": "outputs/dinov3_routed_source_adaptation/grid_crops_1400_inset075",
+    "crop_jpeg_quality": 95,
+    "crop_size": 1400,
+    "grid_inner_margin_fraction": 0.075,
+    "overwrite_cached_crops": false,
+    "raw_source_folders": [
+      "2025_09_15_Re4StRes_T1_DSV",
+      "2025_09_12_RSFB_01_NPZi",
+      "2025_09_19_RSFB_02_NPZi"
+    ]
+  },
+  "runtime": {
+    "allow_tf32": true,
+    "deterministic": true,
+    "device": "auto",
+    "mixed_precision": "fp16",
+    "pin_memory": true
+  },
+  "tiles": {
+    "grid_sizes": [
+      3,
+      4
+    ],
+    "label_overlap_limit": 0.02,
+    "mask_analysis_max_side": 768,
+    "overlap_fraction": 0.15,
+    "plant_biased_probability": 0.7,
+    "preview_tiles_per_image": 4,
+    "vegetation_score_power": 1.0
+  },
+  "training": {
+    "batch_size": 8,
+    "early_stopping_min_delta": 0.0001,
+    "early_stopping_patience": 20,
+    "epochs": 20,
+    "eval_every": 1,
+    "gradient_accumulation_steps": 2,
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.0001,
+    "minimum_learning_rate_ratio": 0.05,
+    "num_workers": 4,
+    "seed": 42,
+    "warmup_fraction": 0.1,
+    "weight_decay": 0.0
+  }
+}
