@@ -1,0 +1,95 @@
+[experiment]
+name = "dinov3_routed_source_adaptation"
+
+[data]
+manifest = "outputs/dataset_manifests/adaptation.csv"
+prepared_manifest = "outputs/dinov3_routed_source_adaptation/prepared_manifest.csv"
+absolute_path_column = "absolute_path"
+relative_path_column = "relative_path"
+filename_column = "file_name"
+id_column = "image_id"
+cohort_column = "cohort_id"
+maximum_excluded_fraction = 0.05
+validation_fraction = 0.10
+split_seed = 42
+
+[preprocessing]
+# The source audit showed that these three sources are already tightly framed,
+# while the universal detector often stretches only one half of their quadrat.
+raw_source_folders = [
+  "2025_09_15_Re4StRes_T1_DSV",
+  "2025_09_12_RSFB_01_NPZi",
+  "2025_09_19_RSFB_02_NPZi",
+]
+crop_size = 1400
+grid_inner_margin_fraction = 0.075
+crop_cache_dir = "outputs/dinov3_routed_source_adaptation/grid_crops_1400_inset075"
+crop_jpeg_quality = 95
+overwrite_cached_crops = false
+
+[tiles]
+grid_sizes = [3, 4]
+overlap_fraction = 0.15
+plant_biased_probability = 0.70
+vegetation_score_power = 1.0
+label_overlap_limit = 0.02
+mask_analysis_max_side = 768
+preview_tiles_per_image = 4
+
+[augmentation]
+horizontal_flip_probability = 0.5
+vertical_flip_probability = 0.5
+color_jitter_strength = 0.15
+grayscale_probability = 0.05
+blur_probability = 0.15
+blur_max_radius = 1.5
+
+[model]
+# Start from the original backbone so preprocessing is the only change from the
+# previous adaptation experiment.
+backbone = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+processor = "facebook/dinov3-vitb16-pretrain-lvd1689m"
+lora_rank = 8
+lora_alpha = 16
+lora_dropout = 0.05
+lora_target_modules = ["q_proj", "v_proj"]
+train_final_norm = true
+
+[objective]
+cross_view_weight = 1.0
+same_view_anchor_weight = 0.25
+
+[training]
+epochs = 20
+eval_every = 1
+batch_size = 8
+num_workers = 4
+gradient_accumulation_steps = 2
+learning_rate = 0.0001
+weight_decay = 0.0
+warmup_fraction = 0.10
+minimum_learning_rate_ratio = 0.05
+gradient_clip_norm = 1.0
+# Run the complete controlled comparison unless all 20 validation checks fail
+# to improve; this matches the requested full adaptation retry.
+early_stopping_patience = 20
+early_stopping_min_delta = 0.0001
+seed = 42
+
+[runtime]
+device = "auto"
+deterministic = true
+pin_memory = true
+mixed_precision = "fp16"
+allow_tf32 = true
+
+[output]
+run_dir = "outputs/dinov3_routed_source_adaptation"
+inspection_dir = "routed_input_inspection"
+samples_per_source = 3
+best_checkpoint_name = "best.pt"
+last_checkpoint_name = "last.pt"
+export_dir = "adapted_backbone"
+failure_log = "input_exclusions.jsonl"
+save_plots = true
+

@@ -1,0 +1,1 @@
+-r ../dinov3_mixed_domain_adaptation/requirements.txt
