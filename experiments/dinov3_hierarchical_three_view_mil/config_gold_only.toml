@@ -1,0 +1,117 @@
+[experiment]
+name = "dinov3_hierarchical_three_view_gold_only"
+
+[data]
+manifest_dir = "outputs/dataset_manifests"
+pretrain_manifest = "pretrain.csv"
+finetune_manifest = "finetune.csv"
+validation_manifest = "validation.csv"
+test_manifest = "test.csv"
+absolute_path_column = "absolute_path"
+filename_column = "relative_path"
+target_column = "target"
+sample_weight_column = "sample_weight"
+cohort_column = "cohort_id"
+supervision_tier_column = "supervision_tier"
+group_column = "plot_group_id"
+verify_images = true
+raw_source_folders = [
+  "2025_09_15_Re4StRes_T1_DSV",
+  "2025_09_12_RSFB_01_NPZi",
+  "2025_09_19_RSFB_02_NPZi",
+]
+crop_size = 1400
+grid_inner_margin_fraction = 0.075
+cell_inner_margin_fraction = 0.02
+processed_cache_dir = "cache/hierarchical_three_view_processed"
+processed_jpeg_quality = 95
+maximum_weak_failure_fraction = 0.05
+
+[segmentation]
+model_name = "facebook/sam3"
+prompts = ["green leaf"]
+score_threshold = 0.25
+mask_threshold = 0.5
+mask_cache_dir = "cache/sam3_masks_grid1400_inset075"
+device = "auto"
+background_value = 255
+minimum_foreground_fraction = 0.0001
+maximum_foreground_fraction = 0.6
+
+[adaptive_crops]
+grouping_dilation_px = 20
+context_scale = 2.0
+minimum_crop_size = 160
+maximum_crop_size = 448
+maximum_instances = 20
+minimum_mask_coverage = 0.98
+
+[features]
+backbone = "outputs/dinov3_routed_source_adaptation/adapted_backbone"
+processor = "outputs/dinov3_routed_source_adaptation/adapted_backbone"
+representation = "cls_mean"
+cache_dir = "cache/dinov3_hierarchical_three_view_features_adapted_routed"
+mask_cache_dir = "cache/sam3_masks_hierarchical_three_view"
+storage_dtype = "float16"
+extraction_batch_size = 16
+overwrite = false
+
+[model]
+projection_dim = 128
+attention_hidden_dim = 64
+attention_dropout = 0.10
+attention_temperature = 1.0
+head_hidden_dim = 128
+dropout = 0.30
+
+[training]
+seed = 42
+use_weak_pretraining = false
+cohort_balanced_pretraining = true
+
+[pretraining]
+epochs = 40
+learning_rate = 0.001
+batch_size = 32
+num_workers = 4
+weight_decay = 0.001
+warmup_fraction = 0.10
+minimum_learning_rate_ratio = 0.05
+gradient_clip_norm = 1.0
+early_stopping_patience = 10
+early_stopping_min_delta = 0.0001
+huber_delta = 1.0
+
+[finetuning]
+epochs = 100
+learning_rate = 0.0003
+batch_size = 32
+num_workers = 4
+weight_decay = 0.001
+warmup_fraction = 0.10
+minimum_learning_rate_ratio = 0.05
+gradient_clip_norm = 1.0
+early_stopping_patience = 15
+early_stopping_min_delta = 0.0001
+huber_delta = 1.0
+
+[runtime]
+device = "auto"
+deterministic = true
+pin_memory = true
+mixed_precision = "fp16"
+allow_tf32 = true
+
+[output]
+run_dir = "outputs/dinov3_hierarchical_three_view_gold_only"
+pretrain_checkpoint_name = "pretrain_best_mse.pt"
+best_checkpoint_name = "best_mse.pt"
+best_mae_checkpoint_name = "best_mae.pt"
+last_checkpoint_name = "last.pt"
+feature_failure_log = "feature_failures.jsonl"
+usable_pretrain_manifest = "usable_pretrain.csv"
+save_plots = true
+example_images = 12
+example_columns = 4
+attention_inspection_images = 6
+attention_arrays_name = "hierarchical_attention.npz"

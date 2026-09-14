@@ -1,0 +1,55 @@
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+from experiments.dinov3_hierarchical_three_view_mil.config import load_config
+from experiments.dinov3_hierarchical_three_view_mil.features import assign_cells, cell_boxes
+
+WEAK_CONFIG = "experiments/dinov3_hierarchical_three_view_mil/config_weak_then_gold.toml"
+GOLD_CONFIG = "experiments/dinov3_hierarchical_three_view_mil/config_gold_only.toml"
+
+
+def test_control_configs_change_training_mode_but_share_features():
+    weak = load_config(WEAK_CONFIG)
+    gold = load_config(GOLD_CONFIG)
+    assert weak.training.use_weak_pretraining
+    assert not gold.training.use_weak_pretraining
+    assert weak.features == gold.features
+    assert weak.model == gold.model
+    assert weak.output.run_dir != gold.output.run_dir
+    assert weak.manifest_path("finetune") == Path("outputs/dataset_manifests/finetune.csv")
+
+
+def test_cell_layout_and_assignment_are_row_major():
+    boxes = cell_boxes(1400, 1400, 0.02)
+    assert boxes.shape == (4, 4)
+    plants = np.asarray([[100, 100, 200, 200], [800, 100, 900, 200],
+                         [100, 800, 200, 900], [800, 800, 900, 900]])
+    assert assign_cells(plants, 1400, 1400).tolist() == [0, 1, 2, 3]
+
+
+def test_hierarchical_model_shapes_and_attention():
+    torch = pytest.importorskip("torch")
+    from experiments.dinov3_hierarchical_three_view_mil.model import (
+        HierarchicalThreeViewRegressor,
+    )
+
+    config = load_config(WEAK_CONFIG)
+    model = HierarchicalThreeViewRegressor(24, config).eval()
+    valid = torch.tensor([[True, True, False], [True, True, True]])
+    cell_indices = torch.tensor([[0, 3, -1], [0, 1, 1]])
+    prediction, attention = model(
+        torch.randn(2, 24),
+        torch.randn(2, 4, 24),
+        torch.randn(2, 3, 24),
+        valid,
+        cell_indices,
+        return_attention=True,
+    )
+    assert prediction.shape == (2,)
+    assert attention["cell_weights"].shape == (2, 4)
+    assert attention["plant_weights"].shape == (2, 3)
+    assert torch.allclose(attention["cell_weights"].sum(1), torch.ones(2))
+    assert torch.allclose(attention["plant_weights"].sum(1), torch.ones(2))
+    assert torch.all(attention["plant_weights"][~valid] == 0)
