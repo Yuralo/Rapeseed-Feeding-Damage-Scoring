@@ -31,7 +31,7 @@ def _write_manifest(path: Path, image_dir: Path) -> list[dict[str, str]]:
     return rows
 
 
-def test_samples_only_gold_and_copies_exact_rows_and_images(tmp_path):
+def test_samples_only_gold_and_exports_image_ids_and_scores(tmp_path):
     manifest = tmp_path / "scored_manifest.csv"
     source_rows = _write_manifest(manifest, tmp_path / "source")
 
@@ -45,15 +45,17 @@ def test_samples_only_gold_and_copies_exact_rows_and_images(tmp_path):
 
     with (first_output / "sampled_rows.csv").open(newline="", encoding="utf-8") as handle:
         written = list(csv.DictReader(handle))
-    assert written == first
-    assert list(written[0]) == list(FIELDS)
+    assert written == [
+        {"image_id": row["image_id"], "score": row["target"]} for row in first
+    ]
+    assert list(written[0]) == ["image_id", "score"]
 
     copied = sorted((first_output / "images").iterdir())
     assert len(copied) == 5
     for row in first:
-        assert (first_output / "images" / row["file_name"]).read_bytes() == Path(
-            row["absolute_path"]
-        ).read_bytes()
+        source = Path(row["absolute_path"])
+        destination = first_output / "images" / f"{row['image_id']}{source.suffix.lower()}"
+        assert destination.read_bytes() == source.read_bytes()
 
 
 def test_refuses_to_mix_with_an_existing_sample_unless_overwrite_is_explicit(tmp_path):
@@ -67,4 +69,6 @@ def test_refuses_to_mix_with_an_existing_sample_unless_overwrite_is_explicit(tmp
 
     replacement = sample_gold_images(manifest, output, count=5, seed=2, overwrite=True)
     with (output / "sampled_rows.csv").open(newline="", encoding="utf-8") as handle:
-        assert list(csv.DictReader(handle)) == replacement
+        assert list(csv.DictReader(handle)) == [
+            {"image_id": row["image_id"], "score": row["target"]} for row in replacement
+        ]

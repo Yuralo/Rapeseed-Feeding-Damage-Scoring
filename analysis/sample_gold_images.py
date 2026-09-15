@@ -25,7 +25,7 @@ def sample_gold_images(
     seed: int = 42,
     overwrite: bool = False,
 ) -> list[dict[str, str]]:
-    """Sample gold rows, copy their images, and write the original rows to CSV."""
+    """Sample gold rows, copy their images, and write image IDs and scores to CSV."""
     if count < 1:
         raise ValueError("count must be at least 1")
     if not manifest_path.is_file():
@@ -36,7 +36,7 @@ def sample_gold_images(
         fieldnames = reader.fieldnames
         if not fieldnames:
             raise ValueError(f"Manifest has no header: {manifest_path}")
-        required = {"absolute_path", "file_name", "is_gold_standard"}
+        required = {"absolute_path", "image_id", "is_gold_standard", "target"}
         missing = required - set(fieldnames)
         if missing:
             raise ValueError(
@@ -72,27 +72,27 @@ def sample_gold_images(
         shutil.rmtree(images_dir)
     images_dir.mkdir(parents=True, exist_ok=False)
 
-    destination_names: set[str] = set()
     for row, source in zip(selected, sources, strict=True):
-        name = Path(row["file_name"]).name
-        if not name or name in destination_names:
-            image_id = row.get("image_id", "image").strip() or "image"
-            name = f"{image_id}__{source.name}"
-        destination_names.add(name)
+        image_id = row.get("image_id", "").strip()
+        if not image_id:
+            raise ValueError("A selected gold row has an empty image_id")
+        name = f"{image_id}{source.suffix.lower()}"
         shutil.copy2(source, images_dir / name)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     with rows_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=("image_id", "score"))
         writer.writeheader()
-        writer.writerows(selected)
+        writer.writerows(
+            {"image_id": row["image_id"], "score": row["target"]} for row in selected
+        )
 
     return selected
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Copy random gold-labelled images and their complete manifest rows."
+        description="Copy random gold-labelled images and export their image IDs and scores."
     )
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -117,7 +117,7 @@ def main() -> None:
     )
     destination = arguments.output_dir.resolve()
     print(f"Copied {len(selected)} gold images to {destination / 'images'}")
-    print(f"Saved their complete source rows to {destination / 'sampled_rows.csv'}")
+    print(f"Saved their image IDs and scores to {destination / 'sampled_rows.csv'}")
 
 
 if __name__ == "__main__":
