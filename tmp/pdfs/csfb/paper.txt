@@ -1,0 +1,242 @@
+The problem:
+The cabbage stem flea beetle (Psylliodes chrysocephala), in German: Großer Rapserdfloh,
+is a major pest of oilseed rape (Brassica napus).
+In the field it feeds on the young emerging cotyledons (=embryonic leaves found within a plant‘s
+seed) and small true leaves in autumn (up to 5 leave stage).
+Symptoms:                                                                                        Contact:
+· Shot-Holing: Distinct, small, rounded circular holes on cotyledons and early true leaves.
+                                                                                                 christian.obermeier@agrar.uni-giessen.de
+· Pitting: Shallow bites and irregular indentations on young stems and developing leaves.        lennard.ehrig@agrar.uni-giessen.de
+
+
+We aim to identify rapeseed cultivars which are resistant to feeding damage to use in plant breeding allowing agricultural
+cropping of oilseed rape with reduced insecticide treatments.
+Damage quantification is currently done by labour, time-consuming and inaccurate visual assessment of digital images.
+To speed this up we are looking for an automated image recognition and damage quantification pipeline.
+
+
+
+
+                          Typical leaf feeding damage on   Typical leaf feeding damage on young seedlings (cotyledons) of oilseed rape under laboratory
+                          young seedling of oilseed rape   conditions (C. Posada-Vergara). Under severe damage estimating the total missing/eaten leaf
+                          in the field                     area at the edges is difficult (right), especially from pictures taken in the field where leaves are
+                                                           somtimes twisted, upright and overlapping.
+The data set:
+- Digital pictures were taken from 300 or 400 plots (1,5 x 11 m) from 6 locations
+
+
+                     Three pictures per plot,
+                     300 or 400 plots per location
+                     at one or two time-points
+    Field trials conducted in 2025 and damage caused by cabbage stem flea beetle (CSFB), creation of digital images
+     Partner     Location                Experiment   Field plot layout   Sowing date   1st CSFB Phenotyping     2nd CSFB Phenotyping
+
+     JLU         Groß-Gerau              Sulfur       4 x 100             8.9.2025      -                        14.10. BBCH15 (1271)
+
+     JLU         Groß-Gerau              Insects      6 x 50              1.10.2025     21.10. BBCH10 (937)      10.11. BBCH13 (937)
+
+     NPZi        Malchow                 Insects      10 x 30             29.8.2025     12.9. BBCH10 (900)       19.9. BBCH13 (900)
+
+     DSV         Asendorf                Insects      5 x 60              3.9.2025      15.-17.9. BBCH11 (910)   30.0./1.10.BBCH15 (900)
+
+     JLU         Weilburger Grenze       Insects      5 x 60              18.9.2025     7.10. BBCH10 (900)       20./24.10. BBCH15 (360+541)
+
+     JLU         Rauischholzhausen       Insects      3 x 100             2.9.2026      -                        29.9. BBCH13 (900)
+
+
+
+
+                                                               BBCH is the developmental stage of the plants (see link , e.g.
+                                                               BBCH11 means the two cotyledons and the first true leaf is fully
+                                                               developed)
+                                                               In brackets: number of pictures taken, in total: 8946
+Provided data set with folder name labelling schemes and detail information:
+ Partner       Location            1st CSFB               2nd CSFB            Zip folder of picture files, first part of file name identifies                    Folder size     Visual scoring finished, files (in main
+                                   Phenotyping            Phenotyping         sampling date and BBCH in columns 3 and 4 (number of                                               folder) and in folder RFSB-
+                                                                              contained jpg files)                                                                               Phenotyping_training_set.zip
+ JLU           Groß-Gerau          -                      14.10.              2025_10_14_RSFB-Phenotyping_GG_Sulfur_JLU.zip (1271)                               9.42 GB         -
+                                                          BBCH15
+ JLU           Groß-Gerau          21.10.                 10.11.              2025_10_21_RSFB-Phenotyping_GG1_JLU.zip (937)                                      7.99 GB         2025_10_21_RSFB-
+                                   BBCH10                 BBCH13                                                                                                                 Phenotpyping_GG1_scores.csv (2 x 937)
+                                                                              2025_11_10_RSFB-Phenotyping_GG2_JLU.zip (937)                                      7.52 GB         -
+ NPZi          Malchow             12.9.                  19.9.               2025_09_12_RSFB_01_NPZi.zip (900)                                                  5.35 GB         -
+                                   BBCH10                 BBCH13              2025_09_19_RSFB_02_NPZi.zip (900)                                                  4.48 GB         -
+ DSV           Asendorf            15.-17.9.              30.9./1.10.         2025_09_15_Res4StRes_T1_DSV.zip (910)                                              7.10 GB         2025_09_15_Res4StRes_T1_DSV_scores.c
+                                   BBCH11                 BBCH15                                                                                                                 sv (910)
+                                                                              2025_09_30_Res4StRes_T2_DSV.zip (900)                                              7.54 GB         -
+ JLU           Weilburger          7.10.                  20./24.10.          2025_10_07_RSFB-Phenotyping_WG1_JLU.zip (900)                                      6.72 GB         2025_10_07_RSFB-
+               Grenze              BBCH10                                                                                                                                        Phenotyping_WG1_JLU_scores.csv (900)
+                                                          BBCH15              2025_10_20_RSFB-Phenotyping_WG2_FirstHalf_JLU.zip (360)                            2.85 GB         -
+                                                          BBCH15              2025_10_24_RSFB-Phenotyping_WG2_SecondHalf_JLU.zip (541)                           4.21 GB         -
+ JLU           Rauischholz-        -                      29.9.               2025_09_29_RSFB-Phenotyping_RHH1_JLU.zip (900)                                     5.53 GB         -
+               hausen                                     BBCH13
+ JLU/          Scoring data        Only BBCH10-           -                   Three csv-files with scoring data (see column ‚Visual scoring                      3.7 GB          Folder RFSB-Phenotyping_training_set.zip
+ GAU                               11                                         finished…‘) plus a folder with 470 pictures which contains the                                     (470, subset from 937 pictures)
+                                                                              most similar/reliable independent scorings from BBCH10 at 21.10.
+                                                                              in GG (less than 5% difference between GAU and JLU scoring)
+                                                                              which might be used as calibration data set
+Note: Visual scoring is only finished for part of the data (2747 pictures). For 937 pictures scoring was done twice independently by GAU and JLU. Some scorings were quite different. However, for 470 pictures the (average) scores
+per picture were similar (less than 5% difference). We suggest to use these pictures as a calibration set. QR codes in the pictures are identical within 3 pictures taken from 3 different positions within the same plot (the same
+genotype) and QR codes are also identical for the same plots and different sampling time points (1st and 2nd CSFB phenotyping), only file *.jpg names are unique. JLU = Justus Liebig University, GAU = Georg August University
+
+Link for downloading folder (65 GB) with image data organized in 12 subfolders as described in table above from next.Hessenbox:
+https://next.hessenbox.de/index.php/s/G82rsMRSMpzHapJ (password required)
+The data set in more detail:
+- Digital pictures were taken by attaching a mobile phone with camera to a frame covering 0.1 square metres
+- From each plot 3 pictures were taken in different parts (position of frames)
+- The frame is used for orientation, for fixing the camera distance and dispalying a QR code within the picture which
+  can be used for identification of the genotype/variety by scanning the picture from a computer display (or
+  automated software, always 3 pictures with the same QR code at each time-point of sampling)
+
+                                Assessment of feeding damage caused by the cabbage stem flea beetle using image
+                                data with the help of the ‚Göttinger Zähl- und Schätzrahmen‘
+                                                                              Position of frames
+
+                                 Plot: 1,5 x 11 m   Middle
+                                                     rows
+
+
+
+
+ 3 hours for 300 plots
+    with 2 persons
+Manual analysis of the data set :
+- The images were displayed on a computer screen, the
+  barcode was scanned from the screen and a trained
+  student was estimating the percent leaf damage (shot
+  holes) for 10 plants one by one, or by giving an average
+  across 10 plants and entering it in Excel.
+
+- the estimation was based on comparison with visual
+  damages scales deveolped by an entomologist (C. Posada-        BBCH10-11                           BBCH12
+  Vergrara) for BBCH10-11 and BBCH 12 (see pictures on the              Visual damage scales for CSFB feeding
+  right).
+
+- The problem is, that this is highly subjective. This can be
+  seen on the next slide: for one location the scoring for the
+  same 900 pictures was done independently at Georg
+  August University (GAU) and Justus Liebig University (JLU)
+  by different persons. Correlation is low: r=0.549.
+
+- Thus, it is not so easy to provide ‚ground thruth‘ data for
+  callibration of an automated image recognition tool.
+
+- We are suggesting to use a set of 470 representative
+  pictures where different persons gave consistent scores
+  (less than 5% difference).
+                                  Correlation between independent picture analyses
+
+                                                       Cabbage stem flea beetle, adults
+
+Lennard Roscher-Ehrig
+
+
+                                      Correlation for visual phenotyping between different trained students:
+                                                        0.84 to 0.55 - Need for improvement
+
+                                                                                    Correlation r=0.549 Groß-Gerau (n=900)
+
+
+
+
+     Correlation JLU vs. GAU
+                                                                        Score GAU
+
+                                                                                                                    GG, mean values
+
+
+
+
+                               Days after scoring beginn                                          Score JLU
+                                      Correlation between independent picture analyses
+                                         Correlation for visual phenotyping between different trained students:
+                                                           0.84 to 0.55 - Need for improvement
+                                                           Conflict between accuracy and speed
+
+
+   for 8400 pictures visual scoring by 1 person and 20 minutes per picture would require 70 weeks (1,5 years) with a 40 h week,
+   if scoring can be done in 2 minutes per picture this would still require 2 month per person
+                                                                                                Image
+                                                                                            Visual      processing
+                                                                                                   Phenotyping        throughput
+                                                                                                               Pictures from         per person
+                                                                                                                             leaf damage Groß-Gerau
+
+
+
+
+         Correlation JLU vs. GAU
+                                                                             120                                                                                30.0
+                                                                                                                                           images/day
+                                                                             100                                                                                25.0
+
+
+
+
+                                                                    images/day
+                                                                                                                                                                       minutes/picture
+                                                                                 80                                                                             20.0
+
+                                                                                 60                                                                             15.0
+
+                                                                                 40                                                                             10.0
+
+                                                                                 20                                                   minutes/picture           5.0
+
+                                                                                  0                                                                             0.0
+                                                                                 11/14/25        11/19/25     11/24/25         11/29/25         12/4/25   12/9/25
+
+                                                                                                              Images per day      Min/picture
+                                   Days after scoring beginn
+GG, mean values
+
+
+Note: on day 1 directly after training correlation was highest with 0.84
+Two example pictures from very young plants (BBCH10 to 12 = only two
+cotyledons, or two cotyledons plus first and second leaf visible)
+and from older plants (BBCH 15 = up to 5 true large and partially
+overlapping leaves are visible).
+
+Required values from machine learning picture processing output for
+evaluating genotypes for resistance against leaf feeding:
+- number of shot holes per plant.
+
+- number of yellow spots (feeding without producing holes) per plant.
+
+- area of holes and spots in % = percentage of leaf area with different types
+of damage per plant (including missing area at the edges of leaves).
+
+- number of single plants on the picture and within the metal frame.
+
+- average number of leaves per plant (2 = just cotyledons or 3, 4,
+cotyledons, plus first/second true leaf) for first time point of picture sampling.
+
+Plants from different time points (BBCH10-11 vs. BBCH 13-15) look very
+different: much larger at BBCH15 with more bigger/overlapping leaves with
+irregular holes also at the edges of leaves. For BBCH10 the problem might
+be that the plants and the holes/spots are very small on single plants.
+Probably data processing needs other requirements for different time-points.
+Putative problems with phenotyping
+using image recognition/machine learning
+
+
+
+
+ If the beetle damaged the edges of leaves             Here the beetle feeding did not produce holes, but just yellow patches.
+ this is difficult to distinguish from natural growth. Ideally, this needs to be distinguished from true hole symptomes.
+Background info on associated research
+project:
+Contact:
+Christian Obermeier
+christian.obermeier@agrar.uni-giessen.de, 0641-99 37426
+
+
+Lennard Roscher-Ehrig
+lennard.ehrig@agrar.uni-giessen.de, 0641-99 37432
+
+
+Department of Plant Breeding
+Justus Liebig University Gießen
+plantbreeding-giessen.de
+res4stres.de
+
