@@ -1,0 +1,17 @@
+base_config_path = "experiments/dinov3_hierarchical_three_view_mil/config_gold_only.toml"
+base_checkpoint = "outputs/dinov3_hierarchical_three_view_gold_only/best_mae.pt"
+run_dir = "outputs/dinov3_plant_damage_mil_gold_only"
+cache_dir = "cache/dinov3_plant_damage_patch_features"
+patches_per_side = 2
+overlap_fraction = 0.15
+minimum_foreground_fraction = 0.005
+hidden_dim = 64
+epochs = 60
+batch_size = 24
+learning_rate = 0.0003
+weight_decay = 0.001
+residual_penalty = 0.01
+patience = 12
+num_workers = 4
+seed = 42
+inspection_images = 8
