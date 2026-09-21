@@ -1,0 +1,127 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.2452412352830983,
+      "plant_count": 0.14877665439026924,
+      "plant_entropy": -0.09442223934289015,
+      "target": 0.5765694182491354
+    },
+    "mean_residual": -0.6655660271644592,
+    "median_absolute_error": 1.7863025665283203,
+    "prediction_vs_target_intercept": 1.0754915507753526,
+    "prediction_vs_target_slope": 0.7708721806821487,
+    "within_1_point_fraction": 0.3561643835616438,
+    "within_2_5_points_fraction": 0.684931506849315,
+    "within_5_points_fraction": 0.863013698630137,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.845088958740234,
+      "residual": -13.404911041259766,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996374485555201,
+      "mean_normalized_entropy": 0.9704688612803223,
+      "mean_top_mass": 0.33667513728141785,
+      "minimum_normalized_entropy": 0.8914352200444148
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9982142140470165,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9059398671354519,
+      "mean_top_mass": 0.3399670422077179,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.4260092696098434,
+    "normalized_mse": 0.2866552450171072,
+    "objective_mse": 0.2866552450171072,
+    "r2": 0.7680888205205699,
+    "rmse": 3.487065658368591
+  },
+  "paired_comparison": {
+    "base_mae": 2.4272329807281494,
+    "base_rmse": 3.5020995140075684,
+    "final_mae": 2.426009178161621,
+    "final_rmse": 3.487065553665161,
+    "improved_images": 37,
+    "mae_improvement": 0.0012238025665283203,
+    "mean_absolute_correction": 0.0741897001862526,
+    "worsened_images": 36
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 0.8298808932304382,
+      "final_mae": 0.8591311573982239,
+      "mean_correction": 0.0746954083442688,
+      "samples": 20
+    },
+    "over_15": {
+      "base_mae": 4.2859320640563965,
+      "final_mae": 4.268795967102051,
+      "mean_correction": 0.07369686663150787,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "final_mae": 2.2223963737487793,
+      "mean_correction": 0.07406386733055115,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6814308166503906,
+      "final_mae": 3.6338372230529785,
+      "mean_correction": 0.07418441772460938,
+      "samples": 11
+    }
+  },
+  "samples": 73,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 0.8591310620307923,
+      "mean_residual": 0.5873903036117554,
+      "r2": -2.673544802177188,
+      "rmse": 1.2123753833117397,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 4.268796260540302,
+      "mean_residual": -2.4869158267974854,
+      "r2": 0.4234355503863606,
+      "rmse": 5.663575592565771,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.2223963244207976,
+      "mean_residual": 0.24643389880657196,
+      "r2": -1.9322581386355595,
+      "rmse": 2.8032122105281174,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.63383733142506,
+      "mean_residual": -3.1955275535583496,
+      "r2": -3.145219021707457,
+      "rmse": 4.404383870797093,
+      "samples": 11
+    }
+  }
+}

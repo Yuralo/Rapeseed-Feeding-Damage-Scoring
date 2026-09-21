@@ -1,0 +1,131 @@
+{
+  "checkpoint": "outputs/dinov3_plant_damage_mil_gold_only/best.pt",
+  "checkpoint_epoch": 7,
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.23511171369916947,
+      "plant_count": 0.13662676149707564,
+      "plant_entropy": -0.0971112671553678,
+      "target": 0.5092387414752291
+    },
+    "mean_residual": 0.0471198707818985,
+    "median_absolute_error": 1.6308050155639648,
+    "prediction_vs_target_intercept": 1.905248359944072,
+    "prediction_vs_target_slope": 0.7554653295923499,
+    "within_1_point_fraction": 0.2328767123287671,
+    "within_2_5_points_fraction": 0.6575342465753424,
+    "within_5_points_fraction": 0.8904109589041096,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 30.277515411376953,
+      "residual": -12.972484588623047,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996374485555201,
+      "mean_normalized_entropy": 0.9704688612803223,
+      "mean_top_mass": 0.33667513728141785,
+      "minimum_normalized_entropy": 0.8914352200444148
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9982142140470165,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9059398671354519,
+      "mean_top_mass": 0.3399670422077179,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.5164642856545645,
+    "normalized_mse": 0.2750122653294916,
+    "objective_mse": 0.2750122653294916,
+    "r2": 0.777508261185431,
+    "rmse": 3.4155152405077884
+  },
+  "paired_comparison": {
+    "base_mae": 2.4272329807281494,
+    "base_rmse": 3.5020995140075684,
+    "final_mae": 2.5164644718170166,
+    "final_rmse": 3.415515184402466,
+    "improved_images": 32,
+    "mae_improvement": -0.08923149108886719,
+    "mean_absolute_correction": 0.7868754863739014,
+    "worsened_images": 41
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 0.8298808932304382,
+      "final_mae": 1.5393664836883545,
+      "mean_correction": 0.9626127481460571,
+      "samples": 20
+    },
+    "over_15": {
+      "base_mae": 4.2859320640563965,
+      "final_mae": 4.073539733886719,
+      "mean_correction": 0.5671991109848022,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "final_mae": 2.263153553009033,
+      "mean_correction": 0.7742656469345093,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6814308166503906,
+      "final_mae": 3.1206443309783936,
+      "mean_correction": 0.7602155208587646,
+      "samples": 11
+    }
+  },
+  "samples": 73,
+  "selection": "best_mse",
+  "split": "validation",
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.539366400241852,
+      "mean_residual": 1.4753077030181885,
+      "r2": -6.796839849892223,
+      "rmse": 1.766256390182912,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 4.073539953965407,
+      "mean_residual": -1.9934134483337402,
+      "r2": 0.4764865567694824,
+      "rmse": 5.39672999460183,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.263153676328988,
+      "mean_residual": 0.9466356039047241,
+      "r2": -2.166510385855433,
+      "rmse": 2.9130325300977074,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.120644439350475,
+      "mean_residual": -2.5094964504241943,
+      "r2": -2.1955476531845948,
+      "rmse": 3.867088146443237,
+      "samples": 11
+    }
+  }
+}
