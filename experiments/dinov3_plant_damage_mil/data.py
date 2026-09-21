@@ -95,6 +95,28 @@ def verify_patch_features(config: Config, table) -> None:
         )
 
 
+def select_cohorts(table, config: Config, cohorts: list[str], limit_per_cohort: int | None):
+    """Choose image-random, target-blind and reproducible OOD samples."""
+    if not cohorts or len(set(cohorts)) != len(cohorts):
+        raise ValueError("Specify one or more distinct cohort IDs")
+    if limit_per_cohort is not None and limit_per_cohort < 1:
+        raise ValueError("limit_per_cohort must be positive")
+    column = config.base.data.cohort_column
+    available = set(table[column].astype(str))
+    missing = sorted(set(cohorts) - available)
+    if missing:
+        raise ValueError(f"Unknown cohorts {missing}; available: {sorted(available)}")
+    selected = []
+    for cohort in cohorts:
+        subset = table.loc[table[column].astype(str) == cohort]
+        if limit_per_cohort is not None and len(subset) > limit_per_cohort:
+            subset = subset.sample(n=limit_per_cohort, random_state=config.seed)
+        selected.append(subset)
+    return pd.concat(selected, ignore_index=True).sort_values(
+        [column, config.base.data.filename_column]
+    ).reset_index(drop=True)
+
+
 def make_loader(table, scaler, config: Config, *, training: bool, offset: int = 0):
     base = config.base
     dataset = DamageFeatureDataset(

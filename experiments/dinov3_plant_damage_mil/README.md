@@ -76,3 +76,42 @@ python -m experiments.dinov3_plant_damage_mil.evaluate \
   --checkpoint outputs/dinov3_plant_damage_mil_gold_only/best_mae.pt \
   --split test
 ```
+
+## External-cohort (OOD) probe
+
+The scored weak-label manifest includes WG insects at BBCH10 (closer shift) and DSV
+Asendorf at BBCH11 (source **and** growth-stage shift). They are outside the gold
+training cohort. Run a small target-blind sample from each first:
+
+The patch-preparation step expects the *three-view* feature records for those images.
+If it reports missing base records, build them first using the original package's
+`prepare_features --config experiments/dinov3_hierarchical_three_view_mil/config_weak_then_gold.toml --split pretrain`.
+
+```bash
+python -m experiments.dinov3_plant_damage_mil.prepare_features \
+  --config experiments/dinov3_plant_damage_mil/config.toml \
+  --splits pretrain \
+  --cohorts wg_insects_t1_bbch10 dsv_asendorf_t1_bbch11 \
+  --limit-per-cohort 100
+
+python -m experiments.dinov3_plant_damage_mil.evaluate_ood \
+  --config experiments/dinov3_plant_damage_mil/config.toml \
+  --checkpoint outputs/dinov3_plant_damage_mil_gold_only/best_mae.pt \
+  --limit-per-cohort 100
+```
+
+The output is `outputs/dinov3_plant_damage_mil_gold_only/ood_weak_probe_100/` with a
+separate report, predictions, and plots for each cohort. Re-run both commands without
+`--limit-per-cohort` for the full scored OOD cohorts. The feature-preparation command
+is resumable and only processes missing patch records. The gold test split is never
+read by this OOD probe.
+
+**Interpret carefully:** these external scores are single-rater/weak labels. Their
+MAE is *agreement with that rater*, not directly comparable to gold validation MAE.
+The two external cohorts also differ in collection conditions and, for DSV, growth
+stage. Compare frozen baseline vs local branch **within each cohort** and inspect
+predictions, bias, range and failure images. A reliable external accuracy estimate
+will ultimately require a small newly double-scored gold set from each source.
+The adapted DINOv3 backbone may already have seen these source cohorts *unlabeled*,
+so this is an OOD test for the gold-trained scorer, not necessarily an entirely unseen
+domain for the complete pipeline.

@@ -16,10 +16,13 @@ from rapeseed_damage.artifacts import append_jsonl, write_json
 from rapeseed_damage.reproducibility import resolve_device, seed_everything
 
 from .config import Config, load_config
+from .data import select_cohorts
 from .features import cache_path, extract, identity, load, load_base, save
 
 
-def run(config: Config, splits: list[str], *, limit: int | None = None, overwrite: bool = False):
+def run(config: Config, splits: list[str], *, limit: int | None = None,
+        cohorts: list[str] | None = None, limit_per_cohort: int | None = None,
+        overwrite: bool = False):
     base = config.base
     seed_everything(config.seed, base.runtime.deterministic)
     device = resolve_device(base.runtime.device)
@@ -28,6 +31,10 @@ def run(config: Config, splits: list[str], *, limit: int | None = None, overwrit
     table = pd.concat(tables, ignore_index=True).drop_duplicates(
         subset=[base.data.absolute_path_column]
     )
+    if cohorts is not None:
+        table = select_cohorts(table, config, cohorts, limit_per_cohort)
+    elif limit_per_cohort is not None:
+        raise ValueError("--limit-per-cohort requires --cohorts")
     if limit is not None:
         table = table.iloc[:limit]
     destination = Path(config.run_dir)
@@ -62,7 +69,8 @@ def run(config: Config, splits: list[str], *, limit: int | None = None, overwrit
             })
             print(f"[patch {position:04d}/{len(table):04d}] FAILED {relative}: {error}", flush=True)
     report = {"samples": len(table), "created": created, "skipped": skipped,
-              "failed": failed, "splits": splits, "failure_log": str(failure_log)}
+              "failed": failed, "splits": splits, "cohorts": cohorts,
+              "limit_per_cohort": limit_per_cohort, "failure_log": str(failure_log)}
     write_json(destination / "patch_feature_summary.json", report)
     if failed:
         raise RuntimeError(f"Patch extraction failed for {failed} image(s); inspect {failure_log}")
@@ -72,12 +80,15 @@ def run(config: Config, splits: list[str], *, limit: int | None = None, overwrit
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
-    parser.add_argument("--splits", nargs="+", choices=("finetune", "validation", "test"),
+    parser.add_argument("--splits", nargs="+", choices=("finetune", "validation", "test", "pretrain"),
                         default=["finetune", "validation"])
+    parser.add_argument("--cohorts", nargs="+")
+    parser.add_argument("--limit-per-cohort", type=int)
     parser.add_argument("--limit", type=int)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args(argv)
     print(json.dumps(run(load_config(args.config), args.splits, limit=args.limit,
+                         cohorts=args.cohorts, limit_per_cohort=args.limit_per_cohort,
                          overwrite=args.overwrite), indent=2))
 
 
