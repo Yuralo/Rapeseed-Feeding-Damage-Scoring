@@ -1,0 +1,138 @@
+{
+  "checkpoint": "/home/user/tabbakhab1/dev/project/outputs/dinov3_plant_damage_mil_gold_only/best_mae.pt",
+  "cohort_id": "wg_insects_t1_bbch10",
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.16538547068770756,
+      "plant_count": 0.023945363464401265,
+      "plant_entropy": -0.08061506563742621,
+      "target": 0.9358392988308191
+    },
+    "mean_residual": -2.486311912536621,
+    "median_absolute_error": 2.148524761199951,
+    "prediction_vs_target_intercept": 3.397807324585982,
+    "prediction_vs_target_slope": 0.09055341993490033,
+    "within_1_point_fraction": 0.26,
+    "within_2_5_points_fraction": 0.54,
+    "within_5_points_fraction": 0.74,
+    "worst_sample": {
+      "filename": "2025_10_07_RSFB-Phenotyping_WG1_JLU/2025_10_07_RSFB-Phenotyping_WG1_JLU/20251007_134123.jpg",
+      "prediction": 4.022216796875,
+      "residual": -25.977783203125,
+      "target": 30.0
+    }
+  },
+  "gold_standard": false,
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9999315475225705,
+      "mean_normalized_entropy": 0.9825515140758898,
+      "mean_top_mass": 0.3210902810096741,
+      "minimum_normalized_entropy": 0.919298693592847
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9999937001934489,
+      "mean_instances_per_image": 6.38,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9444100846932842,
+      "mean_top_mass": 0.29444730281829834,
+      "minimum_instances_per_image": 2,
+      "minimum_normalized_entropy": 0.8384003862457962
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_base_prediction": 3.9111666679382324,
+  "mean_baseline": {
+    "mae": 4.525046234130859,
+    "r2": -0.02417292774946045,
+    "rmse": 5.763072643241627
+  },
+  "mean_final_prediction": 3.98368763923645,
+  "mean_weak_target": 6.46999979019165,
+  "model": {
+    "mae": 3.8473854231834412,
+    "normalized_mse": 0.8171973347663879,
+    "objective_mse": 0.8171973347663879,
+    "r2": -0.06893776103310012,
+    "rmse": 5.887672676560621
+  },
+  "paired_comparison": {
+    "base_mae": 3.8563668727874756,
+    "base_rmse": 5.91891622543335,
+    "final_mae": 3.8473856449127197,
+    "final_rmse": 5.887672424316406,
+    "improved_images": 56,
+    "mae_improvement": 0.00898122787475586,
+    "mean_absolute_correction": 0.0725214034318924,
+    "worsened_images": 44
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 1.904470682144165,
+      "final_mae": 1.9760597944259644,
+      "mean_correction": 0.07158947736024857,
+      "samples": 23
+    },
+    "over_15": {
+      "base_mae": 16.71772575378418,
+      "final_mae": 16.64552879333496,
+      "mean_correction": 0.07219795137643814,
+      "samples": 6
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 1.474124550819397,
+      "final_mae": 1.4678446054458618,
+      "mean_correction": 0.07282063364982605,
+      "samples": 46
+    },
+    "over_7_5_to_15": {
+      "base_mae": 6.948712348937988,
+      "final_mae": 6.8758063316345215,
+      "mean_correction": 0.07290583848953247,
+      "samples": 25
+    }
+  },
+  "samples": 100,
+  "split": "external_cohort_weak_label_diagnostic",
+  "supervision_tiers": [
+    "single_weak"
+  ],
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.9760599343673042,
+      "mean_residual": 1.9760597944259644,
+      "r2": -26.372447263989592,
+      "rmse": 2.2973600452596994,
+      "samples": 23
+    },
+    "over_15": {
+      "mae": 16.645527124404907,
+      "mean_residual": -16.64552879333496,
+      "r2": -10.41761329928832,
+      "rmse": 17.494441048685236,
+      "samples": 6
+    },
+    "over_2_5_to_7_5": {
+      "mae": 1.4678444499554841,
+      "mean_residual": -0.48504921793937683,
+      "r2": -0.9139797616294032,
+      "rmse": 1.8395207582842332,
+      "samples": 46
+    },
+    "over_7_5_to_15": {
+      "mae": 6.875806255340576,
+      "mean_residual": -6.8758063316345215,
+      "r2": -7.465270341499236,
+      "rmse": 7.356871104988147,
+      "samples": 25
+    }
+  },
+  "warning": "These are single-/weak-rater targets from a different cohort. MAE is agreement with those labels, not gold-standard accuracy; source, stage and rater can all shift."
+}

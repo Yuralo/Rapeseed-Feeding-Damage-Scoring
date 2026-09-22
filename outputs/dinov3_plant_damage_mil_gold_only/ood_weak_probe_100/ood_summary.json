@@ -1,0 +1,31 @@
+{
+  "backbone_exposure": "The adapted backbone may have seen these source cohorts without labels during domain adaptation. This probes shift for the gold-trained scoring head, not a guaranteed never-seen domain for the full system.",
+  "cohort_sampling": "target-blind random subset with the experiment seed",
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "base_mae_vs_weak": 4.878180980682373,
+      "final_mae_vs_weak": 4.847845554351807,
+      "labels": [
+        "single_weak"
+      ],
+      "mean_base_prediction": 2.7092723846435547,
+      "mean_final_prediction": 2.7715909481048584,
+      "mean_weak_target": 6.309999942779541,
+      "samples": 100
+    },
+    "wg_insects_t1_bbch10": {
+      "base_mae_vs_weak": 3.8563668727874756,
+      "final_mae_vs_weak": 3.8473856449127197,
+      "labels": [
+        "single_weak"
+      ],
+      "mean_base_prediction": 3.9111666679382324,
+      "mean_final_prediction": 3.98368763923645,
+      "mean_weak_target": 6.46999979019165,
+      "samples": 100
+    }
+  },
+  "gold_test_used": false,
+  "interpretation": "Compare base and new model within each cohort. Do not rank these weak-label MAEs against the gold validation MAE or use the cohorts to tune the gold model.",
+  "limit_per_cohort": 100
+}

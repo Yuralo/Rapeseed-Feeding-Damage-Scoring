@@ -3,12 +3,12 @@
     "wg_insects_t1_bbch10",
     "dsv_asendorf_t1_bbch11"
   ],
-  "created": 153,
-  "failed": 47,
+  "created": 47,
+  "failed": 0,
   "failure_log": "outputs/dinov3_plant_damage_mil_gold_only/patch_feature_failures.jsonl",
   "limit_per_cohort": 100,
   "samples": 200,
-  "skipped": 0,
+  "skipped": 153,
   "splits": [
     "pretrain"
   ]
