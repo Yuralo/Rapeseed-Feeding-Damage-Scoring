@@ -1,0 +1,60 @@
+{
+  "checkpoint": "outputs/dinov3_adaptive_paired_mean/best_mse.pt",
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "cohort": "dsv_asendorf_t1_bbch11",
+      "gold_standard": false,
+      "improved_images": 70,
+      "mae_reduction": 0.1468163651037786,
+      "matched_sample_count": 100,
+      "mse_reduction": 2.5759068841276616,
+      "omitted_due_to_features": 0,
+      "paired_mean_model": {
+        "bias": -3.1659095287323,
+        "mae": 4.7010291790962215,
+        "mse": 64.95410918074626,
+        "r2": -0.22615305236628336,
+        "rmse": 8.059411217995162
+      },
+      "previous_model": {
+        "bias": -3.5384091902,
+        "mae": 4.8478455442,
+        "mse": 67.53001606487392,
+        "r2": -0.27477901504087665,
+        "rmse": 8.217664879080548
+      },
+      "r2_increase": 0.04862596267459329,
+      "reference_predictions": "outputs/dinov3_plant_damage_mil_gold_only/ood_weak_probe_100/dsv_asendorf_t1_bbch11/predictions.csv",
+      "reference_sample_count": 100,
+      "worsened_images": 30
+    },
+    "wg_insects_t1_bbch10": {
+      "cohort": "wg_insects_t1_bbch10",
+      "gold_standard": false,
+      "improved_images": 54,
+      "mae_reduction": 0.03693100084078926,
+      "matched_sample_count": 100,
+      "mse_reduction": 2.0441693054254486,
+      "omitted_due_to_features": 0,
+      "paired_mean_model": {
+        "bias": -2.0339996814727783,
+        "mae": 3.8104544186592104,
+        "mse": 32.62052020429988,
+        "r2": -0.005902729471365831,
+        "rmse": 5.711437665273069
+      },
+      "previous_model": {
+        "bias": -2.4863120515,
+        "mae": 3.8473854194999997,
+        "mse": 34.66468950972533,
+        "r2": -0.06893775990469408,
+        "rmse": 5.887672673453011
+      },
+      "r2_increase": 0.06303503043332825,
+      "reference_predictions": "outputs/dinov3_plant_damage_mil_gold_only/ood_weak_probe_100/wg_insects_t1_bbch10/predictions.csv",
+      "reference_sample_count": 100,
+      "worsened_images": 46
+    }
+  },
+  "warning": "OOD targets are weak/single-rater scores, not gold truth. The adapted frozen backbone may have seen these images without labels. OOD never selects checkpoints."
+}

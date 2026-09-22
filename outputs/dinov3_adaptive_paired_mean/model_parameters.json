@@ -1,0 +1,6 @@
+{
+  "frozen_three_view_parameters": 480257,
+  "interpretation": "Patch maps are weakly supervised local evidence, not verified lesion masks",
+  "trainable_parameters": 114246,
+  "views": "global + four cells + SAM plants + local high-resolution plant patches"
+}

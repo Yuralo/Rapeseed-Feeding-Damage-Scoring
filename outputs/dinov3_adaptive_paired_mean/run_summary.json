@@ -1,0 +1,43 @@
+{
+  "best_epoch": 1,
+  "checkpoint": "outputs/dinov3_adaptive_paired_mean/best_mse.pt",
+  "gold_test": {
+    "mae": 2.9199627372953625,
+    "mse": 15.301365030468402,
+    "normalized_mse": 0.3607196609179179,
+    "objective_mse": 0.3607196609179179,
+    "r2": 0.6709061909170488,
+    "rmse": 3.911695927659562
+  },
+  "gold_test_used_for_selection": false,
+  "gold_validation": {
+    "mae": 2.4694381707335173,
+    "mse": 11.757023996217711,
+    "normalized_mse": 0.27716414431390696,
+    "objective_mse": 0.27716414431390696,
+    "r2": 0.7757673550957236,
+    "rmse": 3.4288517022784335
+  },
+  "gold_validation_vs_previous_best": {
+    "improved_images": 38,
+    "mae_reduction": 0.04702610410958963,
+    "mse_reduction": -0.09127980662178103,
+    "paired_mean_model": {
+      "mae": 2.46943816990634,
+      "mse": 11.757024144839463,
+      "r2": 0.7757673522333104,
+      "rmse": 3.4288517239506673
+    },
+    "previous_model": {
+      "mae": 2.5164642740159295,
+      "mse": 11.665744338217682,
+      "r2": 0.7775082615377638,
+      "rmse": 3.4155152375912015
+    },
+    "r2_increase": -0.0017409093044533641,
+    "reference_predictions": "outputs/dinov3_plant_damage_mil_gold_only/predictions.csv",
+    "samples": 73,
+    "worsened_images": 35
+  },
+  "paired_training_images": 704
+}

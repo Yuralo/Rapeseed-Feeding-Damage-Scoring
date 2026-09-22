@@ -1,0 +1,155 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.06635371326908276,
+      "plant_count": 0.07963814928418989,
+      "plant_entropy": 0.08119313575895554,
+      "target": 0.9493070193872989
+    },
+    "mean_residual": -3.1659095287323,
+    "median_absolute_error": 2.481213331222534,
+    "prediction_vs_target_intercept": 2.906966859208116,
+    "prediction_vs_target_slope": 0.03757908471057456,
+    "within_1_point_fraction": 0.35,
+    "within_2_5_points_fraction": 0.52,
+    "within_5_points_fraction": 0.69,
+    "worst_sample": {
+      "filename": "2025_09_15_Re4StRes_T1_DSV/IMG_2666.JPG",
+      "prediction": 2.2352190017700195,
+      "residual": -37.7647819519043,
+      "target": 40.0
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996613847600615,
+      "mean_normalized_entropy": 0.992333127940562,
+      "mean_top_mass": 0.29822057485580444,
+      "minimum_normalized_entropy": 0.9625560282870237
+    },
+    "plants": {
+      "maximum_instances_per_image": 20,
+      "maximum_normalized_entropy": 0.9914334173227584,
+      "mean_instances_per_image": 16.6,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9486209856146605,
+      "mean_top_mass": 0.1583002805709839,
+      "minimum_instances_per_image": 6,
+      "minimum_normalized_entropy": 0.8191328693679341
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "matched_previous_ood_comparison": {
+    "cohort": "dsv_asendorf_t1_bbch11",
+    "gold_standard": false,
+    "improved_images": 70,
+    "mae_reduction": 0.1468163651037786,
+    "matched_sample_count": 100,
+    "mse_reduction": 2.5759068841276616,
+    "omitted_due_to_features": 0,
+    "paired_mean_model": {
+      "bias": -3.1659095287323,
+      "mae": 4.7010291790962215,
+      "mse": 64.95410918074626,
+      "r2": -0.22615305236628336,
+      "rmse": 8.059411217995162
+    },
+    "previous_model": {
+      "bias": -3.5384091902,
+      "mae": 4.8478455442,
+      "mse": 67.53001606487392,
+      "r2": -0.27477901504087665,
+      "rmse": 8.217664879080548
+    },
+    "r2_increase": 0.04862596267459329,
+    "reference_predictions": "outputs/dinov3_plant_damage_mil_gold_only/ood_weak_probe_100/dsv_asendorf_t1_bbch11/predictions.csv",
+    "reference_sample_count": 100,
+    "worsened_images": 30
+  },
+  "mean_baseline": {
+    "mae": 5.306369323730468,
+    "r2": -0.02062958241343882,
+    "rmse": 7.35300818956509
+  },
+  "model": {
+    "mae": 4.7010291790962215,
+    "mse": 64.95410918074626,
+    "normalized_mse": 1.5312504863739014,
+    "objective_mse": 1.5312504863739014,
+    "r2": -0.22615305236628336,
+    "rmse": 8.059411217995162
+  },
+  "paired_comparison": {
+    "base_mae": 4.878180980682373,
+    "base_rmse": 8.245506286621094,
+    "final_mae": 4.701028823852539,
+    "final_rmse": 8.05941104888916,
+    "improved_images": 71,
+    "mae_improvement": 0.17715215682983398,
+    "mean_absolute_correction": 0.4348188638687134,
+    "worsened_images": 29
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 1.2659882307052612,
+      "final_mae": 1.3391098976135254,
+      "mean_correction": 0.4283101260662079,
+      "samples": 33
+    },
+    "over_15": {
+      "base_mae": 21.587562561035156,
+      "final_mae": 21.138362884521484,
+      "mean_correction": 0.44919973611831665,
+      "samples": 9
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.806382417678833,
+      "final_mae": 2.606018304824829,
+      "mean_correction": 0.43675947189331055,
+      "samples": 39
+    },
+    "over_7_5_to_15": {
+      "base_mae": 7.489659309387207,
+      "final_mae": 7.054330825805664,
+      "mean_correction": 0.43532803654670715,
+      "samples": 19
+    }
+  },
+  "samples": 100,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.3391099626367742,
+      "mean_residual": 0.9969239830970764,
+      "r2": -20.305282515062967,
+      "rmse": 2.2812376316897813,
+      "samples": 33
+    },
+    "over_15": {
+      "mae": 21.138364526960586,
+      "mean_residual": -21.138362884521484,
+      "r2": -4.296124363091169,
+      "rmse": 22.990569551161144,
+      "samples": 9
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.6060183353913136,
+      "mean_residual": -0.6464570760726929,
+      "r2": -5.5778755262372215,
+      "rmse": 3.359684317560432,
+      "samples": 39
+    },
+    "over_7_5_to_15": {
+      "mae": 7.054331227352745,
+      "mean_residual": -7.054330825805664,
+      "r2": -13.305490723023219,
+      "rmse": 7.699518659927919,
+      "samples": 19
+    }
+  }
+}

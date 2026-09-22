@@ -4,6 +4,10 @@ An experiment-oriented repository for rapeseed feeding-damage research. The work
 preserved in `index.ipynb`; runnable experiments live in independent folders and are free to use
 different datasets, architectures, objectives, and training loops.
 
+The counterfactual feeding-damage experiment uses the unscored image pool for bite-pair
+pretraining before a controlled gold-score fit. Its runnable package and protocol are in
+`experiments/counterfactual_feeding_pretraining/README.md`.
+
 ## Structure
 
 ```text

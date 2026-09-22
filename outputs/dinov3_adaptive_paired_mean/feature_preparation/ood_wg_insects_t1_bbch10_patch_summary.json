@@ -1,0 +1,8 @@
+{
+  "created": 0,
+  "failure_log": "outputs/dinov3_adaptive_paired_mean/feature_preparation/ood_wg_insects_t1_bbch10_patch_failures.jsonl",
+  "samples": 100,
+  "skipped": 100,
+  "strong_failures": 0,
+  "weak_failures": 0
+}

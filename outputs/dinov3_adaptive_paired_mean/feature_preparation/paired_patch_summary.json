@@ -1,0 +1,8 @@
+{
+  "created": 451,
+  "failure_log": "outputs/dinov3_adaptive_paired_mean/feature_preparation/paired_patch_failures.jsonl",
+  "samples": 851,
+  "skipped": 398,
+  "strong_failures": 0,
+  "weak_failures": 2
+}
