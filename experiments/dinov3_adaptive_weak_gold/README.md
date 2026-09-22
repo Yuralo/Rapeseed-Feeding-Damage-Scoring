@@ -71,3 +71,15 @@ python -m experiments.dinov3_adaptive_weak_gold.evaluate \
 Gold labels select the checkpoint, so this is validation rather than an
 independent final test. Do not compare its MAE directly with old 73- or
 156-image validation results.
+
+To inspect the weak training labels visually, sample three images from each
+source cohort (nine total):
+
+```bash
+python -m analysis.sample_weak_images --per-cohort 3
+```
+
+Open `outputs/random_weak_sample/index.html`. The same folder contains the
+original images and `sampled_rows.csv`, including each target, its scorer
+source, and the individual scorer values when two scores exist. This sampler
+uses the weak-training manifest and never draws from the 470 gold images.
