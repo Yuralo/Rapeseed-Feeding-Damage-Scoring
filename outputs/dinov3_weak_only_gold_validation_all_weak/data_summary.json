@@ -1,0 +1,34 @@
+{
+  "actual_weak_training_images": 1981,
+  "content_hash_overlap": 0,
+  "excluded_weak_images": 276,
+  "exclusion_reasons": {
+    "same_plot_as_gold": 276
+  },
+  "gold_training_images": 0,
+  "gold_validation_images": 470,
+  "gold_validation_images_with_features": 470,
+  "gold_validation_plot_groups": 250,
+  "manifests": {
+    "excluded_weak": "outputs/dinov3_weak_only_gold_validation_all_weak/manifests/excluded_weak.csv",
+    "gold_validation": "outputs/dinov3_weak_only_gold_validation_all_weak/manifests/gold_validation.csv",
+    "weak_train": "outputs/dinov3_weak_only_gold_validation_all_weak/manifests/weak_train.csv"
+  },
+  "mode": "all_weak",
+  "plot_group_overlap": 0,
+  "scored_manifest": "outputs/dataset_manifests/scored_manifest.csv",
+  "scored_manifest_sha256": "74b55b8b24bc9c1294d33017ad2b92ecacc401b5489123ca1ae5f6623e1c1dc2",
+  "weak_images_without_usable_features": 6,
+  "weak_scored_images": 2263,
+  "weak_train_cohorts": {
+    "dsv_asendorf_t1_bbch11": 897,
+    "gg_insects_t1_bbch10": 184,
+    "wg_insects_t1_bbch10": 906
+  },
+  "weak_train_images": 1987,
+  "weak_train_plot_groups": 665,
+  "weak_train_target_sources": {
+    "mean_of_two_scorers": 184,
+    "single_scorer": 1803
+  }
+}

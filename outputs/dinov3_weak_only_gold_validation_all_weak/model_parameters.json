@@ -1,0 +1,8 @@
+{
+  "frozen_backbone_parameters_loaded_during_training": 0,
+  "frozen_feature_dimension": 1536,
+  "hierarchy": "plant-with-owning-cell context -> cells -> image",
+  "total_parameters": 480257,
+  "trainable_parameters": 480257,
+  "views": "global + four 2x2 cells + SAM plant crops"
+}

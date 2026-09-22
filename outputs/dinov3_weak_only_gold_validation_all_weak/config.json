@@ -1,0 +1,18 @@
+{
+  "base_config_path": "experiments/dinov3_hierarchical_three_view_mil/config_gold_only.toml",
+  "batch_size": 32,
+  "early_stopping_patience": 15,
+  "epochs": 100,
+  "expected_gold_images": 470,
+  "gradient_clip_norm": 1.0,
+  "learning_rate": 0.0003,
+  "manifest_dir": "outputs/dinov3_weak_only_gold_validation_all_weak/manifests",
+  "minimum_learning_rate_ratio": 0.05,
+  "mode": "all_weak",
+  "num_workers": 4,
+  "run_dir": "outputs/dinov3_weak_only_gold_validation_all_weak",
+  "scored_manifest": "outputs/dataset_manifests/scored_manifest.csv",
+  "seed": 42,
+  "warmup_fraction": 0.1,
+  "weight_decay": 0.001
+}
