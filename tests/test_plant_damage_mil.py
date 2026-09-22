@@ -47,6 +47,30 @@ def test_local_patch_extraction_and_cache(tmp_path):
         load(path, "other")
 
 
+def test_patch_extraction_matches_exif_oriented_sam_mask(tmp_path):
+    class Extractor:
+        def extract(self, views):
+            return np.ones((len(views), 8), dtype=np.float32)
+
+    image_path = tmp_path / "rotated_source.jpg"
+    mask_path = tmp_path / "oriented_mask.png"
+    exif = Image.Exif()
+    exif[274] = 6  # Rotate 90 degrees clockwise when displayed.
+    Image.new("RGB", (80, 120), "green").save(image_path, exif=exif)
+    mask = np.zeros((80, 120), dtype=np.uint8)
+    mask[10:40, 10:40] = 255
+    Image.fromarray(mask).save(mask_path)
+    record = {
+        "processed_image_path": str(image_path),
+        "mask_path": str(mask_path),
+        "plant_boxes": np.asarray([[0, 0, 60, 60]]),
+    }
+
+    result = extract(Extractor(), load_config(CONFIG), record)
+    assert result["patch_features"].shape == (1, 4, 8)
+    assert result["patch_valid"].any()
+
+
 def test_residual_model_starts_at_baseline_and_receives_gradients():
     torch = pytest.importorskip("torch")
     from experiments.dinov3_hierarchical_three_view_mil.model import HierarchicalThreeViewRegressor

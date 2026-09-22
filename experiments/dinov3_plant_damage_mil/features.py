@@ -7,7 +7,7 @@ from hashlib import sha1
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 from experiments.dinov3_hierarchical_three_view_mil.features import (
     cache_identity as base_identity,
@@ -72,9 +72,16 @@ def extract(extractor, config: Config, base_record: dict) -> dict:
     coverage = np.zeros(boxes.shape[:2], dtype=np.float32)
     views = []
     with Image.open(image_path) as handle:
-        image = handle.convert("RGB")
+        # The base three-view cache and its SAM mask use the EXIF-oriented image.
+        # Raw IMG-style sources can have a 90-degree orientation tag, so opening
+        # their pixels without transposing puts the mask and patch boxes in
+        # different coordinate systems.
+        image = ImageOps.exif_transpose(handle).convert("RGB")
         if mask.shape != (image.height, image.width):
-            raise ValueError(f"SAM mask size does not match processed image: {mask_path}")
+            raise ValueError(
+                f"SAM mask size {mask.shape[::-1]} does not match EXIF-oriented image "
+                f"size {image.size}: {mask_path}, {image_path}"
+            )
         try:
             for plant_index, plant_boxes in enumerate(boxes):
                 for patch_index, (left, top, right, bottom) in enumerate(plant_boxes):
