@@ -1,0 +1,37 @@
+{
+  "discordant_missing_base_features": 2,
+  "discordant_missing_patch_features": 0,
+  "gold_test": 72,
+  "gold_validation": 73,
+  "manifest_counts": {
+    "discordant_training": 381,
+    "excluded_holdout_related": 77,
+    "gold_test": 72,
+    "gold_training": 325,
+    "gold_validation": 73,
+    "manifest_sha256": {
+      "finetune": "22ddfd810a4533a9a25c27ff2d17969b1cb4b6fa626fbd227b22ad9362f94e59",
+      "pretrain": "7eb453c854b2cbecfb03b2d5ddfad66c5de2fc1258a7aefc45d0099c742cbdd6",
+      "test": "079a09513b41c01caa9a5aa43b257ab9f6b021639381e6980f906bb9ff72bb11",
+      "validation": "10a06e070b9917e8ae9ba576c32980329867acbfb21b25f419647fd3e1c252cb"
+    },
+    "ood": {
+      "dsv_asendorf_t1_bbch11": {
+        "samples": 100,
+        "sha256": "ffc58dfee0a7f6f6eb000c2618550de95c384f04b9443ea4dffe13991adccc3c"
+      },
+      "wg_insects_t1_bbch10": {
+        "samples": 100,
+        "sha256": "ea12a271a44ae827c1bbb9a9ff494b1841e70b628ed5d16679fe0ec4557db387"
+      }
+    },
+    "ood_reference": "outputs/dinov3_plant_damage_mil_gold_only/ood_weak_probe_100",
+    "paired_total": 928,
+    "paired_training": 706,
+    "target": "(score_jlu + score_gau) / 2; the frozen base model's scaler was fitted only on the 325 gold-train rows",
+    "training_cohorts": {
+      "gg_insects_t1_bbch10": 706
+    }
+  },
+  "paired_training": 704
+}
