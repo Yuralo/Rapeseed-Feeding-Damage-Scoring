@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 from dataclasses import asdict
 from pathlib import Path
 
@@ -18,7 +17,7 @@ from rapeseed_damage.checkpointing import load_checkpoint
 from rapeseed_damage.reproducibility import resolve_device, seed_everything
 
 from .config import Config, load_config
-from .data import make_loader, manifest_hashes, prepare_data
+from .data import make_loader, manifest_hashes, prepare_gold_data
 
 
 def run(config: Config, checkpoint: str | Path, output_dir: str | Path | None = None):
@@ -36,15 +35,13 @@ def run(config: Config, checkpoint: str | Path, output_dir: str | Path | None = 
         raise ValueError("Checkpoint manifests differ")
     if state.get("gold_used_for_training") or not state.get("gold_used_for_checkpoint_selection"):
         raise ValueError("Checkpoint violates gold-validation-only policy")
-    _, gold, fitted, dimension = prepare_data(config)
+    gold, dimension = prepare_gold_data(config)
     if dimension != int(state["feature_dim"]):
         raise ValueError("Feature dimension differs from checkpoint")
     scaler = TargetScaler(
         mean=float(state["target_mean"]), std=float(state["target_std"]),
         training_mean=float(state["target_training_mean"]),
     )
-    if not math.isclose(scaler.mean, fitted.mean, abs_tol=1e-6):
-        raise ValueError("Weak target scaler differs from current manifest")
     loader = make_loader(gold, scaler, config, training=False, seed_offset=2000)
     model = HierarchicalThreeViewRegressor(dimension, config.routed_base).to(device)
     model.load_state_dict(state["model_state_dict"])

@@ -174,7 +174,7 @@ def run(config: Config, resume: str | Path | None = None):
     seed_everything(config.seed, config.base.runtime.deterministic)
     device = resolve_device(config.base.runtime.device)
     configure_acceleration(config.base, device)
-    train_table, gold_table, scaler, dimension = prepare_data(config)
+    train_table, gold_table, scaler, dimension, omitted_weak = prepare_data(config)
     train_loader = make_loader(train_table, scaler, config, training=True, seed_offset=1000)
     validation_loader = make_loader(gold_table, scaler, config, training=False, seed_offset=2000)
     model = HierarchicalThreeViewRegressor(dimension, config.routed_base).to(device)
@@ -186,9 +186,16 @@ def run(config: Config, resume: str | Path | None = None):
     write_json(destination / "config.json", asdict(config))
     write_json(destination / "model_parameters.json", model.parameter_summary())
     write_json(destination / "environment.json", environment_info(device, ROOT))
-    write_json(destination / "data_summary.json", json.loads(
+    data_summary = json.loads(
         (Path(config.manifest_dir) / "summary.json").read_text(encoding="utf-8")
-    ))
+    )
+    data_summary.update({
+        "actual_weak_training_images": len(train_table),
+        "weak_images_without_usable_features": len(omitted_weak),
+        "gold_validation_images_with_features": len(gold_table),
+    })
+    write_json(destination / "data_summary.json", data_summary)
+    omitted_weak.to_csv(destination / "omitted_weak_feature_rows.csv", index=False)
     if config.base.output.save_plots:
         save_label_plot(train_table[config.base.data.target_column].to_numpy(),
                         destination / "weak_train_targets.png")
@@ -283,6 +290,8 @@ def run(config: Config, resume: str | Path | None = None):
     summary = {
         "training_mode": config.mode,
         "weak_train_images": len(train_table),
+        "eligible_weak_train_images": data_summary["weak_train_images"],
+        "weak_images_without_usable_features": len(omitted_weak),
         "gold_training_images": 0,
         "gold_validation_images": len(gold_table),
         "best_mse": mse_report["model"],

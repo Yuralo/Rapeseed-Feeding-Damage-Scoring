@@ -48,6 +48,11 @@ The feature preparation reuses valid cached three-view records and computes only
 missing ones. It may run SAM3 and DINOv3 for weak images that were excluded from the
 old split. Errors have per-image tracebacks under
 `outputs/dinov3_weak_only_gold_validation_all_weak/feature_preparation/`.
+If a small fraction of **weak training** images cannot be cropped, masked, or
+embedded, training omits only those rows and records them in
+`omitted_weak_feature_rows.csv`; `data_summary.json` reports the actual training
+count. The configured weak-failure limit is enforced. **Every gold validation
+image must still have a valid feature record**—none is silently dropped.
 
 Inspect `run_summary.json`, `summary.json` (MSE-selected),
 `best_mae_evaluation/summary.json`, `predictions.csv`, `worst_error_examples.png`,

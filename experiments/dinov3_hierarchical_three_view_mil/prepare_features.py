@@ -301,15 +301,17 @@ def run(
         "device": str(device),
     }
     write_json(run_dir / "feature_cache_summary.json", summary)
+    weak_split_names = {"weak_pretrain", "weak_train"}
     strong_failures = sum(
-        count for split, count in failures_by_split.items() if split != "weak_pretrain"
+        count for split, count in failures_by_split.items() if split not in weak_split_names
     )
     if strong_failures:
         raise RuntimeError(
-            f"Feature extraction failed for {strong_failures} gold image(s); inspect {failure_log}"
+            f"Feature extraction failed for {strong_failures} required validation/strong "
+            f"image(s); inspect {failure_log}"
         )
-    weak_total = int((table.get("split", pd.Series(dtype=str)) == "weak_pretrain").sum())
-    weak_failed = failures_by_split.get("weak_pretrain", 0)
+    weak_total = int(table.get("split", pd.Series(dtype=str)).isin(weak_split_names).sum())
+    weak_failed = sum(failures_by_split.get(split, 0) for split in weak_split_names)
     if weak_total and weak_failed / weak_total > config.data.maximum_weak_failure_fraction:
         raise RuntimeError(
             f"Weak feature failure rate {weak_failed / weak_total:.2%} exceeds configured "

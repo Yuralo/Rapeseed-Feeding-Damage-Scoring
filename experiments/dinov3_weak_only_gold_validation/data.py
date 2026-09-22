@@ -12,6 +12,7 @@ import pandas as pd
 
 from experiments.dinov3_grid_tiled_mil.data import TargetScaler
 from experiments.dinov3_hierarchical_three_view_mil.data import (
+    filter_usable_pretrain,
     load_manifest,
     verify_features,
 )
@@ -55,7 +56,7 @@ def _validated_rows(path: Path, expected_gold: bool, config: Config) -> list[dic
     return rows
 
 
-def prepare_data(config: Config):
+def _validate_manifests(config: Config) -> None:
     directory = Path(config.manifest_dir)
     summary_path = directory / "summary.json"
     if not summary_path.is_file():
@@ -74,12 +75,30 @@ def prepare_data(config: Config):
     for field in ("plot_group_id", "sha256", "relative_path", "image_id"):
         if {row[field] for row in weak} & {row[field] for row in gold}:
             raise ValueError(f"Weak training and gold validation overlap by {field}")
+
+
+def prepare_gold_data(config: Config):
+    """Gold evaluation needs no weak feature cache once a checkpoint exists."""
+    _validate_manifests(config)
     base = config.routed_base
-    train = load_manifest(base, "finetune")
     validation = load_manifest(base, "validation")
+    dimension = verify_features(validation, base)
+    return validation, dimension
+
+
+def prepare_data(config: Config):
+    _validate_manifests(config)
+    base = config.routed_base
+    eligible_train = load_manifest(base, "finetune")
+    validation = load_manifest(base, "validation")
+    train, _ = filter_usable_pretrain(eligible_train, base)
+    selected_names = set(train[base.data.filename_column].astype(str))
+    omitted = eligible_train.loc[
+        ~eligible_train[base.data.filename_column].astype(str).isin(selected_names)
+    ].reset_index(drop=True)
     dimension = verify_features(pd.concat([train, validation], ignore_index=True), base)
     scaler = TargetScaler.fit(train[base.data.target_column])
-    return train, validation, scaler, dimension
+    return train, validation, scaler, dimension, omitted
 
 
 def make_loader(table, scaler, config: Config, *, training: bool, seed_offset: int):

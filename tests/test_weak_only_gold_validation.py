@@ -83,7 +83,8 @@ def test_gold_count_is_strict(tmp_path):
         run(config)
 
 
-def test_end_to_end_head_training_on_synthetic_cache(tmp_path):
+@pytest.mark.parametrize("missing_weak_feature", [False, True])
+def test_end_to_end_head_training_on_synthetic_cache(tmp_path, missing_weak_feature):
     pytest.importorskip("pandas")
     pytest.importorskip("torch")
     pytest.importorskip("matplotlib")
@@ -101,6 +102,8 @@ def test_end_to_end_head_training_on_synthetic_cache(tmp_path):
     scored = tmp_path / "scored.csv"
     with scored.open(newline="", encoding="utf-8") as handle:
         source_rows = list(csv.DictReader(handle))
+    if missing_weak_feature:
+        source_rows.append(_row("weak_extra", "plot_f", single=8))
     for row in source_rows:
         source = tmp_path / "images" / f"{row['image_id']}.jpg"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -118,12 +121,19 @@ def test_end_to_end_head_training_on_synthetic_cache(tmp_path):
         'cache_dir = "cache/dinov3_hierarchical_three_view_features_adapted_routed"',
         f'cache_dir = "{cache}"',
     ).replace('device = "auto"', 'device = "cpu"').replace("save_plots = true", "save_plots = false")
+    if missing_weak_feature:
+        base_text = base_text.replace(
+            "maximum_weak_failure_fraction = 0.05",
+            "maximum_weak_failure_fraction = 0.5",
+        )
     base_path = tmp_path / "base.toml"
     base_path.write_text(base_text, encoding="utf-8")
     config = replace(config, base_config_path=str(base_path), epochs=1, batch_size=2,
                      num_workers=0, early_stopping_patience=1)
     run(config)
     for index, row in enumerate(source_rows):
+        if missing_weak_feature and row["image_id"] == "weak_single":
+            continue
         source = tmp_path / "images" / f"{row['image_id']}.jpg"
         mask = tmp_path / "images" / f"{row['image_id']}.png"
         Image.new("L", (100, 100), 255).save(mask)
@@ -148,7 +158,12 @@ def test_end_to_end_head_training_on_synthetic_cache(tmp_path):
         )
     summary = train(config)
     assert summary["weak_train_images"] == 2
+    assert summary["eligible_weak_train_images"] == (3 if missing_weak_feature else 2)
+    assert summary["weak_images_without_usable_features"] == int(missing_weak_feature)
     assert summary["gold_validation_images"] == 2
     assert summary["gold_training_images"] == 0
     assert (tmp_path / "run" / "best_mae.pt").is_file()
     assert (tmp_path / "run" / "predictions.csv").is_file()
+    with (tmp_path / "run" / "omitted_weak_feature_rows.csv").open() as handle:
+        omitted = list(csv.DictReader(handle))
+    assert [row["image_id"] for row in omitted] == (["weak_single"] if missing_weak_feature else [])
