@@ -1,0 +1,7 @@
+{
+  "actual_weak_training_images": 1981,
+  "eligible_weak_images": 1987,
+  "gold_training_images": 0,
+  "gold_validation_images": 470,
+  "omitted_weak_images": 6
+}

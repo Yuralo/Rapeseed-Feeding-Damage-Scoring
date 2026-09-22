@@ -1,0 +1,16 @@
+{
+  "adaptive_reference_config_path": "experiments/dinov3_grid_sam_adaptive_mil/config_adapted_routed.toml",
+  "batch_size": 32,
+  "context_cache_dir": "cache/dinov3_adaptive_weak_gold_context",
+  "early_stopping_patience": 12,
+  "epochs": 100,
+  "gradient_clip_norm": 1.0,
+  "learning_rate": 0.001,
+  "minimum_learning_rate_ratio": 0.05,
+  "num_workers": 4,
+  "run_dir": "outputs/dinov3_adaptive_weak_gold",
+  "seed": 42,
+  "warmup_fraction": 0.1,
+  "weak_config_path": "experiments/dinov3_weak_only_gold_validation/config_all_weak.toml",
+  "weight_decay": 0.001
+}

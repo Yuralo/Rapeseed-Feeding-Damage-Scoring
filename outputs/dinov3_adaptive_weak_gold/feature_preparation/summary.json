@@ -1,0 +1,11 @@
+{
+  "created": 2451,
+  "failed_gold_context": 0,
+  "failed_weak_context": 0,
+  "failure_log": "outputs/dinov3_adaptive_weak_gold/feature_preparation/context_feature_failures.jsonl",
+  "images": 2451,
+  "omitted_weak_base_features": 6,
+  "skipped": 0,
+  "weak_eligible_total": 1987,
+  "weak_missing_total": 6
+}

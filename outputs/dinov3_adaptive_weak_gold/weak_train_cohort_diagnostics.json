@@ -1,0 +1,20 @@
+{
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "mae_vs_weak_labels": 3.1756595071475773,
+      "mean_residual": -1.48017714148514,
+      "samples": 897
+    },
+    "gg_insects_t1_bbch10": {
+      "mae_vs_weak_labels": 5.351587021937136,
+      "mean_residual": -3.7458532078018605,
+      "samples": 183
+    },
+    "wg_insects_t1_bbch10": {
+      "mae_vs_weak_labels": 3.506083586901327,
+      "mean_residual": -1.2449659258623367,
+      "samples": 901
+    }
+  },
+  "warning": "In-sample fit to weak labels, not external validation."
+}

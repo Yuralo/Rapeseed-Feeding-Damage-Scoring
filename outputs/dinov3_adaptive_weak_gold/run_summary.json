@@ -1,0 +1,41 @@
+{
+  "actual_weak_training_images": 1981,
+  "best_mae": {
+    "mae": 4.370147813634669,
+    "normalized_mse": 0.38552192931479595,
+    "objective_mse": 0.38552192931479595,
+    "r2": 0.4003752207501503,
+    "rmse": 5.171893804907977
+  },
+  "best_mae_epoch": 19,
+  "best_mse": {
+    "mae": 4.370147813634669,
+    "normalized_mse": 0.38552192931479595,
+    "objective_mse": 0.38552192931479595,
+    "r2": 0.4003752207501503,
+    "rmse": 5.171893804907977
+  },
+  "best_mse_epoch": 19,
+  "eligible_weak_images": 1987,
+  "gold_training_images": 0,
+  "gold_validation_images": 470,
+  "independent_gold_test_exists": false,
+  "omitted_weak_images": 6,
+  "weak_training_cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "mae_vs_weak_labels": 3.1756595071475773,
+      "mean_residual": -1.48017714148514,
+      "samples": 897
+    },
+    "gg_insects_t1_bbch10": {
+      "mae_vs_weak_labels": 5.351587021937136,
+      "mean_residual": -3.7458532078018605,
+      "samples": 183
+    },
+    "wg_insects_t1_bbch10": {
+      "mae_vs_weak_labels": 3.506083586901327,
+      "mean_residual": -1.2449659258623367,
+      "samples": 901
+    }
+  }
+}
