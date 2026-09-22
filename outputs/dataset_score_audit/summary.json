@@ -1,0 +1,147 @@
+{
+  "canonical_images": 9443,
+  "cohorts": [
+    {
+      "canonical": 900,
+      "cohort_id": "dsv_asendorf_t1_bbch11",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 897,
+      "unscored": 3
+    },
+    {
+      "canonical": 900,
+      "cohort_id": "dsv_asendorf_t2_bbch15",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 900
+    },
+    {
+      "canonical": 937,
+      "cohort_id": "gg_insects_t1_bbch10",
+      "dual_weak": 458,
+      "gold": 470,
+      "single_weak": 2,
+      "unscored": 7
+    },
+    {
+      "canonical": 937,
+      "cohort_id": "gg_insects_t2_bbch13",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 937
+    },
+    {
+      "canonical": 1271,
+      "cohort_id": "gg_sulfur_bbch15",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 1271
+    },
+    {
+      "canonical": 900,
+      "cohort_id": "npzi_malchow_t1_bbch10",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 900
+    },
+    {
+      "canonical": 904,
+      "cohort_id": "npzi_malchow_t2_bbch13",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 904
+    },
+    {
+      "canonical": 883,
+      "cohort_id": "rhh_insects_bbch13",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 883
+    },
+    {
+      "canonical": 910,
+      "cohort_id": "wg_insects_t1_bbch10",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 906,
+      "unscored": 4
+    },
+    {
+      "canonical": 360,
+      "cohort_id": "wg_insects_t2_first_bbch15",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 360
+    },
+    {
+      "canonical": 541,
+      "cohort_id": "wg_insects_t2_second_bbch15",
+      "dual_weak": 0,
+      "gold": 0,
+      "single_weak": 0,
+      "unscored": 541
+    }
+  ],
+  "discovered_image_paths": 10814,
+  "dual_scored_images": 928,
+  "duplicate_copies": 1371,
+  "gold_rule": "absolute JLU\u2013GAU difference <= 5 score points, not 5% relative",
+  "scored_images": 2733,
+  "scorers": {
+    "all_dual": {
+      "absolute_difference_mean": 8.86540948275862,
+      "absolute_difference_median": 5.0,
+      "equal": 48,
+      "gau_higher": 381,
+      "gau_mean": 10.298814655172414,
+      "images": 928,
+      "jlu_higher": 499,
+      "jlu_mean": 15.360991379310345,
+      "jlu_minus_gau_mean": 5.062176724137931,
+      "pearson_correlation": 0.5360209913479453
+    },
+    "dual_weak": {
+      "absolute_difference_mean": 15.793013100436681,
+      "absolute_difference_median": 14.0,
+      "equal": 0,
+      "gau_higher": 103,
+      "gau_mean": 12.922270742358078,
+      "images": 458,
+      "jlu_higher": 355,
+      "jlu_mean": 23.83842794759825,
+      "jlu_minus_gau_mean": 10.916157205240175,
+      "pearson_correlation": 0.1677673801209087
+    },
+    "gold": {
+      "absolute_difference_mean": 2.11468085106383,
+      "absolute_difference_median": 2.0,
+      "equal": 48,
+      "gau_higher": 278,
+      "gau_mean": 7.742340425531915,
+      "images": 470,
+      "jlu_higher": 144,
+      "jlu_mean": 7.1,
+      "jlu_minus_gau_mean": -0.6423404255319148,
+      "pearson_correlation": 0.9351572021730389
+    }
+  },
+  "supervision_tiers": {
+    "dual_weak": 458,
+    "gold": 470,
+    "single_weak": 1805
+  },
+  "unscored_images": 6710,
+  "weak_run_eligible_images": 1987,
+  "weak_run_target_sources": {
+    "mean_of_two_scorers": 184,
+    "single_scorer": 1803
+  }
+}

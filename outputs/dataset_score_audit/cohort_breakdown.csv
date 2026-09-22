@@ -1,0 +1,12 @@
+cohort_id,canonical,single_weak,dual_weak,gold,unscored
+dsv_asendorf_t1_bbch11,900,897,0,0,3
+dsv_asendorf_t2_bbch15,900,0,0,0,900
+gg_insects_t1_bbch10,937,2,458,470,7
+gg_insects_t2_bbch13,937,0,0,0,937
+gg_sulfur_bbch15,1271,0,0,0,1271
+npzi_malchow_t1_bbch10,900,0,0,0,900
+npzi_malchow_t2_bbch13,904,0,0,0,904
+rhh_insects_bbch13,883,0,0,0,883
+wg_insects_t1_bbch10,910,906,0,0,4
+wg_insects_t2_first_bbch15,360,0,0,0,360
+wg_insects_t2_second_bbch15,541,0,0,0,541
