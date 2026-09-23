@@ -1,0 +1,58 @@
+{
+  "discordant_dual_rater_images": 381,
+  "gold_counts": {
+    "finetune": 325,
+    "test": 72,
+    "validation": 73
+  },
+  "interpretation": "This counts candidate pairwise constraints only. It does not establish that their ordering matches adjudicated damage severity or that model accuracy will improve.",
+  "margin_audit": {
+    "0.0": {
+      "cross_plot_pairs": 72143,
+      "images_as_higher": 282,
+      "images_as_lower": 257,
+      "interval_dominance_pairs": 14397,
+      "margin_points": 0.0,
+      "participating_images": 379,
+      "rater_order_agreement": 39825,
+      "rater_order_agreement_fraction_non_ties": 0.5959239252420356,
+      "rater_order_opposition": 27004,
+      "rater_order_tie": 5314
+    },
+    "10.0": {
+      "cross_plot_pairs": 72143,
+      "images_as_higher": 64,
+      "images_as_lower": 133,
+      "interval_dominance_pairs": 1703,
+      "margin_points": 10.0,
+      "participating_images": 197,
+      "rater_order_agreement": 39825,
+      "rater_order_agreement_fraction_non_ties": 0.5959239252420356,
+      "rater_order_opposition": 27004,
+      "rater_order_tie": 5314
+    },
+    "5.0": {
+      "cross_plot_pairs": 72143,
+      "images_as_higher": 167,
+      "images_as_lower": 198,
+      "interval_dominance_pairs": 5640,
+      "margin_points": 5.0,
+      "participating_images": 322,
+      "rater_order_agreement": 39825,
+      "rater_order_agreement_fraction_non_ties": 0.5959239252420356,
+      "rater_order_opposition": 27004,
+      "rater_order_tie": 5314
+    }
+  },
+  "score_interval_width_mean": 16.16719160104987,
+  "score_interval_width_median": 14.5,
+  "source": "outputs/dataset_manifests/{pretrain,finetune,validation,test}.csv",
+  "target_cohort": "gg_insects_t1_bbch10",
+  "weak_gold_plot_overlap": {
+    "finetune": 130,
+    "test": 0,
+    "validation": 0
+  },
+  "weak_images_with_both_raters_above_15": 78,
+  "weak_plot_groups": 194
+}

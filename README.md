@@ -8,6 +8,10 @@ The counterfactual feeding-damage experiment uses the unscored image pool for bi
 pretraining before a controlled gold-score fit. Its runnable package and protocol are in
 `experiments/counterfactual_feeding_pretraining/README.md`.
 
+The consensus-safe rank-transfer experiment tests ordering from discordant dual-rater images
+while retaining the frozen gold model. Its runnable package, validation protocol, and feasibility
+audit are in `experiments/consensus_rank_transfer/README.md`.
+
 ## Structure
 
 ```text
