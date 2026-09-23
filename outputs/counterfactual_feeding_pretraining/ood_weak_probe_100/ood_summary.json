@@ -1,0 +1,146 @@
+{
+  "arms": [
+    "random",
+    "synthetic",
+    "sham"
+  ],
+  "cohorts": {
+    "dsv_asendorf_t1_bbch11": {
+      "arms": {
+        "random": {
+          "mean_bias_vs_weak": -3.501780700683594,
+          "mean_mae_vs_weak": 4.837185050964355,
+          "seed_mae_vs_weak": [
+            4.963795979022979,
+            4.803506672382355,
+            4.8007407879829405,
+            4.784394476413727,
+            4.833487339019776
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            4.809761047363281,
+            4.6566081047058105,
+            4.6539306640625,
+            4.6392364501953125,
+            4.683403968811035
+          ]
+        },
+        "sham": {
+          "mean_bias_vs_weak": -3.5320888996124267,
+          "mean_mae_vs_weak": 4.851134134292603,
+          "seed_mae_vs_weak": [
+            4.822631995677948,
+            4.980229797363282,
+            4.8179568004608155,
+            4.82805617570877,
+            4.8067959022521975
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            4.673807621002197,
+            4.8205885887146,
+            4.672694683074951,
+            4.67865514755249,
+            4.659647464752197
+          ]
+        },
+        "synthetic": {
+          "mean_bias_vs_weak": -3.181758451461792,
+          "mean_mae_vs_weak": 4.701784418582916,
+          "seed_mae_vs_weak": [
+            4.830870270729065,
+            4.827628889083862,
+            4.686183722019195,
+            4.544123487472534,
+            4.620115723609924
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            4.680898189544678,
+            4.677933216094971,
+            4.5440287590026855,
+            4.4284892082214355,
+            4.487266540527344
+          ]
+        }
+      },
+      "base_bias_vs_weak": -3.6007279624999997,
+      "base_mae_vs_weak": 4.8781813265,
+      "images": 100,
+      "synthetic_vs_random_plot_mae_reduction_vs_weak": 0.12486512389333328
+    },
+    "wg_insects_t1_bbch10": {
+      "arms": {
+        "random": {
+          "mean_bias_vs_weak": -2.374749517440796,
+          "mean_mae_vs_weak": 3.832106514453888,
+          "seed_mae_vs_weak": [
+            3.812375144958496,
+            3.8349066090583803,
+            3.8369306445121767,
+            3.8332557320594787,
+            3.8430644416809083
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            3.8201801776885986,
+            3.853989601135254,
+            3.856698513031006,
+            3.8516438007354736,
+            3.865018367767334
+          ]
+        },
+        "sham": {
+          "mean_bias_vs_weak": -2.623661231994629,
+          "mean_mae_vs_weak": 3.910948928356171,
+          "seed_mae_vs_weak": [
+            3.838360085487366,
+            4.094414236545563,
+            3.9489389133453368,
+            3.839358308315277,
+            3.833673098087311
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            3.8588833808898926,
+            4.096516132354736,
+            3.9536356925964355,
+            3.860217571258545,
+            3.8524670600891113
+          ]
+        },
+        "synthetic": {
+          "mean_bias_vs_weak": -2.620724630355835,
+          "mean_mae_vs_weak": 4.000796636581422,
+          "seed_mae_vs_weak": [
+            3.842179856300354,
+            3.8410594511032103,
+            4.019561350345612,
+            4.189469339847565,
+            4.1117131853103634
+          ],
+          "seed_plot_weighted_mae_vs_weak": [
+            3.864021062850952,
+            3.8627405166625977,
+            4.015227794647217,
+            4.175030708312988,
+            4.098104476928711
+          ]
+        }
+      },
+      "base_bias_vs_weak": -2.5588334479999997,
+      "base_mae_vs_weak": 3.8563670339999994,
+      "images": 100,
+      "synthetic_vs_random_plot_mae_reduction_vs_weak": -0.1535187413333334
+    }
+  },
+  "gold_test_used": false,
+  "interpretation": "These source cohorts have weak or single-rater scores. MAE measures agreement with those raters, not gold-standard accuracy. The adapted backbone and synthetic pretext may have seen these images without scores; this is a scoring-domain shift probe, not a fully unseen-domain claim.",
+  "limit_per_cohort": 100,
+  "sample_manifest": "outputs/counterfactual_feeding_pretraining/ood_weak_probe_100/matched_sample_manifest.csv",
+  "sample_manifest_sha256": "480e44d24d14d0fad2e27327f91bfe77f008c39326f8074a65aac135bba6e07c",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "selection_use": "Diagnostic only; do not select an arm, seed, or checkpoint on these labels."
+}

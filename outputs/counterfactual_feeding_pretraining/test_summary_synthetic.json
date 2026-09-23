@@ -1,0 +1,77 @@
+{
+  "arm_selected_on_validation": "synthetic",
+  "frozen_base_plot_weighted_mae": 3.3111633514841823,
+  "images": 72,
+  "mean_seed_image_mae": 2.9714673582032303,
+  "mean_seed_plot_weighted_mae": 3.3575713099905298,
+  "plot_bootstrap_95_percent_interval": [
+    -0.18775191371305827,
+    0.09127696725135613
+  ],
+  "plot_mae_reduction_vs_base": -0.04640795850634757,
+  "plots": 37,
+  "seed_metrics": {
+    "42": {
+      "bias": -0.021968516067182826,
+      "image_mae": 2.884649241710595,
+      "plot_weighted_mae": 3.3066262636463444,
+      "rmse": 3.893462171565945
+    },
+    "43": {
+      "bias": -0.012921649678293888,
+      "image_mae": 2.8854048808772617,
+      "plot_weighted_mae": 3.3065894872499486,
+      "rmse": 3.893637691952914
+    },
+    "44": {
+      "bias": 0.41088102254392844,
+      "image_mae": 3.0356081380994837,
+      "plot_weighted_mae": 3.3827731138265253,
+      "rmse": 3.9669799121639633
+    },
+    "45": {
+      "bias": 0.09732944851615057,
+      "image_mae": 3.0416352264838498,
+      "plot_weighted_mae": 3.427973743200502,
+      "rmse": 3.9935949324898616
+    },
+    "46": {
+      "bias": 0.31598303226615054,
+      "image_mae": 3.0100393038449607,
+      "plot_weighted_mae": 3.363893942029331,
+      "rmse": 3.955332843034781
+    }
+  },
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "target_bands": {
+    "0_to_2_5": {
+      "arm_mae": 1.6198817075316285,
+      "base_mae": 1.222750552658142,
+      "images": 20
+    },
+    "over_15": {
+      "arm_mae": 4.7218782,
+      "base_mae": 4.7946729,
+      "images": 10
+    },
+    "over_2_5_to_7_5": {
+      "arm_mae": 2.365357400769231,
+      "base_mae": 2.284527380769231,
+      "images": 26
+    },
+    "over_7_5_to_15": {
+      "arm_mae": 4.55187132625,
+      "base_mae": 4.71208190625,
+      "images": 16
+    }
+  },
+  "test_used_for_selection": false,
+  "validation_comparison_sha256": "95b66c4d32e69f7977979c03e7a9d935d8f7d869dc06566864deebc61af91db5",
+  "warning": "Historical test results were visible during research; this is retrospective."
+}

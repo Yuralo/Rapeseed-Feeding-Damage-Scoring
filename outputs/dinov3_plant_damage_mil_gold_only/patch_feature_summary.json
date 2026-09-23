@@ -4,10 +4,9 @@
   "failed": 0,
   "failure_log": "outputs/dinov3_plant_damage_mil_gold_only/patch_feature_failures.jsonl",
   "limit_per_cohort": null,
-  "samples": 398,
-  "skipped": 398,
+  "samples": 72,
+  "skipped": 72,
   "splits": [
-    "finetune",
-    "validation"
+    "test"
   ]
 }

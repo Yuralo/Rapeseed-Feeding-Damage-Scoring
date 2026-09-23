@@ -1,0 +1,127 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.06946031850697605,
+      "plant_count": 0.08406866278723961,
+      "plant_entropy": 0.07827258843342388,
+      "target": 0.9558967461224324
+    },
+    "mean_residual": -3.507458209991455,
+    "median_absolute_error": 2.5356926918029785,
+    "prediction_vs_target_intercept": 2.570246748086868,
+    "prediction_vs_target_slope": 0.036813738361676646,
+    "within_1_point_fraction": 0.33,
+    "within_2_5_points_fraction": 0.5,
+    "within_5_points_fraction": 0.68,
+    "worst_sample": {
+      "filename": "2025_09_15_Re4StRes_T1_DSV/IMG_2666.JPG",
+      "prediction": 1.8652548789978027,
+      "residual": -38.13474655151367,
+      "target": 40.0
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996613847600615,
+      "mean_normalized_entropy": 0.992333127940562,
+      "mean_top_mass": 0.29822057485580444,
+      "minimum_normalized_entropy": 0.9625560282870237
+    },
+    "plants": {
+      "maximum_instances_per_image": 20,
+      "maximum_normalized_entropy": 0.9914334173227584,
+      "mean_instances_per_image": 16.6,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9486209856146605,
+      "mean_top_mass": 0.1583002805709839,
+      "minimum_instances_per_image": 6,
+      "minimum_normalized_entropy": 0.8191328693679341
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.306369323730468,
+    "r2": -0.02062958241343882,
+    "rmse": 7.35300818956509
+  },
+  "model": {
+    "mae": 4.833487339019776,
+    "normalized_mse": 1.587106761932373,
+    "objective_mse": 1.587106761932373,
+    "r2": -0.2708801756620911,
+    "rmse": 8.205088624597913
+  },
+  "paired_comparison": {
+    "base_mae": 4.878180980682373,
+    "base_rmse": 8.245506286621094,
+    "final_mae": 4.833487510681152,
+    "final_rmse": 8.20508861541748,
+    "improved_images": 74,
+    "mae_improvement": 0.0446934700012207,
+    "mean_absolute_correction": 0.09326940774917603,
+    "worsened_images": 26
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 1.2659882307052612,
+      "final_mae": 1.2697274684906006,
+      "mean_correction": 0.09326803684234619,
+      "samples": 33
+    },
+    "over_15": {
+      "base_mae": 21.587562561035156,
+      "final_mae": 21.495445251464844,
+      "mean_correction": 0.0921173095703125,
+      "samples": 9
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.806382417678833,
+      "final_mae": 2.7551655769348145,
+      "mean_correction": 0.09368615597486496,
+      "samples": 39
+    },
+    "over_7_5_to_15": {
+      "base_mae": 7.489659309387207,
+      "final_mae": 7.3966965675354,
+      "mean_correction": 0.09296202659606934,
+      "samples": 19
+    }
+  },
+  "samples": 100,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.2697275407386548,
+      "mean_residual": 0.6618818640708923,
+      "r2": -18.025612327196953,
+      "rmse": 2.1557391057034114,
+      "samples": 33
+    },
+    "over_15": {
+      "mae": 21.49544694688585,
+      "mean_residual": -21.495445251464844,
+      "r2": -4.450066222829961,
+      "rmse": 23.32230833326896,
+      "samples": 9
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.7551654974619546,
+      "mean_residual": -0.9895305037498474,
+      "r2": -5.935329581522515,
+      "rmse": 3.4497625153160985,
+      "samples": 39
+    },
+    "over_7_5_to_15": {
+      "mae": 7.396697270242791,
+      "mean_residual": -7.3966965675354,
+      "r2": -14.488121521170605,
+      "rmse": 8.011458171760646,
+      "samples": 19
+    }
+  }
+}

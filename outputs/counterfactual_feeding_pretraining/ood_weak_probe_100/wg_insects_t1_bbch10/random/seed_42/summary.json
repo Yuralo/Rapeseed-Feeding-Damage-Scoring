@@ -1,0 +1,135 @@
+{
+  "arm": "random",
+  "checkpoint": "/home/user/tabbakhab1/dev/project/outputs/counterfactual_feeding_pretraining/gold_fit/random/seed_42/best.pt",
+  "cohort_id": "wg_insects_t1_bbch10",
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.17951577645432046,
+      "plant_count": 0.02292970770643442,
+      "plant_entropy": -0.09209943347587962,
+      "target": 0.92631806045641
+    },
+    "mean_residual": -2.3650624752044678,
+    "median_absolute_error": 2.0859365463256836,
+    "prediction_vs_target_intercept": 3.459009489799958,
+    "prediction_vs_target_slope": 0.0998342851912247,
+    "within_1_point_fraction": 0.24,
+    "within_2_5_points_fraction": 0.57,
+    "within_5_points_fraction": 0.76,
+    "worst_sample": {
+      "filename": "2025_10_07_RSFB-Phenotyping_WG1_JLU/2025_10_07_RSFB-Phenotyping_WG1_JLU/20251007_134123.jpg",
+      "prediction": 6.1019978523254395,
+      "residual": -23.89800262451172,
+      "target": 30.0
+    }
+  },
+  "gold_standard": false,
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9999315475225705,
+      "mean_normalized_entropy": 0.9825515140758898,
+      "mean_top_mass": 0.3210902810096741,
+      "minimum_normalized_entropy": 0.919298693592847
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9999937001934489,
+      "mean_instances_per_image": 6.38,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9444100846932842,
+      "mean_top_mass": 0.29444730281829834,
+      "minimum_instances_per_image": 2,
+      "minimum_normalized_entropy": 0.8384003862457962
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 4.525046234130859,
+    "r2": -0.02417292774946045,
+    "rmse": 5.763072643241627
+  },
+  "model": {
+    "mae": 3.812375144958496,
+    "normalized_mse": 0.7943179821968078,
+    "objective_mse": 0.7943179821968078,
+    "r2": -0.03901034443665874,
+    "rmse": 5.804667980235464
+  },
+  "paired_comparison": {
+    "base_mae": 3.8563668727874756,
+    "base_rmse": 5.91891622543335,
+    "final_mae": 3.8123748302459717,
+    "final_rmse": 5.804667949676514,
+    "improved_images": 56,
+    "mae_improvement": 0.043992042541503906,
+    "mean_absolute_correction": 0.525020182132721,
+    "worsened_images": 44
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 1.904470682144165,
+      "final_mae": 2.102144479751587,
+      "mean_correction": 0.19767388701438904,
+      "samples": 23
+    },
+    "over_15": {
+      "base_mae": 16.71772575378418,
+      "final_mae": 16.291078567504883,
+      "mean_correction": 0.4266450107097626,
+      "samples": 6
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 1.474124550819397,
+      "final_mae": 1.4654583930969238,
+      "mean_correction": 0.13659867644309998,
+      "samples": 46
+    },
+    "over_7_5_to_15": {
+      "base_mae": 6.948712348937988,
+      "final_mae": 6.709225654602051,
+      "mean_correction": 0.23948675394058228,
+      "samples": 25
+    }
+  },
+  "plot_weighted_mae": 3.8201801776885986,
+  "sample_manifest_sha256": "480e44d24d14d0fad2e27327f91bfe77f008c39326f8074a65aac135bba6e07c",
+  "samples": 100,
+  "seed": 42,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 2.102144313895184,
+      "mean_residual": 2.102144479751587,
+      "r2": -29.188750418514466,
+      "rmse": 2.4126527465434275,
+      "samples": 23
+    },
+    "over_15": {
+      "mae": 16.291080077489216,
+      "mean_residual": -16.291078567504883,
+      "r2": -9.854037756490634,
+      "rmse": 17.057212904918178,
+      "samples": 6
+    },
+    "over_2_5_to_7_5": {
+      "mae": 1.4654582946196846,
+      "mean_residual": -0.42127111554145813,
+      "r2": -0.9846288583359111,
+      "rmse": 1.8731634432125823,
+      "samples": 46
+    },
+    "over_7_5_to_15": {
+      "mae": 6.709225330352783,
+      "mean_residual": -6.709225654602051,
+      "r2": -7.311081826395849,
+      "rmse": 7.289563276715862,
+      "samples": 25
+    }
+  },
+  "weak_label_diagnostic": true
+}
