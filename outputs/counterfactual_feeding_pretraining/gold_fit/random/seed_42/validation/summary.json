@@ -1,0 +1,130 @@
+{
+  "arm": "random",
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.21613480595417772,
+      "plant_count": 0.19494376389276946,
+      "plant_entropy": -0.015454818133366431,
+      "target": 0.5570983691445619
+    },
+    "mean_residual": -0.6541228890419006,
+    "median_absolute_error": 1.7957191467285156,
+    "prediction_vs_target_intercept": 1.3800150489021286,
+    "prediction_vs_target_slope": 0.7323020288764613,
+    "within_1_point_fraction": 0.3561643835616438,
+    "within_2_5_points_fraction": 0.6164383561643836,
+    "within_5_points_fraction": 0.8767123287671232,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.290361404418945,
+      "residual": -13.959638595581055,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996374485555201,
+      "mean_normalized_entropy": 0.9704688612803223,
+      "mean_top_mass": 0.33667513728141785,
+      "minimum_normalized_entropy": 0.8914352200444148
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9982142140470165,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9059398671354519,
+      "mean_top_mass": 0.3399670422077179,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.4572866616183764,
+    "normalized_mse": 0.29065943561647445,
+    "objective_mse": 0.29065943561647445,
+    "r2": 0.7648492988565649,
+    "rmse": 3.5113362617381108
+  },
+  "paired_comparison": {
+    "base_mae": 2.4272329807281494,
+    "base_rmse": 3.5020995140075684,
+    "final_mae": 2.4572865962982178,
+    "final_rmse": 3.511336326599121,
+    "improved_images": 29,
+    "mae_improvement": -0.03005361557006836,
+    "mean_absolute_correction": 0.5232310891151428,
+    "worsened_images": 44
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 0.8298808932304382,
+      "final_mae": 1.1279337406158447,
+      "mean_correction": 0.5485749244689941,
+      "samples": 20
+    },
+    "over_15": {
+      "base_mae": 4.2859320640563965,
+      "final_mae": 4.176239490509033,
+      "mean_correction": -0.43223798274993896,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "final_mae": 2.132275104522705,
+      "mean_correction": 0.08545806258916855,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6814308166503906,
+      "final_mae": 3.6996512413024902,
+      "mean_correction": -0.1435898244380951,
+      "samples": 11
+    }
+  },
+  "plot_weighted_mae": 2.6842994689941406,
+  "samples": 73,
+  "seed": 42,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 1.1279337406158447,
+      "mean_residual": 1.061269760131836,
+      "r2": -3.6139564062733873,
+      "rmse": 1.3587237997501997,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 4.176239453829252,
+      "mean_residual": -2.9928507804870605,
+      "r2": 0.3960548870592372,
+      "rmse": 5.7964955500670445,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.1322750798587142,
+      "mean_residual": 0.25782811641693115,
+      "r2": -1.7281221146298869,
+      "rmse": 2.7038760506968806,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.6996510245583276,
+      "mean_residual": -3.413301944732666,
+      "r2": -3.163400245781376,
+      "rmse": 4.414032272453614,
+      "samples": 11
+    }
+  }
+}

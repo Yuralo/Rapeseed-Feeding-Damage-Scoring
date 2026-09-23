@@ -1,0 +1,13 @@
+{
+  "arm": "random",
+  "best_epoch": 13,
+  "frozen_base_plot_mae": 2.689422607421875,
+  "image_validation_mae": 2.4572866616183764,
+  "plot_weighted_validation_mae": 2.6842994689941406,
+  "pretraining_checkpoint": null,
+  "reserved_test_images": 72,
+  "seed": 42,
+  "test_evaluated": false,
+  "train_images": 325,
+  "validation_images": 73
+}

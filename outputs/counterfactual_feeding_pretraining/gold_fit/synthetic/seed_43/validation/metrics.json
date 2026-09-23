@@ -1,0 +1,127 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.247658325071078,
+      "plant_count": 0.14990370685359267,
+      "plant_entropy": -0.09591675869853586,
+      "target": 0.5743590141242215
+    },
+    "mean_residual": -0.6082243323326111,
+    "median_absolute_error": 1.7282922267913818,
+    "prediction_vs_target_intercept": 1.1321254594726393,
+    "prediction_vs_target_slope": 0.7709653222831426,
+    "within_1_point_fraction": 0.3287671232876712,
+    "within_2_5_points_fraction": 0.684931506849315,
+    "within_5_points_fraction": 0.863013698630137,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.90365982055664,
+      "residual": -13.34634017944336,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996374485555201,
+      "mean_normalized_entropy": 0.9704688612803223,
+      "mean_top_mass": 0.33667513728141785,
+      "minimum_normalized_entropy": 0.8914352200444148
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9982142140470165,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9059398671354519,
+      "mean_top_mass": 0.3399670422077179,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.425462347187408,
+    "normalized_mse": 0.28489575509543286,
+    "objective_mse": 0.28489575509543286,
+    "r2": 0.7695122695367493,
+    "rmse": 3.4763475457771573
+  },
+  "paired_comparison": {
+    "base_mae": 2.4272329807281494,
+    "base_rmse": 3.5020995140075684,
+    "final_mae": 2.425462484359741,
+    "final_rmse": 3.4763474464416504,
+    "improved_images": 37,
+    "mae_improvement": 0.0017704963684082031,
+    "mean_absolute_correction": 0.13153135776519775,
+    "worsened_images": 36
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 0.8298808932304382,
+      "final_mae": 0.8855631947517395,
+      "mean_correction": 0.13068518042564392,
+      "samples": 20
+    },
+    "over_15": {
+      "base_mae": 4.2859320640563965,
+      "final_mae": 4.257313251495361,
+      "mean_correction": 0.13178297877311707,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "final_mae": 2.2229158878326416,
+      "mean_correction": 0.13158947229385376,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6814308166503906,
+      "final_mae": 3.594350576400757,
+      "mean_correction": 0.13261929154396057,
+      "samples": 11
+    }
+  },
+  "samples": 73,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 0.8855632781982422,
+      "mean_residual": 0.6433800458908081,
+      "r2": -2.857057810129209,
+      "rmse": 1.2422886384418739,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 4.257312848017766,
+      "mean_residual": -2.4288296699523926,
+      "r2": 0.4284130756637302,
+      "rmse": 5.6390755582396785,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.2229158796113113,
+      "mean_residual": 0.3039594888687134,
+      "r2": -1.9426973219784558,
+      "rmse": 2.8081976596160056,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.594350749796087,
+      "mean_residual": -3.1370925903320312,
+      "r2": -3.0650233172837114,
+      "rmse": 4.3615709632960185,
+      "samples": 11
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "device": "cuda",
+  "failed": 0,
+  "failures_by_split": {
+    "finetune": 0,
+    "validation": 0
+  },
+  "feature_cache_dir": "/home/user/tabbakhab1/dev/project/cache/dinov3_hierarchical_three_view_features_adapted_routed",
+  "features": {
+    "created": 0,
+    "skipped": 398
+  },
+  "input_modes": {
+    "grid_crop_inset075": 398
+  },
+  "mask_coverage": {
+    "mean": 1.0,
+    "minimum": 1.0
+  },
+  "masks": {
+    "created": 0,
+    "cuda_oom_retries": 0,
+    "reused_from_existing_grid_cache": 0,
+    "sam_inference_max_side_counts": {},
+    "skipped": 398
+  },
+  "plant_instances": {
+    "maximum": 13,
+    "mean": 5.763819095477387,
+    "minimum": 1
+  },
+  "splits": [
+    "finetune",
+    "validation"
+  ],
+  "unique_images": 398
+}

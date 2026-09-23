@@ -1,0 +1,13 @@
+{
+  "arm": "synthetic",
+  "best_epoch": 14,
+  "frozen_base_plot_mae": 2.689422607421875,
+  "image_validation_mae": 2.4082414973272037,
+  "plot_weighted_validation_mae": 2.638981580734253,
+  "pretraining_checkpoint": "outputs/counterfactual_feeding_pretraining/pretraining/synthetic/best.pt",
+  "reserved_test_images": 72,
+  "seed": 46,
+  "test_evaluated": false,
+  "train_images": 325,
+  "validation_images": 73
+}

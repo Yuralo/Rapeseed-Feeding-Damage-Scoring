@@ -1,0 +1,127 @@
+{
+  "error_analysis": {
+    "absolute_error_correlations": {
+      "cell_entropy": -0.24967747193664983,
+      "plant_count": 0.14967348741503952,
+      "plant_entropy": -0.09669472930813226,
+      "target": 0.5701054079564944
+    },
+    "mean_residual": -0.5291627049446106,
+    "median_absolute_error": 1.648742914199829,
+    "prediction_vs_target_intercept": 1.2126315993243637,
+    "prediction_vs_target_slope": 0.770775232408494,
+    "within_1_point_fraction": 0.3150684931506849,
+    "within_2_5_points_fraction": 0.6712328767123288,
+    "within_5_points_fraction": 0.863013698630137,
+    "worst_sample": {
+      "filename": "2025_10_21_RSFB-Phenotyping_GG1_JLU/2025_10_21_RSFB-Phenotyping_GG1_JLU/20251021_124718.jpg",
+      "prediction": 29.97646713256836,
+      "residual": -13.27353286743164,
+      "target": 43.25
+    }
+  },
+  "hierarchical_attention": {
+    "cells": {
+      "maximum_normalized_entropy": 0.9996374485555201,
+      "mean_normalized_entropy": 0.9704688612803223,
+      "mean_top_mass": 0.33667513728141785,
+      "minimum_normalized_entropy": 0.8914352200444148
+    },
+    "plants": {
+      "maximum_instances_per_image": 10,
+      "maximum_normalized_entropy": 0.9982142140470165,
+      "mean_instances_per_image": 5.917808219178082,
+      "mean_mask_coverage": 1.0,
+      "mean_normalized_entropy": 0.9059398671354519,
+      "mean_top_mass": 0.3399670422077179,
+      "minimum_instances_per_image": 1,
+      "minimum_normalized_entropy": 0.0
+    }
+  },
+  "interpretation_warning": "Patch evidence is weakly supervised by image scores and must not be called a lesion mask without pixel-level validation.",
+  "mean_baseline": {
+    "mae": 5.167987425033361,
+    "r2": -0.0011284708739882632,
+    "rmse": 7.245096738610969
+  },
+  "model": {
+    "mae": 2.430122620438876,
+    "normalized_mse": 0.2828350382512563,
+    "objective_mse": 0.2828350382512563,
+    "r2": 0.7711794486367798,
+    "rmse": 3.4637520542806577
+  },
+  "paired_comparison": {
+    "base_mae": 2.4272329807281494,
+    "base_rmse": 3.5020995140075684,
+    "final_mae": 2.4301226139068604,
+    "final_rmse": 3.463752031326294,
+    "improved_images": 37,
+    "mae_improvement": -0.0028896331787109375,
+    "mean_absolute_correction": 0.2105930745601654,
+    "worsened_images": 36
+  },
+  "paired_target_ranges": {
+    "0_to_2_5": {
+      "base_mae": 0.8298808932304382,
+      "final_mae": 0.9353456497192383,
+      "mean_correction": 0.2114022970199585,
+      "samples": 20
+    },
+    "over_15": {
+      "base_mae": 4.2859320640563965,
+      "final_mae": 4.237336158752441,
+      "mean_correction": 0.2086993008852005,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "final_mae": 2.2274253368377686,
+      "mean_correction": 0.21055394411087036,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6814308166503906,
+      "final_mae": 3.5464842319488525,
+      "mean_correction": 0.211463063955307,
+      "samples": 11
+    }
+  },
+  "samples": 73,
+  "target_processing": {
+    "normalized": true,
+    "training_mean": 7.355384826660156,
+    "transform_mean": 7.355384826660156,
+    "transform_std": 6.512986660003662
+  },
+  "target_ranges": {
+    "0_to_2_5": {
+      "mae": 0.9353455781936646,
+      "mean_residual": 0.7240972518920898,
+      "r2": -3.114224056176898,
+      "rmse": 1.2830347198007674,
+      "samples": 20
+    },
+    "over_15": {
+      "mae": 4.237336452190693,
+      "mean_residual": -2.3519132137298584,
+      "r2": 0.4351791072531238,
+      "rmse": 5.605600556167246,
+      "samples": 13
+    },
+    "over_2_5_to_7_5": {
+      "mae": 2.227425427272402,
+      "mean_residual": 0.38292399048805237,
+      "r2": -1.9651746251171232,
+      "rmse": 2.818902232168534,
+      "samples": 29
+    },
+    "over_7_5_to_15": {
+      "mae": 3.5464844053441826,
+      "mean_residual": -3.05824875831604,
+      "r2": -2.962209145851818,
+      "rmse": 4.306060431146151,
+      "samples": 11
+    }
+  }
+}

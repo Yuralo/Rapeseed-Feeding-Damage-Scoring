@@ -1,0 +1,102 @@
+{
+  "frozen_base_plot_mae": 2.6894223976103087,
+  "images": 73,
+  "objective_gates": {
+    "low_score_degradation_at_most_0_25": true,
+    "plot_bootstrap_excludes_zero": false,
+    "practical_0_25_reduction_reached": false,
+    "synthetic_beats_frozen_base": true
+  },
+  "plot_weighted_mae_by_arm": {
+    "random": 2.6854612290427413,
+    "sham": 2.670404770195894,
+    "synthetic": 2.6615629297994974
+  },
+  "plot_weighted_mae_by_seed": {
+    "42": {
+      "random": 2.6842993254931917,
+      "sham": 2.6848524214841825,
+      "synthetic": 2.6849237734211195
+    },
+    "43": {
+      "random": 2.685931764096795,
+      "sham": 2.6486012001328314,
+      "synthetic": 2.6846672131958944
+    },
+    "44": {
+      "random": 2.6849820032859846,
+      "sham": 2.6478778885112098,
+      "synthetic": 2.64037075923193
+    },
+    "45": {
+      "random": 2.686808141574273,
+      "sham": 2.684708516709408,
+      "synthetic": 2.658871217790489
+    },
+    "46": {
+      "random": 2.6852849107634618,
+      "sham": 2.6859838241418403,
+      "synthetic": 2.6389816853580563
+    }
+  },
+  "plots": 37,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "selection_split": "gold_validation",
+  "synthetic_vs_random": {
+    "bootstrap_95_percent_interval": [
+      -0.06236316923333338,
+      0.11460372758963959
+    ],
+    "mae_reduction": 0.02389829924324321,
+    "plots": 37
+  },
+  "synthetic_vs_sham": {
+    "bootstrap_95_percent_interval": [
+      -0.08224236276801802,
+      0.09875284236396384
+    ],
+    "mae_reduction": 0.008841840396396338,
+    "plots": 37
+  },
+  "target_bands": {
+    "0_to_2_5": {
+      "images": 20,
+      "mean_mae_by_arm": {
+        "random": 0.961417214658142,
+        "sham": 1.029337507458142,
+        "synthetic": 1.142391694158142
+      }
+    },
+    "over_15": {
+      "images": 13,
+      "mean_mae_by_arm": {
+        "random": 4.229936884615385,
+        "sham": 4.280677669230768,
+        "synthetic": 4.1850542
+      }
+    },
+    "over_2_5_to_7_5": {
+      "images": 29,
+      "mean_mae_by_arm": {
+        "random": 2.2076395296551725,
+        "sham": 2.156531488965517,
+        "synthetic": 2.1348948841379314
+      }
+    },
+    "over_7_5_to_15": {
+      "images": 11,
+      "mean_mae_by_arm": {
+        "random": 3.589884090909091,
+        "sham": 3.4568807,
+        "synthetic": 3.3875865345454548
+      }
+    }
+  },
+  "test_used_for_selection": false
+}

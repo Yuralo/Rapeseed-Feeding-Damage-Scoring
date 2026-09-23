@@ -1,0 +1,36 @@
+{
+  "adaptation_manifest": "outputs/dataset_manifests/adaptation.csv",
+  "bootstrap_replicates": 5000,
+  "delta_huber_beta": 0.05,
+  "fitting_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "minimum_accepted_levels": 2,
+  "minimum_coverage_fraction": 0.95,
+  "minimum_leaf_pixels": 100,
+  "minimum_removed_pixels": 8,
+  "order_margin": 0.02,
+  "order_weight": 0.25,
+  "pair_cache_dir": "cache/counterfactual_feeding_pairs",
+  "plant_config_path": "experiments/dinov3_plant_damage_mil/config.toml",
+  "pretrain_batch_size": 64,
+  "pretrain_epochs": 25,
+  "pretrain_learning_rate": 0.0003,
+  "pretrain_patience": 7,
+  "pretrain_workers": 4,
+  "quality_examples_per_cohort": 25,
+  "run_dir": "outputs/counterfactual_feeding_pretraining",
+  "seed": 42,
+  "severity_levels": [
+    0.02,
+    0.05,
+    0.1,
+    0.2
+  ],
+  "sham_weight": 0.5,
+  "synthetic_holdout_fraction": 0.1
+}

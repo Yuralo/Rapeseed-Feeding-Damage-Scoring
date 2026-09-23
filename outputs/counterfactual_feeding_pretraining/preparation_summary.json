@@ -1,0 +1,111 @@
+{
+  "adaptation_manifest_sha256": "f709f50c9aa19b9c26cc73319873498ef1f764dcb9edd9766cca8d986bfa7647",
+  "by_cohort": {
+    "dsv_asendorf_t1_bbch11": {
+      "masked": 900,
+      "paired": 900
+    },
+    "dsv_asendorf_t2_bbch15": {
+      "masked": 900,
+      "pair_failed": 13,
+      "paired": 887
+    },
+    "gg_sulfur_bbch15": {
+      "mask_failed": 7,
+      "masked": 1264,
+      "paired": 1264
+    },
+    "npzi_malchow_t1_bbch10": {
+      "masked": 900,
+      "paired": 900
+    },
+    "npzi_malchow_t2_bbch13": {
+      "masked": 904,
+      "pair_failed": 1,
+      "paired": 903
+    },
+    "rhh_insects_bbch13": {
+      "mask_failed": 294,
+      "masked": 589,
+      "pair_failed": 2,
+      "paired": 587
+    },
+    "wg_insects_t1_bbch10": {
+      "mask_failed": 7,
+      "masked": 903,
+      "paired": 903
+    },
+    "wg_insects_t2_first_bbch15": {
+      "masked": 360,
+      "pair_failed": 1,
+      "paired": 359
+    },
+    "wg_insects_t2_second_bbch15": {
+      "masked": 541,
+      "pair_failed": 1,
+      "paired": 540
+    }
+  },
+  "coverage_fraction": 0.9569295811864182,
+  "failure_log": "outputs/counterfactual_feeding_pretraining/pair_preparation_failures.jsonl",
+  "mask_counts": {
+    "created": 5448,
+    "reused": 1818
+  },
+  "masks_only": false,
+  "pair_counts": {
+    "created": 7223,
+    "failed": 18,
+    "reused": 20
+  },
+  "pair_levels": 28321,
+  "preparation_config": {
+    "adaptation_manifest": "outputs/dataset_manifests/adaptation.csv",
+    "bootstrap_replicates": 5000,
+    "delta_huber_beta": 0.05,
+    "fitting_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "minimum_accepted_levels": 2,
+    "minimum_coverage_fraction": 0.95,
+    "minimum_leaf_pixels": 100,
+    "minimum_removed_pixels": 8,
+    "order_margin": 0.02,
+    "order_weight": 0.25,
+    "pair_cache_dir": "cache/counterfactual_feeding_pairs",
+    "plant_config_path": "experiments/dinov3_plant_damage_mil/config.toml",
+    "pretrain_batch_size": 64,
+    "pretrain_epochs": 25,
+    "pretrain_learning_rate": 0.0003,
+    "pretrain_patience": 7,
+    "pretrain_workers": 4,
+    "quality_examples_per_cohort": 25,
+    "run_dir": "outputs/counterfactual_feeding_pretraining",
+    "seed": 42,
+    "severity_levels": [
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "sham_weight": 0.5,
+    "synthetic_holdout_fraction": 0.1
+  },
+  "quality_examples_by_cohort": {
+    "dsv_asendorf_t1_bbch11": 25,
+    "dsv_asendorf_t2_bbch15": 25,
+    "gg_sulfur_bbch15": 25,
+    "npzi_malchow_t1_bbch10": 25,
+    "npzi_malchow_t2_bbch13": 25,
+    "rhh_insects_bbch13": 25,
+    "wg_insects_t1_bbch10": 25,
+    "wg_insects_t2_first_bbch15": 25,
+    "wg_insects_t2_second_bbch15": 25
+  },
+  "requested_images": 7569,
+  "usable_images": 7243
+}

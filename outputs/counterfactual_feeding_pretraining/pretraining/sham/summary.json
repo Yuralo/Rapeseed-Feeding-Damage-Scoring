@@ -1,0 +1,49 @@
+{
+  "best_epoch": 10,
+  "checkpoint": "outputs/counterfactual_feeding_pretraining/pretraining/sham/best.pt",
+  "diagnostics": {
+    "by_requested_level": {
+      "0.02": {
+        "count": 738,
+        "mean_bite_delta": 0.0026049243139865275,
+        "mean_realized_fraction": 0.02000170137208248,
+        "mean_sham_delta": 0.03042314711927883
+      },
+      "0.05": {
+        "count": 738,
+        "mean_bite_delta": 0.004427473472183959,
+        "mean_realized_fraction": 0.05000074204754054,
+        "mean_sham_delta": 0.05884794315429238
+      },
+      "0.1": {
+        "count": 731,
+        "mean_bite_delta": 0.0029068989768400075,
+        "mean_realized_fraction": 0.10000909837383253,
+        "mean_sham_delta": 0.09692044030217563
+      },
+      "0.2": {
+        "count": 693,
+        "mean_bite_delta": -0.014568076602050237,
+        "mean_realized_fraction": 0.2000028443499905,
+        "mean_sham_delta": 0.15351611619860922
+      }
+    },
+    "mean_bite_delta": -0.000958904954123086,
+    "mean_sham_delta": 0.08383364655462833,
+    "passes_synthetic_gate": false,
+    "realized_bite_delta_correlation": -0.1825212343076197,
+    "samples": 2900
+  },
+  "heldout": {
+    "bite_delta": -0.0009589049592614174,
+    "control_loss": 0.012122463409242959,
+    "delta_loss": 0.018053427032869437,
+    "loss": 0.1896688568181005,
+    "order_loss": 0.6622167867627637,
+    "realized": 0.09081738886134377,
+    "sham_delta": 0.0838336470209319
+  },
+  "heldout_rows": 2900,
+  "mode": "sham",
+  "train_rows": 25421
+}

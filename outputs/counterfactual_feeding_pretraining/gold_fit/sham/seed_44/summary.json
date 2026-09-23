@@ -1,0 +1,13 @@
+{
+  "arm": "sham",
+  "best_epoch": 11,
+  "frozen_base_plot_mae": 2.689422607421875,
+  "image_validation_mae": 2.410252247771172,
+  "plot_weighted_validation_mae": 2.6478781700134277,
+  "pretraining_checkpoint": "outputs/counterfactual_feeding_pretraining/pretraining/sham/best.pt",
+  "reserved_test_images": 72,
+  "seed": 44,
+  "test_evaluated": false,
+  "train_images": 325,
+  "validation_images": 73
+}
