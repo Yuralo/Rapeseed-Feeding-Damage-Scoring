@@ -1,0 +1,156 @@
+{
+  "base_plot_weighted_mae": 2.689417223672609,
+  "cohort": null,
+  "confirmatory": false,
+  "decision_gates": {
+    "low_score_degradation_at_most_0_25": true,
+    "rank_beats_base_by_0_25": false,
+    "rank_beats_gold_only_by_0_25": false,
+    "rank_vs_base_interval_excludes_zero": false,
+    "rank_vs_gold_only_interval_excludes_zero": false,
+    "rank_vs_shuffled_interval_excludes_zero": true
+  },
+  "images": 73,
+  "label_quality": "gold_historical",
+  "low_score": {
+    "base_mae": 0.8298909544944764,
+    "images": 20,
+    "rank_mae": 1.0793150746822358
+  },
+  "mean_plot_weighted_mae": {
+    "gold_only": 2.7522534717310654,
+    "midpoint": 2.734136892116821,
+    "rank": 2.731301123279709,
+    "shuffled": 4.071900670592849
+  },
+  "paired_comparisons": {
+    "rank_vs_base": {
+      "bootstrap_95_percent_interval": [
+        -0.23166934398111996,
+        0.13353333882920373
+      ],
+      "mae_reduction": -0.041883899607099984
+    },
+    "rank_vs_gold_only": {
+      "bootstrap_95_percent_interval": [
+        -0.03487257662657157,
+        0.07454026703361982
+      ],
+      "mae_reduction": 0.020952348451356545
+    },
+    "rank_vs_midpoint": {
+      "bootstrap_95_percent_interval": [
+        -0.04929045808744866,
+        0.05237005530713915
+      ],
+      "mae_reduction": 0.00283576883711252
+    },
+    "rank_vs_shuffled": {
+      "bootstrap_95_percent_interval": [
+        0.5697341275591032,
+        2.071346901051095
+      ],
+      "mae_reduction": 1.3405995473131402
+    }
+  },
+  "per_seed": {
+    "gold_only": {
+      "42": {
+        "image_mae": 2.4992607587004363,
+        "plot_weighted_mae": 2.7598292999439407
+      },
+      "43": {
+        "image_mae": 2.4967365983414322,
+        "plot_weighted_mae": 2.7526952302133716
+      },
+      "44": {
+        "image_mae": 2.4992531929930597,
+        "plot_weighted_mae": 2.7544557226670756
+      },
+      "45": {
+        "image_mae": 2.491672308477637,
+        "plot_weighted_mae": 2.7509068771525547
+      },
+      "46": {
+        "image_mae": 2.489672644497597,
+        "plot_weighted_mae": 2.7433802286783857
+      }
+    },
+    "midpoint": {
+      "42": {
+        "image_mae": 2.4809262344281966,
+        "plot_weighted_mae": 2.7380181996672004
+      },
+      "43": {
+        "image_mae": 2.480271878307813,
+        "plot_weighted_mae": 2.7343893185392156
+      },
+      "44": {
+        "image_mae": 2.480648556800738,
+        "plot_weighted_mae": 2.7338601436700904
+      },
+      "45": {
+        "image_mae": 2.4792474785896195,
+        "plot_weighted_mae": 2.739114816124375
+      },
+      "46": {
+        "image_mae": 2.476854598685487,
+        "plot_weighted_mae": 2.7253019825832268
+      }
+    },
+    "rank": {
+      "42": {
+        "image_mae": 2.4674123590939665,
+        "plot_weighted_mae": 2.7163591776882208
+      },
+      "43": {
+        "image_mae": 2.462994987017488,
+        "plot_weighted_mae": 2.7070978160377024
+      },
+      "44": {
+        "image_mae": 2.492444979001398,
+        "plot_weighted_mae": 2.7412385913702817
+      },
+      "45": {
+        "image_mae": 2.5032927189787775,
+        "plot_weighted_mae": 2.754112000400956
+      },
+      "46": {
+        "image_mae": 2.493049228028075,
+        "plot_weighted_mae": 2.737698030901385
+      }
+    },
+    "shuffled": {
+      "42": {
+        "image_mae": 4.147837772761306,
+        "plot_weighted_mae": 4.107994524208275
+      },
+      "43": {
+        "image_mae": 4.017461479526677,
+        "plot_weighted_mae": 3.98328617027214
+      },
+      "44": {
+        "image_mae": 4.199809665549291,
+        "plot_weighted_mae": 4.154477912026483
+      },
+      "45": {
+        "image_mae": 4.158027123098504,
+        "plot_weighted_mae": 4.115430202570047
+      },
+      "46": {
+        "image_mae": 4.027778805118718,
+        "plot_weighted_mae": 3.998314543887302
+      }
+    }
+  },
+  "plots": 37,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "split": "validation",
+  "warning": "Historical gold labels have been inspected in earlier experiments"
+}

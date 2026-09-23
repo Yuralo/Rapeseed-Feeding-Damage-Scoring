@@ -1,0 +1,37 @@
+{
+  "arm": "midpoint",
+  "bands": {
+    "0_to_2_5": {
+      "base_mae": 0.8298909068107605,
+      "images": 20,
+      "mae": 0.9860376119613647
+    },
+    "over_15": {
+      "base_mae": 4.285915851593018,
+      "images": 13,
+      "mae": 4.380446910858154
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.219914197921753,
+      "images": 29,
+      "mae": 2.279782295227051
+    },
+    "over_7_5_to_15": {
+      "base_mae": 3.6813971996307373,
+      "images": 11,
+      "mae": 3.4799630641937256
+    }
+  },
+  "base_image_mae": 2.42722749710083,
+  "base_plot_weighted_mae": 2.6894171237945557,
+  "bias": -0.44961896538734436,
+  "calibration_slope": 0.7417052193295557,
+  "correction_needed_correlation": -0.08605064294737756,
+  "image_mae": 2.480271816253662,
+  "images": 73,
+  "label_quality": "gold_historical",
+  "plot_weighted_mae": 2.734389305114746,
+  "plots": 37,
+  "rmse": 3.5846948623657227,
+  "seed": 43
+}

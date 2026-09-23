@@ -1,0 +1,63 @@
+{
+  "base_checkpoint": "/home/user/tabbakhab1/dev/project/outputs/dinov3_hierarchical_three_view_gold_only/best_mae.pt",
+  "base_checkpoint_sha256": "e297ab26c176bfe6ffd2115dee18f93e6150baa1b1e1e86d175ff556f7498bd5",
+  "base_config": "/home/user/tabbakhab1/dev/project/experiments/dinov3_hierarchical_three_view_mil/config_gold_only.toml",
+  "base_validation_reference_max_abs_difference": 0.0,
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "13.0",
+    "cudnn_version": 91900,
+    "device": "cuda",
+    "git": {
+      "commit": "066cc539d7906971705ce47d4f7eaf1ce7fec3be",
+      "dirty": true
+    },
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+    "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.12.1"
+  },
+  "feature_dimension": 1536,
+  "pooled_dimension": 384,
+  "splits": {
+    "finetune": {
+      "cohorts": {
+        "gg_insects_t1_bbch10": 325
+      },
+      "file": "outputs/consensus_rank_transfer/frozen/finetune.npz",
+      "images": 325,
+      "manifest_sha256": "b8e0187d649ca52f46a76449ffa59e9d1736b871fe80d7c75180bda819db08cc",
+      "npz_sha256": "72301a657067ad9056dde6008c583ef19eede667539e48ced399b368bb980e23"
+    },
+    "pretrain": {
+      "cohorts": {
+        "dsv_asendorf_t1_bbch11": 897,
+        "gg_insects_t1_bbch10": 380,
+        "wg_insects_t1_bbch10": 901
+      },
+      "file": "outputs/consensus_rank_transfer/frozen/pretrain.npz",
+      "images": 2178,
+      "manifest_sha256": "8c77346c7ab352a4831f522308bd7a945703c405d328f895b0afe20642d7ef21",
+      "npz_sha256": "06d4d4ff5bf6b94312dae6470f11c07b397de6124beefc48eea05ea403a28183"
+    },
+    "test": {
+      "cohorts": {
+        "gg_insects_t1_bbch10": 72
+      },
+      "file": "outputs/consensus_rank_transfer/frozen/test.npz",
+      "images": 72,
+      "manifest_sha256": "7b3e009e95744db2ee468f2f236fadf6392ce80383ee2049867cb425821320be",
+      "npz_sha256": "6694d9351a0c12450624b6a2a644802146f4601069b9335e71a2a160f3bbdc02"
+    },
+    "validation": {
+      "cohorts": {
+        "gg_insects_t1_bbch10": 73
+      },
+      "file": "outputs/consensus_rank_transfer/frozen/validation.npz",
+      "images": 73,
+      "manifest_sha256": "3245bbca43105a3c54892069107d7bd6aed33dd3277c2f799394584827b1d096",
+      "npz_sha256": "f39b396d0989f1284cc43cc889e451de467e59011b092d8653bcc3c9bca772d3"
+    }
+  },
+  "weak_missing_features": 8
+}

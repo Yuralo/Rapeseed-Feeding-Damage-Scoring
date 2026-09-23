@@ -1,0 +1,55 @@
+{
+  "arm": "gold_only",
+  "choice": {
+    "residual_penalty": 0.01,
+    "weak_weight": 0.0
+  },
+  "epoch": 15,
+  "pair_diagnostic": {
+    "arm_violation_fraction": 0.07510204081632653,
+    "base_violation_fraction": 0.06979591836734694,
+    "qualified_sampled_pairs": 2450
+  },
+  "pair_info": {},
+  "seed": 44,
+  "test_evaluated": false,
+  "train_gold_images": 325,
+  "train_weak_images": 379,
+  "validation": {
+    "arm": "gold_only",
+    "bands": {
+      "0_to_2_5": {
+        "base_mae": 0.8298909068107605,
+        "images": 20,
+        "mae": 1.0155047178268433
+      },
+      "over_15": {
+        "base_mae": 4.285915851593018,
+        "images": 13,
+        "mae": 4.445850849151611
+      },
+      "over_2_5_to_7_5": {
+        "base_mae": 2.219914197921753,
+        "images": 29,
+        "mae": 2.262758493423462
+      },
+      "over_7_5_to_15": {
+        "base_mae": 3.6813971996307373,
+        "images": 11,
+        "mae": 3.5199387073516846
+      }
+    },
+    "base_image_mae": 2.42722749710083,
+    "base_plot_weighted_mae": 2.6894171237945557,
+    "bias": -0.48628267645835876,
+    "calibration_slope": 0.7353874330874244,
+    "correction_needed_correlation": -0.07400677701087002,
+    "image_mae": 2.499253273010254,
+    "images": 73,
+    "label_quality": "gold_historical",
+    "plot_weighted_mae": 2.754455804824829,
+    "plots": 37,
+    "rmse": 3.6108357906341553,
+    "seed": 44
+  }
+}

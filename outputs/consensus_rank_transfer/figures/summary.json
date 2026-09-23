@@ -1,0 +1,40 @@
+{
+  "contact_sheets": {
+    "ood_dsv_asendorf_t1_bbch11": {
+      "improvements_loaded": 12,
+      "regressions_loaded": 12
+    },
+    "ood_wg_insects_t1_bbch10": {
+      "improvements_loaded": 12,
+      "regressions_loaded": 12
+    },
+    "test": {
+      "improvements_loaded": 12,
+      "regressions_loaded": 12
+    },
+    "validation": {
+      "improvements_loaded": 12,
+      "regressions_loaded": 12
+    }
+  },
+  "figures": [
+    "cv_curves.png",
+    "fit_curves.png",
+    "rater_and_pair_coverage.png",
+    "pair_violations.png",
+    "validation_diagnostics.png",
+    "validation_bootstrap.png",
+    "test_diagnostics.png",
+    "test_bootstrap.png",
+    "ood_wg_insects_t1_bbch10_diagnostics.png",
+    "ood_wg_insects_t1_bbch10_bootstrap.png",
+    "ood_dsv_asendorf_t1_bbch11_diagnostics.png",
+    "ood_dsv_asendorf_t1_bbch11_bootstrap.png",
+    "pair_margin_sensitivity.png"
+  ],
+  "pair_violations": {
+    "examples_loaded": 8,
+    "qualified_pairs_sampled": 2518,
+    "violations": 183
+  }
+}

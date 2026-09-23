@@ -1,0 +1,37 @@
+{
+  "arm": "midpoint",
+  "bands": {
+    "0_to_2_5": {
+      "base_mae": 1.7879705429077148,
+      "images": 205,
+      "mae": 2.0422472953796387
+    },
+    "over_15": {
+      "base_mae": 16.208681106567383,
+      "images": 78,
+      "mae": 15.664230346679688
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 1.3375824689865112,
+      "images": 410,
+      "mae": 1.4169831275939941
+    },
+    "over_7_5_to_15": {
+      "base_mae": 6.580412864685059,
+      "images": 208,
+      "mae": 6.219395637512207
+    }
+  },
+  "base_image_mae": 3.93778657913208,
+  "base_plot_weighted_mae": 3.950207233428955,
+  "bias": -2.3940274715423584,
+  "calibration_slope": 0.11080183546081068,
+  "correction_needed_correlation": 0.12043177928060265,
+  "image_mae": 3.9012961387634277,
+  "images": 901,
+  "label_quality": "single_rater_weak",
+  "plot_weighted_mae": 3.91062331199646,
+  "plots": 302,
+  "rmse": 6.166303634643555,
+  "seed": 46
+}

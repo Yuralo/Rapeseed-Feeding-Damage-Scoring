@@ -1,0 +1,149 @@
+{
+  "base_plot_weighted_mae": 3.311175503172316,
+  "cohort": null,
+  "confirmatory": false,
+  "decision_gates": null,
+  "images": 72,
+  "label_quality": "gold_historical",
+  "low_score": {
+    "base_mae": 1.2227686643600464,
+    "images": 20,
+    "rank_mae": 1.5504502367973327
+  },
+  "mean_plot_weighted_mae": {
+    "gold_only": 3.413547479032396,
+    "midpoint": 3.4057315245404975,
+    "rank": 3.3694735281102295,
+    "shuffled": 4.449472527675801
+  },
+  "paired_comparisons": {
+    "rank_vs_base": {
+      "bootstrap_95_percent_interval": [
+        -0.2850823183961816,
+        0.15454352450800374
+      ],
+      "mae_reduction": -0.05829802493791325
+    },
+    "rank_vs_gold_only": {
+      "bootstrap_95_percent_interval": [
+        0.0006302897940885284,
+        0.0897762960866765
+      ],
+      "mae_reduction": 0.044073950922166996
+    },
+    "rank_vs_midpoint": {
+      "bootstrap_95_percent_interval": [
+        -0.0036852082690676503,
+        0.07740081134680157
+      ],
+      "mae_reduction": 0.03625799643026819
+    },
+    "rank_vs_shuffled": {
+      "bootstrap_95_percent_interval": [
+        0.2915327979503452,
+        1.8221893573854422
+      ],
+      "mae_reduction": 1.0799989995655712
+    }
+  },
+  "per_seed": {
+    "gold_only": {
+      "42": {
+        "image_mae": 3.021629591782888,
+        "plot_weighted_mae": 3.421858689806483
+      },
+      "43": {
+        "image_mae": 3.0234989209307566,
+        "plot_weighted_mae": 3.419715848054972
+      },
+      "44": {
+        "image_mae": 3.017399784591463,
+        "plot_weighted_mae": 3.415000936469516
+      },
+      "45": {
+        "image_mae": 3.0216039650970035,
+        "plot_weighted_mae": 3.4138238424653404
+      },
+      "46": {
+        "image_mae": 3.0027912656466165,
+        "plot_weighted_mae": 3.3973380783656695
+      }
+    },
+    "midpoint": {
+      "42": {
+        "image_mae": 3.021817824906773,
+        "plot_weighted_mae": 3.413676175985251
+      },
+      "43": {
+        "image_mae": 3.0190807266367807,
+        "plot_weighted_mae": 3.4096118388949215
+      },
+      "44": {
+        "image_mae": 3.012491527530882,
+        "plot_weighted_mae": 3.4048047216088926
+      },
+      "45": {
+        "image_mae": 3.015089175767369,
+        "plot_weighted_mae": 3.4063451623057457
+      },
+      "46": {
+        "image_mae": 3.0072469727860556,
+        "plot_weighted_mae": 3.394219723907677
+      }
+    },
+    "rank": {
+      "42": {
+        "image_mae": 2.9659074511792927,
+        "plot_weighted_mae": 3.3482504095043146
+      },
+      "43": {
+        "image_mae": 2.952164693011178,
+        "plot_weighted_mae": 3.3339002540519647
+      },
+      "44": {
+        "image_mae": 2.998038649559021,
+        "plot_weighted_mae": 3.3825150159028197
+      },
+      "45": {
+        "image_mae": 3.032527753048473,
+        "plot_weighted_mae": 3.41196727108311
+      },
+      "46": {
+        "image_mae": 2.9869520482089786,
+        "plot_weighted_mae": 3.370734690008937
+      }
+    },
+    "shuffled": {
+      "42": {
+        "image_mae": 4.395755380392075,
+        "plot_weighted_mae": 4.486941753207026
+      },
+      "43": {
+        "image_mae": 4.248029500246048,
+        "plot_weighted_mae": 4.347061435381571
+      },
+      "44": {
+        "image_mae": 4.453389581706789,
+        "plot_weighted_mae": 4.54019676135467
+      },
+      "45": {
+        "image_mae": 4.404082314835654,
+        "plot_weighted_mae": 4.49540438415768
+      },
+      "46": {
+        "image_mae": 4.276806390947765,
+        "plot_weighted_mae": 4.377758304278056
+      }
+    }
+  },
+  "plots": 37,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "split": "test",
+  "warning": "Historical gold labels have been inspected in earlier experiments"
+}

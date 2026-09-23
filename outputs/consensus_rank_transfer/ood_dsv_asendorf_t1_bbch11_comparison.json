@@ -1,0 +1,149 @@
+{
+  "base_plot_weighted_mae": 5.561714301805699,
+  "cohort": "dsv_asendorf_t1_bbch11",
+  "confirmatory": false,
+  "decision_gates": null,
+  "images": 897,
+  "label_quality": "single_rater_weak",
+  "low_score": {
+    "base_mae": 1.8761998809874059,
+    "images": 320,
+    "rank_mae": 2.104201590898447
+  },
+  "mean_plot_weighted_mae": {
+    "gold_only": 5.712277688579415,
+    "midpoint": 5.7129406891480805,
+    "rank": 5.714985952658399,
+    "shuffled": 5.6560785844839
+  },
+  "paired_comparisons": {
+    "rank_vs_base": {
+      "bootstrap_95_percent_interval": [
+        -0.18228188251580216,
+        -0.12357963280027594
+      ],
+      "mae_reduction": -0.1532716508526999
+    },
+    "rank_vs_gold_only": {
+      "bootstrap_95_percent_interval": [
+        -0.00934980682488806,
+        0.004194251629362972
+      ],
+      "mae_reduction": -0.002708264078982318
+    },
+    "rank_vs_midpoint": {
+      "bootstrap_95_percent_interval": [
+        -0.00818726007578475,
+        0.00445781340893181
+      ],
+      "mae_reduction": -0.002045263510317794
+    },
+    "rank_vs_shuffled": {
+      "bootstrap_95_percent_interval": [
+        -0.2929979756319587,
+        0.1829586705113599
+      ],
+      "mae_reduction": -0.0589073681744976
+    }
+  },
+  "per_seed": {
+    "gold_only": {
+      "42": {
+        "image_mae": 5.632686607714082,
+        "plot_weighted_mae": 5.632686607714082
+      },
+      "43": {
+        "image_mae": 5.759187581057067,
+        "plot_weighted_mae": 5.759187581057067
+      },
+      "44": {
+        "image_mae": 5.6942113916345,
+        "plot_weighted_mae": 5.694211391634501
+      },
+      "45": {
+        "image_mae": 5.712704314876228,
+        "plot_weighted_mae": 5.712704314876227
+      },
+      "46": {
+        "image_mae": 5.762598547615203,
+        "plot_weighted_mae": 5.762598547615203
+      }
+    },
+    "midpoint": {
+      "42": {
+        "image_mae": 5.623400281005878,
+        "plot_weighted_mae": 5.623400281005878
+      },
+      "43": {
+        "image_mae": 5.780052245950685,
+        "plot_weighted_mae": 5.780052245950686
+      },
+      "44": {
+        "image_mae": 5.690620500768806,
+        "plot_weighted_mae": 5.690620500768806
+      },
+      "45": {
+        "image_mae": 5.723416913861415,
+        "plot_weighted_mae": 5.723416913861415
+      },
+      "46": {
+        "image_mae": 5.747213504153616,
+        "plot_weighted_mae": 5.747213504153617
+      }
+    },
+    "rank": {
+      "42": {
+        "image_mae": 5.6390541942837915,
+        "plot_weighted_mae": 5.6390541942837915
+      },
+      "43": {
+        "image_mae": 5.7471864450901515,
+        "plot_weighted_mae": 5.7471864450901515
+      },
+      "44": {
+        "image_mae": 5.689549173524348,
+        "plot_weighted_mae": 5.689549173524348
+      },
+      "45": {
+        "image_mae": 5.741773354402487,
+        "plot_weighted_mae": 5.741773354402486
+      },
+      "46": {
+        "image_mae": 5.757366595991213,
+        "plot_weighted_mae": 5.757366595991213
+      }
+    },
+    "shuffled": {
+      "42": {
+        "image_mae": 5.658519673905643,
+        "plot_weighted_mae": 5.658519673905643
+      },
+      "43": {
+        "image_mae": 5.615401870829604,
+        "plot_weighted_mae": 5.615401870829604
+      },
+      "44": {
+        "image_mae": 5.788088219620312,
+        "plot_weighted_mae": 5.788088219620312
+      },
+      "45": {
+        "image_mae": 5.745715004677491,
+        "plot_weighted_mae": 5.745715004677491
+      },
+      "46": {
+        "image_mae": 5.472668153386451,
+        "plot_weighted_mae": 5.472668153386451
+      }
+    }
+  },
+  "plots": 299,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "split": "ood",
+  "warning": "OOD scores are single-rater weak labels and were not used for selection"
+}

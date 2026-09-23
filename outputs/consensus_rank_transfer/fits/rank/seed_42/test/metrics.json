@@ -1,0 +1,37 @@
+{
+  "arm": "rank",
+  "bands": {
+    "0_to_2_5": {
+      "base_mae": 1.222768783569336,
+      "images": 20,
+      "mae": 1.5120849609375
+    },
+    "over_15": {
+      "base_mae": 4.794672966003418,
+      "images": 10,
+      "mae": 4.61892032623291
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.2845418453216553,
+      "images": 26,
+      "mae": 2.6688711643218994
+    },
+    "over_7_5_to_15": {
+      "base_mae": 4.712114334106445,
+      "images": 16,
+      "mae": 4.232736587524414
+    }
+  },
+  "base_image_mae": 2.877694606781006,
+  "base_plot_weighted_mae": 3.311175584793091,
+  "bias": 0.18557026982307434,
+  "calibration_slope": 0.7630233794826171,
+  "correction_needed_correlation": -0.01815994338996374,
+  "image_mae": 2.965907573699951,
+  "images": 72,
+  "label_quality": "gold_historical",
+  "plot_weighted_mae": 3.348250389099121,
+  "plots": 37,
+  "rmse": 3.983976125717163,
+  "seed": 42
+}

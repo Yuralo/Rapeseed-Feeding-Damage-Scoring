@@ -1,0 +1,37 @@
+{
+  "arm": "gold_only",
+  "bands": {
+    "0_to_2_5": {
+      "base_mae": 1.222768783569336,
+      "images": 20,
+      "mae": 1.478559970855713
+    },
+    "over_15": {
+      "base_mae": 4.794672966003418,
+      "images": 10,
+      "mae": 4.7778215408325195
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.2845418453216553,
+      "images": 26,
+      "mae": 2.7255239486694336
+    },
+    "over_7_5_to_15": {
+      "base_mae": 4.712114334106445,
+      "images": 16,
+      "mae": 4.342430114746094
+    }
+  },
+  "base_image_mae": 2.877694606781006,
+  "base_plot_weighted_mae": 3.311175584793091,
+  "bias": 0.17994727194309235,
+  "calibration_slope": 0.7708673427206784,
+  "correction_needed_correlation": -0.1321419359600608,
+  "image_mae": 3.023499011993408,
+  "images": 72,
+  "label_quality": "gold_historical",
+  "plot_weighted_mae": 3.4197158813476562,
+  "plots": 37,
+  "rmse": 4.068286418914795,
+  "seed": 43
+}

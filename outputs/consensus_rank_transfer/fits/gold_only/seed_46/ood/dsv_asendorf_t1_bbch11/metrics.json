@@ -1,0 +1,37 @@
+{
+  "arm": "gold_only",
+  "bands": {
+    "0_to_2_5": {
+      "base_mae": 1.876199722290039,
+      "images": 320,
+      "mae": 2.0777480602264404
+    },
+    "over_15": {
+      "base_mae": 20.997617721557617,
+      "images": 115,
+      "mae": 21.028934478759766
+    },
+    "over_2_5_to_7_5": {
+      "base_mae": 2.7005422115325928,
+      "images": 321,
+      "mae": 2.949582099914551
+    },
+    "over_7_5_to_15": {
+      "base_mae": 7.850168704986572,
+      "images": 141,
+      "mae": 8.078214645385742
+    }
+  },
+  "base_image_mae": 5.5617146492004395,
+  "base_plot_weighted_mae": 5.561714172363281,
+  "bias": -3.9284794330596924,
+  "calibration_slope": 0.055525187180111686,
+  "correction_needed_correlation": 0.03501552905632602,
+  "image_mae": 5.762598514556885,
+  "images": 897,
+  "label_quality": "single_rater_weak",
+  "plot_weighted_mae": 5.762598991394043,
+  "plots": 299,
+  "rmse": 9.236430168151855,
+  "seed": 46
+}
