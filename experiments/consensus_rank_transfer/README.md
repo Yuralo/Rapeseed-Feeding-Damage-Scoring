@@ -82,10 +82,39 @@ python -m experiments.consensus_rank_transfer.visualize
 
 The main files are `cv_selection.json`, `validation_comparison.json`, `test_comparison.json`,
 `ood_<cohort>_comparison.json`, each arm/seed's `metrics.json` and `predictions.csv`, and
-`sensitivity_margin10/summary.json` and `figures/`. `figures/` contains cross-validation curves,
-rater-gap and pair-coverage plots, gold/OOD calibration and severity diagnostics, plot-level
-paired changes, largest-improvement and regression contact sheets, and a qualified-pair violation
-sheet. OOD agreement is reported
+`sensitivity_margin10/summary.json` and `figures/`. The detailed visual audit is in
+`figures/index.html`; `figures/summary.json` lists every generated figure and missing optional
+artifact. The visualizer reads saved result CSV/JSON files and runs without model checkpoints,
+frozen feature arrays, or a GPU. To visualize a completed run in another location:
+
+```bash
+python -m experiments.consensus_rank_transfer.visualize --run-dir /path/to/completed/consensus_rank_transfer
+```
+
+If the saved `source_path` values point to another machine, add one or more local image trees:
+
+```bash
+python -m experiments.consensus_rank_transfer.visualize \
+  --run-dir /path/to/completed/consensus_rank_transfer \
+  --image-root /path/to/photographs
+```
+
+The report contains an all-arm outcome dashboard; CV search and fold trajectories; full-fit
+training/loss curves; conservative pair qualification, sampled-pair margins, image degree,
+rater disagreement and violation rates; all-arm calibration, signed error, score distributions,
+severity bands with counts, error CDFs, paired plot changes and bootstrap intervals for each
+available split; predeclared validation gates; per-seed plot MAE and correction spread;
+cross-cohort OOD shift; and the
+five-versus-ten-point pair-margin sensitivity. Per-split CSV files rank individual images,
+unstable predictions, and plot-level gains/regressions. Contact sheets show the largest gains,
+regressions, rank errors, and low-score regressions when photographs are accessible. Duplicate
+image basenames in an `--image-root` are omitted rather than silently matched to the wrong photo.
+
+The metric panels use **mean absolute error over seeds**, matching the comparison JSON; the
+calibration panels show **mean predictions**. These are different operations and need not have
+the same error. The visualizer checks image counts, plot counts, and plot-weighted MAE against the
+saved comparison before rendering, and fails if they disagree. Missing optional CV, history,
+sampling, sensitivity, or photograph sources are named in `figures/summary.json`. OOD agreement is reported
 against the original single-rater values; it is not independent gold accuracy. The existing
 gold test has been seen during prior research, so its result is also retrospective.
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import shutil
 from dataclasses import replace
 
 import pytest
@@ -123,6 +124,29 @@ def test_rank_pipeline_and_cache_identity(tmp_path):
         assert "ood_wg_insects_t1_bbch10_bootstrap.png" in figures["figures"]
         assert "pair_margin_sensitivity.png" in figures["figures"]
         assert (tmp_path / "figures" / "cv_curves.png").is_file()
+        assert (tmp_path / "figures" / "index.html").is_file()
+        assert (tmp_path / "figures" / "validation_error_anatomy.png").is_file()
+        assert (tmp_path / "figures" / "validation_plot_changes.csv").is_file()
+        assert (tmp_path / "figures" / "sampled_rater_disagreement.png").is_file()
+        assert len(figures["splits"]) == 4
+
+        # A result-only copy can be audited without frozen features or checkpoints.
+        portable = tmp_path / "portable"
+        portable.mkdir()
+        for artifact in tmp_path.glob("*_comparison.json"):
+            shutil.copy2(artifact, portable / artifact.name)
+        for artifact in tmp_path.glob("*_matched_predictions.csv"):
+            shutil.copy2(artifact, portable / artifact.name)
+        from PIL import Image
+
+        image_root = tmp_path / "photographs"
+        image_root.mkdir()
+        Image.new("RGB", (64, 64), "green").save(image_root / "validation_0.jpg")
+        portable_figures = visualize(replace(config, run_dir=str(portable)), image_roots=(image_root,))
+        assert "validation_improvements.png" in portable_figures["figures"] or \
+            "validation_regressions.png" in portable_figures["figures"]
+        assert "cv_selection.json" in portable_figures["missing"]
+        assert (portable / "figures" / "index.html").is_file()
 
     # The frozen arrays are part of the experiment identity, not a mutable side input.
     with (frozen / "finetune.npz").open("ab") as handle:
